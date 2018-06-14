@@ -1,0 +1,3 @@
+[submodule "3dViewer"]
+	path = 3dViewer
+	url = https://github.com/IosephKnecht/3dViewer
