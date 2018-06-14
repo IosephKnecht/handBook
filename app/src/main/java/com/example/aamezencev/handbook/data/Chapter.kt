@@ -2,6 +2,14 @@ package com.example.aamezencev.handbook.data
 
 data class Chapter(override val name: String,
                    val childList: List<IElement>) : IElement {
+    private var iterator: Iterator<IElement>? = null
+
+    override fun createIterator(): Iterator<IElement> {
+        if (iterator == null) {
+            iterator = HierarchyIterator(childList.iterator())
+        }
+        return iterator as Iterator<IElement>
+    }
 
     @HierarchyDSL
     class Builder {
