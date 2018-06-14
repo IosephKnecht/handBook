@@ -2,8 +2,7 @@ package com.example.aamezencev.handbook
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.example.aamezencev.handbook.presentation.list.view.HierarchyFragment
-import kotlinx.android.synthetic.main.activity_main.*
+import com.example.aamezencev.handbook.presentation.list.view.fragment.HierarchyFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.hierarchyContainer,HierarchyFragment())
+                .replace(R.id.hierarchyContainer, HierarchyFragment())
                 .commit()
     }
 }
