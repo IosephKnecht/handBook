@@ -12,6 +12,7 @@ import com.example.aamezencev.handbook.data.IElement
 import com.example.aamezencev.handbook.data.elementOf
 import com.example.aamezencev.handbook.databinding.HierarchyFragmentBinding
 import com.example.aamezencev.handbook.presentation.list.view.adapter.HierarchyAdapter
+import com.example.aamezencev.handbook.presentation.list.viewModel.HierarchyViewModel
 import kotlinx.android.synthetic.main.hierarchy_fragment.*
 
 class HierarchyFragment : Fragment() {
@@ -26,6 +27,7 @@ class HierarchyFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.hierarchy_fragment, container, false)
+        binding.viewModel = HierarchyViewModel()
         val view = binding.root
         return view
     }
@@ -63,6 +65,8 @@ class HierarchyFragment : Fragment() {
         hierarchy.createIterator().forEach {
             list.add(it)
         }
+
+        binding.viewModel?.hierarchyList = list
 
         //binding.viewModel.hierarchyList = list.toList()
     }

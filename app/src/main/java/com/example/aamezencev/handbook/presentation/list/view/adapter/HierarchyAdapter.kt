@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import com.example.aamezencev.handbook.R
+import com.example.aamezencev.handbook.data.Chapter
 import com.example.aamezencev.handbook.data.IElement
 
 class HierarchyAdapter : RecyclerView.Adapter<HierarchyAdapter.ViewHolder>() {
@@ -21,6 +23,11 @@ class HierarchyAdapter : RecyclerView.Adapter<HierarchyAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val element = elementList[position]
         holder.title.text = element.name
+        if (element is Chapter) {
+            holder.title.setOnClickListener {
+                Toast.makeText(holder.itemView.context, "Clickable", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
