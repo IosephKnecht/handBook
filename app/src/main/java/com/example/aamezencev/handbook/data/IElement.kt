@@ -1,6 +1,7 @@
 package com.example.aamezencev.handbook.data
 
-interface IElement {
+interface IElement : Iterable<IElement?> {
     val name: String
-    fun createIterator(): Iterator<IElement>
+    val childList: List<IElement>
+    val text: String
 }

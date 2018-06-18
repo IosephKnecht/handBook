@@ -1,24 +1,31 @@
 package com.example.aamezencev.handbook.data
 
-data class Chapter(override val name: String,
-                   val childList: List<IElement>) : IElement {
-    private var iterator: Iterator<IElement>? = null
+import java.util.*
 
-    override fun createIterator(): Iterator<IElement> {
-        if (iterator == null) {
-            iterator = HierarchyIterator(childList.iterator())
-        }
-        return iterator as Iterator<IElement>
+data class Chapter(override val name: String,
+                   override val childList: List<IElement>) : IElement {
+    private var iterator: ChapterIterator? = null
+
+    override fun iterator(): Iterator<IElement?> {
+        if (iterator == null) iterator = ChapterIterator()
+        return iterator as ChapterIterator
     }
+
+    override val text: String
+        get() = throw IllegalArgumentException()
 
     @HierarchyDSL
     class Builder {
         var name = ""
-        var childList = mutableListOf<IElement>()
+        private var childList = mutableListOf<IElement>()
+        var text: String = ""
 
         fun build(): IElement {
-            if (childList.isEmpty()) return Page(name)
-            else return Chapter(name, childList)
+            if (childList.isNotEmpty()) {
+                return Chapter(name, childList)
+            } else {
+                return Page(name, text)
+            }
         }
 
         fun childs(block: Childs.() -> Unit) {
@@ -31,6 +38,39 @@ data class Chapter(override val name: String,
         fun child(block: Builder.() -> Unit) {
             add(Builder().apply(block).build())
         }
+    }
+
+    private inner class ChapterIterator : Iterator<IElement?> {
+        private val stackIterator: Stack<Iterator<IElement?>>
+
+        init {
+            stackIterator = Stack()
+            stackIterator.push(childList.iterator())
+        }
+
+        override fun hasNext(): Boolean {
+            return stackIterator.run {
+                if (isEmpty()) false else {
+                    this.peek().run {
+                        if (!this.hasNext()) {
+                            stackIterator.pop()
+                            this@ChapterIterator.hasNext()
+                        } else true
+                    }
+                }
+            }
+        }
+
+        override fun next(): IElement? {
+            return stackIterator.peek().run {
+                if (this.hasNext()) {
+                    val element = next()
+                    if (element is Chapter) stackIterator.push(element.iterator())
+                    element
+                } else null
+            }
+        }
+
     }
 }
 
