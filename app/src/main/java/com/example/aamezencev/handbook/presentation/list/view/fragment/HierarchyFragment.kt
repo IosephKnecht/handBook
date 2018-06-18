@@ -17,8 +17,10 @@ import kotlinx.android.synthetic.main.hierarchy_fragment.*
 
 class HierarchyFragment : Fragment() {
     companion object {
-        fun instanceFragment() {
+        fun instanceFragment() = HierarchyFragment().apply {
+            arguments = Bundle().apply {
 
+            }
         }
     }
 
@@ -60,13 +62,7 @@ class HierarchyFragment : Fragment() {
             }
         }
 
-        val list = mutableListOf<IElement>()
-
-        hierarchy.createIterator().forEach {
-            list.add(it)
-        }
-
-        binding.viewModel?.hierarchyList = list
+        binding.viewModel?.hierarchyList = hierarchy.childList
 
         //binding.viewModel.hierarchyList = list.toList()
     }

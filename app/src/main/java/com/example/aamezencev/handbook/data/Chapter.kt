@@ -4,6 +4,8 @@ import java.util.*
 
 data class Chapter(override val name: String,
                    override val childList: List<IElement>) : IElement {
+    override fun isHasNesting() = childList.isNotEmpty()
+
     private var iterator: ChapterIterator? = null
 
     override fun iterator(): Iterator<IElement?> {
