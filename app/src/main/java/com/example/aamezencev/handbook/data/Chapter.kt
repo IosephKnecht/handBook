@@ -1,7 +1,9 @@
 package com.example.aamezencev.handbook.data
 
 data class Chapter(override val name: String,
-                   val childList: List<IElement>) : IElement {
+                   override val childList: List<IElement>) : IElement {
+    override val text: String
+        get() = throw IllegalArgumentException()
     private var iterator: Iterator<IElement>? = null
 
     override fun createIterator(): Iterator<IElement> {
@@ -14,11 +16,15 @@ data class Chapter(override val name: String,
     @HierarchyDSL
     class Builder {
         var name = ""
-        var childList = mutableListOf<IElement>()
+        private var childList = mutableListOf<IElement>()
+        var text: String = ""
 
         fun build(): IElement {
-            if (childList.isEmpty()) return Page(name)
-            else return Chapter(name, childList)
+            if (childList.isNotEmpty()) {
+                return Chapter(name, childList)
+            } else {
+                return Page(name, text)
+            }
         }
 
         fun childs(block: Childs.() -> Unit) {
