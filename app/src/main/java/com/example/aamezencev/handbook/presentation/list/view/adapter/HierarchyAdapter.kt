@@ -26,6 +26,7 @@ class HierarchyAdapter(private val router: HierarchyRouter) : RecyclerView.Adapt
         holder.binding.hierarchyElement = HierarchyElementMapper.fromView(element)
         val parcelHierarchy = HierarchyElementMapper.fromParcelable(element)
         if (parcelHierarchy.childList.isNotEmpty()) holder.itemView.setOnClickListener { router.clickChapter(parcelHierarchy) }
+        else holder.itemView.setOnClickListener { router.clickPage(element.text) }
     }
 
     class ViewHolder(val binding: ItemHierarchyBinding) : RecyclerView.ViewHolder(binding.root)

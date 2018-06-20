@@ -16,11 +16,13 @@ class MainActivity : AppCompatActivity() {
                 childs {
                     child {
                         name = "Page 1"
+                        text = "it's is very intresting page"
                     }
                 }
             }
             child {
                 name = "Page 2"
+                text = "it's is very very intresting page"
             }
         }
     }
