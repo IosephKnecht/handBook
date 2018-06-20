@@ -1,6 +1,6 @@
 package com.example.aamezencev.handbook
 
-import com.example.aamezencev.handbook.data.elementOf
+import com.example.aamezencev.handbook.data.presentation.elementOf
 import org.junit.Test
 
 class ExampleHierarchyDsl {

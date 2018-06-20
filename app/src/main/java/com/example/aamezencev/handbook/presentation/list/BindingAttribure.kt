@@ -1,10 +1,12 @@
 package com.example.aamezencev.handbook.presentation.list
 
+import android.content.Context
 import android.databinding.BindingAdapter
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
-import com.example.aamezencev.handbook.data.IElement
+import com.example.aamezencev.handbook.data.parcel.IElement
+import com.example.aamezencev.handbook.data.presentation.IHierarchy
 import com.example.aamezencev.handbook.presentation.list.view.adapter.HierarchyAdapter
 
 @BindingAdapter("setHierarchy")

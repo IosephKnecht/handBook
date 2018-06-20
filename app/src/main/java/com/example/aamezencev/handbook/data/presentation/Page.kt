@@ -1,8 +1,8 @@
-package com.example.aamezencev.handbook.data
+package com.example.aamezencev.handbook.data.presentation
 
-import android.os.Parcelable
+import com.example.aamezencev.handbook.data.parcel.IElement
 
-data class Page(override var name: String, override val text: String) : IElement {
+data class Page(override var name: String, override val text: String) : IHierarchy {
     override fun isHasNesting() = false
 
     override fun iterator(): Iterator<IElement?> {

@@ -1,9 +1,11 @@
-package com.example.aamezencev.handbook.data
+package com.example.aamezencev.handbook.data.presentation
 
+import com.example.aamezencev.handbook.data.HierarchyDSL
+import com.example.aamezencev.handbook.data.parcel.IElement
 import java.util.*
 
 data class Chapter(override val name: String,
-                   override val childList: List<IElement>) : IElement {
+                   override val childList: List<IElement>) : IHierarchy {
     override fun isHasNesting() = childList.isNotEmpty()
 
     private var iterator: ChapterIterator? = null
