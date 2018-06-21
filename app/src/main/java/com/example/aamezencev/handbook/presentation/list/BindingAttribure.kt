@@ -10,13 +10,13 @@ import com.example.aamezencev.handbook.data.presentation.IHierarchy
 import com.example.aamezencev.handbook.presentation.list.view.adapter.HierarchyAdapter
 
 @BindingAdapter("setHierarchy")
-fun RecyclerView.setHierarchy(hierarchyList: List<IElement>) {
+fun RecyclerView.setHierarchy(hierarchyList: List<IHierarchy>) {
     val adapter = this.adapter as HierarchyAdapter
     adapter.elementList = hierarchyList
 }
 
 @BindingAdapter("setVisible")
-fun TextView.setVisible(list: MutableList<IElement>) {
+fun TextView.setVisible(list: MutableList<IHierarchy>) {
     this.apply {
         if (list.isNotEmpty()) visibility = View.VISIBLE
         else visibility = View.INVISIBLE

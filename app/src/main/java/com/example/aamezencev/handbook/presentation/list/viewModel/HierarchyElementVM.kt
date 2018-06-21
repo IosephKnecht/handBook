@@ -14,7 +14,7 @@ class HierarchyElementVM : BaseObservable() {
             notifyPropertyChanged(BR.hierarchyElement)
         }
 
-    var childList = mutableListOf<IElement>()
+    var childList = mutableListOf<IHierarchy>()
         @Bindable get() = field
         set(value) {
             field = value

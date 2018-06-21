@@ -8,10 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.aamezencev.handbook.R
-import com.example.aamezencev.handbook.data.parcel.IElement
-import com.example.aamezencev.handbook.data.parcel.ParcelChapter
+import com.example.aamezencev.handbook.data.parcel.ParcelHierarchy
+import com.example.aamezencev.handbook.data.presentation.IHierarchy
 import com.example.aamezencev.handbook.databinding.HierarchyFragmentBinding
-import com.example.aamezencev.handbook.domain.HierarchyElementMapper
 import com.example.aamezencev.handbook.presentation.list.router.HierarchyRouter
 import com.example.aamezencev.handbook.presentation.list.view.adapter.HierarchyAdapter
 import com.example.aamezencev.handbook.presentation.list.viewModel.HierarchyElementVM
@@ -19,7 +18,7 @@ import kotlinx.android.synthetic.main.hierarchy_fragment.*
 
 class HierarchyFragment : Fragment() {
     companion object {
-        fun instanceFragment(hiererchy: ParcelChapter) = HierarchyFragment().apply {
+        fun instanceFragment(hiererchy: ParcelHierarchy) = HierarchyFragment().apply {
             arguments = Bundle().apply {
                 putParcelable("HIERARCHY", hiererchy)
             }
@@ -28,7 +27,7 @@ class HierarchyFragment : Fragment() {
 
     private lateinit var hierarchyAdapter: HierarchyAdapter
     private lateinit var binding: HierarchyFragmentBinding
-    private lateinit var hierarchy: ParcelChapter
+    private lateinit var hierarchy: ParcelHierarchy
     private lateinit var router: HierarchyRouter
 
 
@@ -36,13 +35,13 @@ class HierarchyFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.hierarchy_fragment, container, false)
         binding.viewModel = HierarchyElementVM()
         val view = binding.root
-        hierarchy = arguments?.getParcelable("HIERARCHY") as ParcelChapter
+        hierarchy = arguments?.getParcelable("HIERARCHY") as ParcelHierarchy
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val block: ParcelChapter
+        val block: ParcelHierarchy
         router = HierarchyRouter(this.activity)
         hierarchyAdapter = HierarchyAdapter(router)
 
@@ -52,7 +51,10 @@ class HierarchyFragment : Fragment() {
             adapter = hierarchyAdapter
         }
 
-        binding.viewModel?.childList = hierarchy.childList.toMutableList()
+        binding.viewModel?.childList = hierarchy.childList
+                .map { it as IHierarchy }
+                .toMutableList()
+        binding.viewModel?.childList!![0].name
 
         //binding.viewModel.hierarchyList = list.toList()
     }

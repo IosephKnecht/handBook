@@ -5,12 +5,12 @@ import com.example.aamezencev.handbook.data.parcel.IElement
 import java.util.*
 
 data class Chapter(override val name: String,
-                   override val childList: List<IElement>) : IHierarchy {
+                   override val childList: List<IHierarchy>) : IHierarchy {
     override fun isHasNesting() = childList.isNotEmpty()
 
     private var iterator: ChapterIterator? = null
 
-    override fun iterator(): Iterator<IElement?> {
+    override fun iterator(): Iterator<IHierarchy?> {
         if (iterator == null) iterator = ChapterIterator()
         return iterator as ChapterIterator
     }
@@ -21,10 +21,10 @@ data class Chapter(override val name: String,
     @HierarchyDSL
     class Builder {
         var name = ""
-        private var childList = mutableListOf<IElement>()
+        private var childList = mutableListOf<IHierarchy>()
         var text: String = ""
 
-        fun build(): IElement {
+        fun build(): IHierarchy {
             if (childList.isNotEmpty()) {
                 return Chapter(name, childList)
             } else {
@@ -38,14 +38,14 @@ data class Chapter(override val name: String,
     }
 
     @HierarchyDSL
-    class Childs : ArrayList<IElement>() {
+    class Childs : ArrayList<IHierarchy>() {
         fun child(block: Builder.() -> Unit) {
             add(Builder().apply(block).build())
         }
     }
 
-    private inner class ChapterIterator : Iterator<IElement?> {
-        private val stackIterator: Stack<Iterator<IElement?>>
+    private inner class ChapterIterator : Iterator<IHierarchy?> {
+        private val stackIterator: Stack<Iterator<IHierarchy?>>
 
         init {
             stackIterator = Stack()
@@ -65,7 +65,7 @@ data class Chapter(override val name: String,
             }
         }
 
-        override fun next(): IElement? {
+        override fun next(): IHierarchy? {
             return stackIterator.peek().run {
                 if (this.hasNext()) {
                     val element = next()

@@ -6,12 +6,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.aamezencev.handbook.R
 import com.example.aamezencev.handbook.data.parcel.IElement
+import com.example.aamezencev.handbook.data.presentation.IHierarchy
 import com.example.aamezencev.handbook.databinding.ItemHierarchyBinding
 import com.example.aamezencev.handbook.domain.HierarchyElementMapper
 import com.example.aamezencev.handbook.presentation.list.router.HierarchyRouter
 
 class HierarchyAdapter(private val router: HierarchyRouter) : RecyclerView.Adapter<HierarchyAdapter.ViewHolder>() {
-    var elementList = listOf<IElement>()
+    var elementList = listOf<IHierarchy>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = DataBindingUtil.inflate<ItemHierarchyBinding>(LayoutInflater.from(parent.context),

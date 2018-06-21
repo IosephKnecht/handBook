@@ -1,6 +1,6 @@
 package com.example.aamezencev.handbook.domain
 
-import com.example.aamezencev.handbook.data.parcel.ParcelChapter
+import com.example.aamezencev.handbook.data.parcel.ParcelHierarchy
 import com.example.aamezencev.handbook.data.presentation.Chapter
 import com.example.aamezencev.handbook.data.parcel.IElement
 import com.example.aamezencev.handbook.data.presentation.IHierarchy
@@ -8,7 +8,7 @@ import com.example.aamezencev.handbook.data.presentation.Page
 import com.example.aamezencev.handbook.presentation.list.viewModel.HierarchyElementVM
 
 object HierarchyElementMapper {
-    fun fromView(element: IElement): HierarchyElementVM {
+    fun fromView(element: IElement<IHierarchy>): HierarchyElementVM {
         return HierarchyElementVM().also {
             it.name = element.name
             it.childList = if (element is Chapter) element.childList.toMutableList()
@@ -18,18 +18,18 @@ object HierarchyElementMapper {
     }
 
 
-    fun fromParcelable(hierarchy: IElement): ParcelChapter {
+    fun fromParcelable(hierarchy: IHierarchy): ParcelHierarchy {
         val name = hierarchy.name
         val childList = try {
             hierarchy.childList
         } catch (e: IllegalArgumentException) {
-            listOf<IElement>()
+            listOf<IHierarchy>()
         }
         val text = try {
             hierarchy.text
         } catch (e: IllegalArgumentException) {
             ""
         }
-        return ParcelChapter(name, childList, text)
+        return ParcelHierarchy(name, childList, text)
     }
 }
