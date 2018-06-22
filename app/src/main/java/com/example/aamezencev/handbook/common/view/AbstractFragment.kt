@@ -35,13 +35,13 @@ abstract class AbstractFragment<VM : MvpViewModel, Presenter : MvpPresenter<VM>>
         super.onCreate(savedInstanceState)
         injectDi()
         val loader = activityComponent
-                .supportLoaderManager.getLoader<Presenter>(LOADER_ID) as AbstractLoader<VM, Presenter>
+                .supportLoaderManager.getLoader<Presenter>(LOADER_ID)
         if (loader == null) {
             activityComponent.supportLoaderManager.initLoader(LOADER_ID, null, this)
             presenter = createPresenter()
             viewModel = createViewModel()
         } else {
-            presenter = loader.savePresenter
+            presenter = (loader as AbstractLoader<VM, Presenter>).savePresenter
             viewModel = presenter!!.viewModel
         }
     }
