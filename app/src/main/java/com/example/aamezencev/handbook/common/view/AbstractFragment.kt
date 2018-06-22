@@ -1,17 +1,24 @@
 package com.example.aamezencev.handbook.common.view
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
+import android.support.v4.app.LoaderManager
+import android.support.v4.content.Loader
+import android.support.v7.app.AppCompatActivity
+import com.example.aamezencev.handbook.common.helper.AbstractLoader
 import com.example.aamezencev.handbook.common.presenter.MvpPresenter
 import com.example.aamezencev.handbook.common.viewModel.MvpViewModel
 
 abstract class AbstractFragment<VM : MvpViewModel, Presenter : MvpPresenter<VM>>
-    : Fragment(), AndroidComponent {
+    : Fragment(), AndroidComponent, LoaderManager.LoaderCallbacks<Presenter> {
 
-    override val activityComponent: Activity
-        get() = activity as Activity
+    private val LOADER_ID = 2
+
+    override val activityComponent: AppCompatActivity
+        get() = activity as AppCompatActivity
     override val fragmentManagerComponent: FragmentManager
         get() = activity?.supportFragmentManager as FragmentManager
 
@@ -27,12 +34,20 @@ abstract class AbstractFragment<VM : MvpViewModel, Presenter : MvpPresenter<VM>>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectDi()
-        presenter = createPresenter()
-        viewModel = createViewModel()
+        val loader = activityComponent
+                .supportLoaderManager.getLoader<Presenter>(LOADER_ID) as AbstractLoader<VM, Presenter>
+        if (loader == null) {
+            activityComponent.supportLoaderManager.initLoader(LOADER_ID, null, this)
+            presenter = createPresenter()
+            viewModel = createViewModel()
+        } else {
+            presenter = loader.savePresenter
+            viewModel = presenter!!.viewModel
+        }
     }
 
-    override fun onAttachFragment(childFragment: Fragment?) {
-        super.onAttachFragment(childFragment)
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
         if (viewModel != null) presenter?.attachView(viewModel!!, this)
     }
 
@@ -46,5 +61,16 @@ abstract class AbstractFragment<VM : MvpViewModel, Presenter : MvpPresenter<VM>>
         presenter?.destroy()
         presenter = null
         viewModel = null
+    }
+
+    override fun onCreateLoader(id: Int, args: Bundle?): Loader<Presenter> {
+        val loader = AbstractLoader(this.context!!, createPresenter())
+        return loader
+    }
+
+    override fun onLoadFinished(loader: Loader<Presenter>, data: Presenter) {
+    }
+
+    override fun onLoaderReset(loader: Loader<Presenter>) {
     }
 }
