@@ -7,7 +7,7 @@ import com.example.aamezencev.handbook.domain.FakeService
 import com.example.aamezencev.handbook.presentation.list.HierarchyListContract
 
 class HierarchyListInteractor : AbstractInteractor<HierarchyListContract.Listener>(), HierarchyListContract.Interactor {
-    override fun setListener(presenter: HierarchyListContract.Listener) {
+    override fun setListener(presenter: HierarchyListContract.Listener?) {
         interactorListener = presenter
     }
 

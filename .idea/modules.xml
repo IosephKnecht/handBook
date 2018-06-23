@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/handBook.iml" filepath="$PROJECT_DIR$/handBook.iml" />
       <module fileurl="file://$PROJECT_DIR$/3dViewer/app/viewer.iml" filepath="$PROJECT_DIR$/3dViewer/app/viewer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/3dViewer/app/viewer.iml" filepath="$PROJECT_DIR$/3dViewer/app/viewer.iml" />
     </modules>
   </component>
 </project>

@@ -7,12 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.aamezencev.handbook.R
+import com.example.aamezencev.handbook.application.AppDelegate
 import com.example.aamezencev.handbook.common.view.AbstractFragment
 import com.example.aamezencev.handbook.data.parcel.ParcelHierarchy
-import com.example.aamezencev.handbook.data.presentation.IHierarchy
 import com.example.aamezencev.handbook.databinding.HierarchyFragmentBinding
 import com.example.aamezencev.handbook.presentation.list.HierarchyListContract
-import com.example.aamezencev.handbook.presentation.list.presenter.HierarchyListPresenter
+import com.example.aamezencev.handbook.presentation.list.di.HierarchyListComponent
+import com.example.aamezencev.handbook.presentation.list.di.HierarchyListModule
 import com.example.aamezencev.handbook.presentation.list.router.HierarchyRouter
 import com.example.aamezencev.handbook.presentation.list.view.adapter.HierarchyAdapter
 import com.example.aamezencev.handbook.presentation.list.viewModel.HierarchyElementVM
@@ -27,18 +28,19 @@ class HierarchyFragment : AbstractFragment<HierarchyListContract.ViewModel, Hier
         }
     }
 
+    private var diComponent: HierarchyListComponent? = null
+
     override fun injectDi() {
-//        viewModel = HierarchyElementVM()
-//        presenter = HierarchyListPresenter(viewModel!!)
+        diComponent = AppDelegate.presentationComponent
+                ?.addHierarchyListSubmodule(HierarchyListModule())
     }
 
     override fun createPresenter(): HierarchyListContract.Presenter {
-        viewModel = HierarchyElementVM()
-        return HierarchyListPresenter(viewModel!!)
+        return diComponent?.getPresenter() as HierarchyListContract.Presenter
     }
 
     override fun createViewModel(): HierarchyListContract.ViewModel {
-        return viewModel!!
+        return diComponent?.getHierarchyListViewModel() as HierarchyListContract.ViewModel
     }
 
     private lateinit var hierarchyAdapter: HierarchyAdapter
@@ -46,14 +48,10 @@ class HierarchyFragment : AbstractFragment<HierarchyListContract.ViewModel, Hier
     private lateinit var hierarchy: ParcelHierarchy
     private lateinit var router: HierarchyRouter
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
         binding = DataBindingUtil.inflate(inflater, R.layout.hierarchy_fragment, container, false)
         hierarchy = arguments?.getParcelable("HIERARCHY") as ParcelHierarchy
-
-//        viewModel!!.text = hierarchy.text
-//        viewModel!!.childList = hierarchy.childList.toMutableList()
-//        viewModel!!.name = hierarchy.name
 
         binding.viewModel = viewModel!! as HierarchyElementVM
         val view = binding.root
@@ -70,9 +68,7 @@ class HierarchyFragment : AbstractFragment<HierarchyListContract.ViewModel, Hier
             setHasFixedSize(true)
             adapter = hierarchyAdapter
         }
-//        binding.viewModel?.childList = hierarchy.childList
-//                .map { it }
-//                .toMutableList()
+
         presenter?.obtainHieararchy()
     }
 }

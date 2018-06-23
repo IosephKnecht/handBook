@@ -8,6 +8,9 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.LoaderManager
 import android.support.v4.content.Loader
 import android.support.v7.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.example.aamezencev.handbook.common.helper.AbstractLoader
 import com.example.aamezencev.handbook.common.presenter.MvpPresenter
 import com.example.aamezencev.handbook.common.viewModel.MvpViewModel
@@ -46,13 +49,14 @@ abstract class AbstractFragment<VM : MvpViewModel, Presenter : MvpPresenter<VM>>
         }
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        if (viewModel != null) presenter?.attachView(viewModel!!, this)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
+        presenter!!.attachView(viewModel!!,this)
+        return null
     }
 
-    override fun onDetach() {
-        super.onDetach()
+    override fun onDestroyView() {
+        super.onDestroyView()
         presenter?.detachView()
     }
 

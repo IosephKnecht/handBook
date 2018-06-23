@@ -8,6 +8,6 @@ interface MvpInteractor<L : MvpInteractor.Listener> {
 
     }
 
-    fun setListener(presenter: L)
+    fun setListener(presenter: L?)
     fun onDestroy()
 }

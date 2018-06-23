@@ -6,6 +6,10 @@ import com.example.aamezencev.handbook.common.viewModel.MvpViewModel
 abstract class AbstractInteractor<L : MvpInteractor.Listener> : MvpInteractor<L> {
     var interactorListener: L? = null
 
+    override fun setListener(presenter: L?) {
+        interactorListener = presenter
+    }
+
     override fun onDestroy() {
         interactorListener = null
     }
