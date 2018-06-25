@@ -7,10 +7,10 @@ import com.example.aamezencev.handbook.presentation.list.view.fragment.Hierarchy
 import com.example.aamezencev.handbook.presentation.screen.PageFragment
 
 class HierarchyRouter(private var context: FragmentActivity?) {
-    fun clickChapter(hierarchy: ParcelHierarchy) {
+    fun clickChapter(parentId: Long) {
         context?.supportFragmentManager
                 ?.beginTransaction()
-                ?.replace(R.id.hierarchyContainer, HierarchyFragment.instanceFragment(hierarchy))
+                ?.replace(R.id.hierarchyContainer, HierarchyFragment.instanceFragment(parentId))
                 ?.commit()
     }
 

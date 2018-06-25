@@ -21,9 +21,10 @@ import kotlinx.android.synthetic.main.hierarchy_fragment.*
 
 class HierarchyFragment : AbstractFragment<HierarchyListContract.ViewModel, HierarchyListContract.Presenter>() {
     companion object {
-        fun instanceFragment(hiererchy: ParcelHierarchy) = HierarchyFragment().apply {
+        private val PARENT_ID = "PARENT_ID"
+        fun instanceFragment(parentId: Long) = HierarchyFragment().apply {
             arguments = Bundle().apply {
-                putParcelable("HIERARCHY", hiererchy)
+                putLong(PARENT_ID, parentId)
             }
         }
     }
@@ -45,13 +46,13 @@ class HierarchyFragment : AbstractFragment<HierarchyListContract.ViewModel, Hier
 
     private lateinit var hierarchyAdapter: HierarchyAdapter
     private lateinit var binding: HierarchyFragmentBinding
-    private lateinit var hierarchy: ParcelHierarchy
+    private var parentId: Long? = null
     private lateinit var router: HierarchyRouter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = DataBindingUtil.inflate(inflater, R.layout.hierarchy_fragment, container, false)
-        hierarchy = arguments?.getParcelable("HIERARCHY") as ParcelHierarchy
+        initParentId(arguments!!.getLong(PARENT_ID))
 
         binding.viewModel = viewModel!! as HierarchyElementVM
         val view = binding.root
@@ -69,6 +70,10 @@ class HierarchyFragment : AbstractFragment<HierarchyListContract.ViewModel, Hier
             adapter = hierarchyAdapter
         }
 
-        presenter?.obtainHieararchy()
+        presenter?.obtainHieararchy(parentId)
+    }
+
+    private fun initParentId(parentId: Long) {
+        if (parentId < 0) this.parentId = null else this.parentId = parentId
     }
 }

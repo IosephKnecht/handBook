@@ -1,12 +1,14 @@
 package com.example.aamezencev.handbook.presentation.list.presenter
 
 import com.example.aamezencev.handbook.common.view.AndroidComponent
+import com.example.aamezencev.handbook.data.db.HierarchyElementDb
 import com.example.aamezencev.handbook.data.presentation.IHierarchy
+import com.example.aamezencev.handbook.domain.HierarchyElementMapper
 import com.example.aamezencev.handbook.presentation.list.HierarchyListContract
 import com.example.aamezencev.handbook.presentation.list.interactor.HierarchyListInteractor
 
 class HierarchyListPresenter(override val viewModel: HierarchyListContract.ViewModel,
-                                                 val interactor: HierarchyListInteractor)
+                             val interactor: HierarchyListInteractor)
     : HierarchyListContract.Presenter, HierarchyListContract.Listener {
     private var androidComponent: AndroidComponent? = null
     //private val interactor: HierarchyListContract.Interactor
@@ -32,22 +34,13 @@ class HierarchyListPresenter(override val viewModel: HierarchyListContract.ViewM
 
     }
 
-    override fun onObtainHieararchy(hierarchy: IHierarchy) {
-        cacheHierarchy = hierarchy
-        viewModel.name = hierarchy.name
-        viewModel.childList = try {
-            hierarchy.childList.toMutableList()
-        } catch (e: Exception) {
-            mutableListOf()
-        }
-        viewModel.text = try {
-            hierarchy.text
-        } catch (e: Exception) {
-            ""
-        }
+    override fun onObtainHieararchy(hierarchy: List<HierarchyElementDb>) {
+        viewModel.hierarchy = hierarchy
+                .map { HierarchyElementMapper.fromPresentation(it) }
+                .toMutableList()
     }
 
-    override fun obtainHieararchy() {
-        interactor.getHierarchy()
+    override fun obtainHieararchy(parentId: Long?) {
+        interactor.getHierarchy(parentId)
     }
 }

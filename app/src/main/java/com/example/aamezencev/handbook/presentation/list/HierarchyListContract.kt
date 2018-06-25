@@ -4,27 +4,26 @@ import android.databinding.Bindable
 import com.example.aamezencev.handbook.common.interactor.MvpInteractor
 import com.example.aamezencev.handbook.common.presenter.MvpPresenter
 import com.example.aamezencev.handbook.common.viewModel.MvpViewModel
+import com.example.aamezencev.handbook.data.db.HierarchyElementDb
+import com.example.aamezencev.handbook.data.presentation.DataHierarchyElement
+import com.example.aamezencev.handbook.data.presentation.HierarchyElement
 import com.example.aamezencev.handbook.data.presentation.IHierarchy
 
 interface HierarchyListContract {
     interface ViewModel : MvpViewModel {
-        var name: String
-            @Bindable get
-        var childList: MutableList<IHierarchy>
-            @Bindable get
-        var text: String
+        var hierarchy: MutableList<HierarchyElement>
             @Bindable get
     }
 
     interface Listener : MvpInteractor.Listener {
-        fun onObtainHieararchy(hierarchy: IHierarchy)
+        fun onObtainHieararchy(hierarchy: List<HierarchyElementDb>)
     }
 
     interface Presenter : MvpPresenter<ViewModel> {
-        fun obtainHieararchy()
+        fun obtainHieararchy(parentId: Long?)
     }
 
     interface Interactor : MvpInteractor<Listener> {
-        fun getHierarchy()
+        fun getHierarchy(parentId: Long?)
     }
 }

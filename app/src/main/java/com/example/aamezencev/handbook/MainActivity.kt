@@ -12,32 +12,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        val kek = hierarchyElementOf {
-            name = ""
-            parentId = 1
-            hierarchyId = 1
-            dataHierarchyId = 1
-            dataHierarchyElement {
-                hierarchyId = 1
-                description = ""
-                threeDimensionalModel {
-                    thrModel {
-
-                    }
-                    thrModel {
-
-                    }
-                }
-            }
-        }
     }
 
     override fun onStart() {
         super.onStart()
-//        supportFragmentManager
-//                .beginTransaction()
-//                .replace(R.id.hierarchyContainer, HierarchyFragment.instanceFragment())
-//                .commit()
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.hierarchyContainer, HierarchyFragment.instanceFragment(-1))
+                .commit()
     }
 }

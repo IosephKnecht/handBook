@@ -1,5 +1,6 @@
 package com.example.aamezencev.handbook.presentation.list.di
 
+import com.example.aamezencev.handbook.domain.services.DataBaseService
 import com.example.aamezencev.handbook.presentation.common.ModuleScope
 import com.example.aamezencev.handbook.presentation.list.HierarchyListContract
 import com.example.aamezencev.handbook.presentation.list.interactor.HierarchyListInteractor
@@ -25,7 +26,7 @@ class HierarchyListModule {
 
     @Provides
     @ModuleScope
-    fun provideHierarchyListInteractor(): HierarchyListInteractor {
-        return HierarchyListInteractor()
+    fun provideHierarchyListInteractor(dataBaseService: DataBaseService): HierarchyListInteractor {
+        return HierarchyListInteractor(dataBaseService)
     }
 }

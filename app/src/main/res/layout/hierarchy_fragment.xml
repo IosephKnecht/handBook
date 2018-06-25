@@ -2,7 +2,6 @@
 <layout>
 
     <data>
-
         <variable
             name="viewModel"
             type="com.example.aamezencev.handbook.presentation.list.viewModel.HierarchyElementVM" />
@@ -14,8 +13,8 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/hierarchyView"
-            setHierarchy="@{viewModel.childList}"
             android:layout_width="match_parent"
+            setHierarchy="@{viewModel.hierarchy}"
             android:layout_height="match_parent" />
 
     </LinearLayout>
