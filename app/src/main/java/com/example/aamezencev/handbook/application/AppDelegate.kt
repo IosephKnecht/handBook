@@ -6,6 +6,7 @@ class AppDelegate : Application() {
     companion object {
         var appComponent: AppComponent? = null
         var presentationComponent: PresentationComponent? = null
+        var businessComponent: BusinessComponent? = null
     }
 
     override fun onCreate() {
@@ -14,8 +15,14 @@ class AppDelegate : Application() {
                 .appModule(AppModule(this))
                 .build()
 
+        businessComponent = DaggerBusinessComponent.builder()
+                .appComponent(appComponent)
+                .businessModule(BusinessModule())
+                .build()
+
         presentationComponent = DaggerPresentationComponent.builder()
                 .presentationModule(PresentationModule())
+                .businessComponent(businessComponent)
                 .build()
     }
 }

@@ -5,7 +5,7 @@ import com.example.aamezencev.handbook.presentation.list.di.HierarchyListCompone
 import com.example.aamezencev.handbook.presentation.list.di.HierarchyListModule
 import dagger.Component
 
-@Component(modules = [PresentationModule::class])
+@Component(modules = [PresentationModule::class], dependencies = [BusinessComponent::class])
 @PresentationScope
 interface PresentationComponent {
     fun addHierarchyListSubmodule(module: HierarchyListModule): HierarchyListComponent
