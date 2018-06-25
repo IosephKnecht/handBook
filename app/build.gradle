@@ -1,3 +1,5 @@
+apply plugin: 'org.greenrobot.greendao'
+
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
@@ -27,6 +29,10 @@ android {
     }
 }
 
+greendao{
+    targetGenDir 'src/main/java'
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
@@ -35,8 +41,9 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.1.1'
 
     implementation 'com.google.dagger:dagger:2.16'
-    kapt 'com.google.dagger:dagger-compiler:2.16'
+    implementation 'org.greenrobot:greendao:3.2.2'
 
+    kapt 'com.google.dagger:dagger-compiler:2.16'
     kapt 'com.android.databinding:compiler:3.1.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
