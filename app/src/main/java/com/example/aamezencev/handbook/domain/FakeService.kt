@@ -33,7 +33,7 @@ object FakeService {
         val e4 = hierarchyElementOf {
             name = "Page 2"
             hierarchyId = 4
-            parentId = 2
+            parentId = 3
             dataHierarchyElement {
                 description = "very very interesting text"
                 threeDimensionalModel {
