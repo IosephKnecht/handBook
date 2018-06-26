@@ -1,8 +1,9 @@
-package com.example.aamezencev.handbook.domain
+package com.example.aamezencev.handbook.domain.mappers
 
+import com.example.aamezencev.handbook.data.db.DataHierarchyDb
 import com.example.aamezencev.handbook.data.db.HierarchyElementDb
+import com.example.aamezencev.handbook.data.db.ThreeDimensionalModelDb
 import com.example.aamezencev.handbook.data.presentation.HierarchyElement
-import com.example.aamezencev.handbook.presentation.list.viewModel.HierarchyElementVM
 
 object HierarchyElementMapper {
     fun fromPresentation(model: HierarchyElementDb): HierarchyElement {
@@ -11,6 +12,16 @@ object HierarchyElementMapper {
                 model.name,
                 model.dataHierarchyId,
                 DataHierarchyElementMapper.fromPresentation(model.dataHierarchyDb))
+    }
+
+    fun fromDb(model: HierarchyElement): Triple<HierarchyElementDb, DataHierarchyDb, List<ThreeDimensionalModelDb>?> {
+        return Triple(HierarchyElementDb()
+                .apply {
+                    name = model.name
+                    parentId = null
+                },
+                DataHierarchyElementMapper.fromDb(model.dataHierarchyElement),
+                ThreeDimensionalMapper.fromDb(model.dataHierarchyElement?.threeDimensionalModels))
     }
 
 //    fun fromViewModel(model: HierarchyElement): HierarchyElementVM {

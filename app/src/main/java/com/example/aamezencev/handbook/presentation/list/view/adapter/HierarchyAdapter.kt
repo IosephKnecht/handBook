@@ -6,9 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.aamezencev.handbook.R
 import com.example.aamezencev.handbook.data.presentation.HierarchyElement
-import com.example.aamezencev.handbook.data.presentation.IHierarchy
 import com.example.aamezencev.handbook.databinding.ItemHierarchyBinding
-import com.example.aamezencev.handbook.domain.HierarchyElementMapper
 import com.example.aamezencev.handbook.presentation.list.router.HierarchyRouter
 
 class HierarchyAdapter(private val router: HierarchyRouter) : RecyclerView.Adapter<HierarchyAdapter.ViewHolder>() {

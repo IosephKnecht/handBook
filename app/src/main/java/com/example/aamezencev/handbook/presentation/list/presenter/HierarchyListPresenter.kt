@@ -2,8 +2,9 @@ package com.example.aamezencev.handbook.presentation.list.presenter
 
 import com.example.aamezencev.handbook.common.view.AndroidComponent
 import com.example.aamezencev.handbook.data.db.HierarchyElementDb
+import com.example.aamezencev.handbook.data.presentation.HierarchyElement
 import com.example.aamezencev.handbook.data.presentation.IHierarchy
-import com.example.aamezencev.handbook.domain.HierarchyElementMapper
+import com.example.aamezencev.handbook.domain.mappers.HierarchyElementMapper
 import com.example.aamezencev.handbook.presentation.list.HierarchyListContract
 import com.example.aamezencev.handbook.presentation.list.interactor.HierarchyListInteractor
 
@@ -35,12 +36,18 @@ class HierarchyListPresenter(override val viewModel: HierarchyListContract.ViewM
     }
 
     override fun onObtainHieararchy(hierarchy: List<HierarchyElementDb>) {
-        viewModel.hierarchy = hierarchy
+        val list = hierarchy
                 .map { HierarchyElementMapper.fromPresentation(it) }
                 .toMutableList()
+        viewModel.hierarchy = list
     }
 
     override fun obtainHieararchy(parentId: Long?) {
         interactor.getHierarchy(parentId)
+    }
+
+    override fun addHierarchyElement(hierarchyElement: HierarchyElement) {
+        val (hierarchyDb, dataDb, modelList) = HierarchyElementMapper.fromDb(hierarchyElement)
+        interactor.insertHierarchyElement(hierarchyDb, dataDb, if (modelList != null) modelList else listOf())
     }
 }

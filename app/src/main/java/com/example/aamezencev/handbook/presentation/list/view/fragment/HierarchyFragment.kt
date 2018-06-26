@@ -9,7 +9,12 @@ import android.view.ViewGroup
 import com.example.aamezencev.handbook.R
 import com.example.aamezencev.handbook.application.AppDelegate
 import com.example.aamezencev.handbook.common.view.AbstractFragment
+import com.example.aamezencev.handbook.data.db.DataHierarchyDb
+import com.example.aamezencev.handbook.data.db.HierarchyElementDb
+import com.example.aamezencev.handbook.data.db.ThreeDimensionalModelDb
 import com.example.aamezencev.handbook.data.parcel.ParcelHierarchy
+import com.example.aamezencev.handbook.data.presentation.HierarchyElement
+import com.example.aamezencev.handbook.data.presentation.hierarchyElementOf
 import com.example.aamezencev.handbook.databinding.HierarchyFragmentBinding
 import com.example.aamezencev.handbook.presentation.list.HierarchyListContract
 import com.example.aamezencev.handbook.presentation.list.di.HierarchyListComponent
@@ -71,6 +76,21 @@ class HierarchyFragment : AbstractFragment<HierarchyListContract.ViewModel, Hier
         }
 
         presenter?.obtainHieararchy(parentId)
+
+//        val test = hierarchyElementOf {
+//            name = "Page 2"
+//            parentId = null
+//            dataHierarchyElement {
+//                description = "very interesting text"
+//                threeDimensionalModel {
+//                    thrModel { modelArray = byteArrayOf(5, 6, 7, 8, 9, 1, 2, 3, 4, 5) }
+//                    thrModel { modelArray = byteArrayOf(1, 0, 0, 1) }
+//                    thrModel { modelArray = byteArrayOf(0,1,4,5,6) }
+//                }
+//            }
+//        }
+//
+//        presenter?.addHierarchyElement(test)
     }
 
     private fun initParentId(parentId: Long) {

@@ -13,7 +13,7 @@ class HierarchyElementVM : AbstractViewModel(), HierarchyListContract.ViewModel 
         @Bindable get() = field
         set(value) {
             field = value
-            notifyPropertyChanged(BR.viewModel)
+            notifyChange()
         }
 
 }

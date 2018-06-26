@@ -2,10 +2,7 @@ package com.example.aamezencev.handbook
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.example.aamezencev.handbook.data.presentation.DataHierarchyElement
 import com.example.aamezencev.handbook.presentation.list.view.fragment.HierarchyFragment
-import com.example.aamezencev.handbook.data.presentation.hierarchyElementOf
-import com.example.aamezencev.handbook.domain.HierarchyElementMapper
 
 class MainActivity : AppCompatActivity() {
 
