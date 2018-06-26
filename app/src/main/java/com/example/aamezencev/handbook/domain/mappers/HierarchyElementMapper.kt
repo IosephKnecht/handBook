@@ -7,7 +7,7 @@ import com.example.aamezencev.handbook.data.presentation.HierarchyElement
 
 object HierarchyElementMapper {
     fun fromPresentation(model: HierarchyElementDb): HierarchyElement {
-        return HierarchyElement(model.primaryKey,
+        return HierarchyElement(model.hierarchyId,
                 model.parentId,
                 model.name,
                 model.dataHierarchyId,
@@ -18,7 +18,8 @@ object HierarchyElementMapper {
         return Triple(HierarchyElementDb()
                 .apply {
                     name = model.name
-                    parentId = null
+                    hierarchyId = model.hierarchyId
+                    parentId = model.parentId
                 },
                 DataHierarchyElementMapper.fromDb(model.dataHierarchyElement),
                 ThreeDimensionalMapper.fromDb(model.dataHierarchyElement?.threeDimensionalModels))

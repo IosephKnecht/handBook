@@ -28,7 +28,8 @@ public class HierarchyElementDbDao extends AbstractDao<HierarchyElementDb, Long>
         public final static Property PrimaryKey = new Property(0, Long.class, "primaryKey", true, "_id");
         public final static Property Name = new Property(1, String.class, "name", false, "NAME");
         public final static Property ParentId = new Property(2, Long.class, "parentId", false, "PARENT_ID");
-        public final static Property DataHierarchyId = new Property(3, long.class, "dataHierarchyId", false, "DATA_HIERARCHY_ID");
+        public final static Property HierarchyId = new Property(3, Long.class, "hierarchyId", false, "HIERARCHY_ID");
+        public final static Property DataHierarchyId = new Property(4, long.class, "dataHierarchyId", false, "DATA_HIERARCHY_ID");
     }
 
     private DaoSession daoSession;
@@ -50,7 +51,8 @@ public class HierarchyElementDbDao extends AbstractDao<HierarchyElementDb, Long>
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: primaryKey
                 "\"NAME\" TEXT NOT NULL ," + // 1: name
                 "\"PARENT_ID\" INTEGER," + // 2: parentId
-                "\"DATA_HIERARCHY_ID\" INTEGER NOT NULL );"); // 3: dataHierarchyId
+                "\"HIERARCHY_ID\" INTEGER," + // 3: hierarchyId
+                "\"DATA_HIERARCHY_ID\" INTEGER NOT NULL );"); // 4: dataHierarchyId
     }
 
     /** Drops the underlying database table. */
@@ -73,7 +75,12 @@ public class HierarchyElementDbDao extends AbstractDao<HierarchyElementDb, Long>
         if (parentId != null) {
             stmt.bindLong(3, parentId);
         }
-        stmt.bindLong(4, entity.getDataHierarchyId());
+ 
+        Long hierarchyId = entity.getHierarchyId();
+        if (hierarchyId != null) {
+            stmt.bindLong(4, hierarchyId);
+        }
+        stmt.bindLong(5, entity.getDataHierarchyId());
     }
 
     @Override
@@ -90,7 +97,12 @@ public class HierarchyElementDbDao extends AbstractDao<HierarchyElementDb, Long>
         if (parentId != null) {
             stmt.bindLong(3, parentId);
         }
-        stmt.bindLong(4, entity.getDataHierarchyId());
+ 
+        Long hierarchyId = entity.getHierarchyId();
+        if (hierarchyId != null) {
+            stmt.bindLong(4, hierarchyId);
+        }
+        stmt.bindLong(5, entity.getDataHierarchyId());
     }
 
     @Override
@@ -110,7 +122,8 @@ public class HierarchyElementDbDao extends AbstractDao<HierarchyElementDb, Long>
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // primaryKey
             cursor.getString(offset + 1), // name
             cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // parentId
-            cursor.getLong(offset + 3) // dataHierarchyId
+            cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3), // hierarchyId
+            cursor.getLong(offset + 4) // dataHierarchyId
         );
         return entity;
     }
@@ -120,7 +133,8 @@ public class HierarchyElementDbDao extends AbstractDao<HierarchyElementDb, Long>
         entity.setPrimaryKey(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setName(cursor.getString(offset + 1));
         entity.setParentId(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
-        entity.setDataHierarchyId(cursor.getLong(offset + 3));
+        entity.setHierarchyId(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));
+        entity.setDataHierarchyId(cursor.getLong(offset + 4));
      }
     
     @Override

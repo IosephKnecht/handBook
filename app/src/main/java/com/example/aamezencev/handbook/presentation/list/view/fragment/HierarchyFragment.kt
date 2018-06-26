@@ -78,21 +78,8 @@ class HierarchyFragment : AbstractFragment<HierarchyListContract.ViewModel, Hier
 
         presenter?.obtainHieararchy(parentId)
 
-//        val test = hierarchyElementOf {
-//            name = "Page 2"
-//            parentId = null
-//            dataHierarchyElement {
-//                description = "very interesting text"
-//                threeDimensionalModel {
-//                    thrModel { modelArray = byteArrayOf(5, 6, 7, 8, 9, 1, 2, 3, 4, 5) }
-//                    thrModel { modelArray = byteArrayOf(1, 0, 0, 1) }
-//                    thrModel { modelArray = byteArrayOf(0,1,4,5,6) }
-//                }
-//            }
-//        }
-//
 //        presenter?.addHierarchyElement(test)
-        presenter?.addHierarchyListElement(FakeService.buildFakeHierarchy())
+        //presenter?.addHierarchyListElement(FakeService.buildFakeHierarchy())
     }
 
     private fun initParentId(parentId: Long) {

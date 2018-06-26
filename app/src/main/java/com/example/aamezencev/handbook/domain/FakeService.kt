@@ -7,10 +7,14 @@ object FakeService {
     fun buildFakeHierarchy(): List<HierarchyElement> {
         val e1 = hierarchyElementOf {
             name = "Chapter 1"
+            hierarchyId = 1
+            parentId = null
         }
 
         val e2 = hierarchyElementOf {
             name = "Page 1"
+            parentId = 1
+            hierarchyId = 2
             dataHierarchyElement {
                 description = "very interesting text"
                 threeDimensionalModel {
@@ -22,10 +26,14 @@ object FakeService {
 
         val e3 = hierarchyElementOf {
             name = "Chapter 2"
+            hierarchyId = 3
+            parentId = null
         }
 
         val e4 = hierarchyElementOf {
             name = "Page 2"
+            hierarchyId = 4
+            parentId = 2
             dataHierarchyElement {
                 description = "very very interesting text"
                 threeDimensionalModel {

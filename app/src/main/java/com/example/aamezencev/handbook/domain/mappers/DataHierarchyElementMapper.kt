@@ -4,9 +4,13 @@ import com.example.aamezencev.handbook.data.db.DataHierarchyDb
 import com.example.aamezencev.handbook.data.presentation.DataHierarchyElement
 
 object DataHierarchyElementMapper {
-    fun fromPresentation(model: DataHierarchyDb): DataHierarchyElement {
-        return DataHierarchyElement(model.primaryKey, model.description, model.threeDimensionalModels
-                .map { ThreeDimensionalMapper.fromPresentation(it) })
+    fun fromPresentation(model: DataHierarchyDb?): DataHierarchyElement? {
+        if (model != null && !model.isEmpty) {
+            return DataHierarchyElement(model.primaryKey, model.description, model.threeDimensionalModels
+                    .map { ThreeDimensionalMapper.fromPresentation(it) })
+        } else {
+            return null
+        }
     }
 
     fun fromDb(model: DataHierarchyElement?): DataHierarchyDb {

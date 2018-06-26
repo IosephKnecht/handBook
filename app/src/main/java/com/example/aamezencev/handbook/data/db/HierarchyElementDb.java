@@ -17,6 +17,7 @@ public class HierarchyElementDb {
     @NonNull
     private String name;
     private Long parentId;
+    private Long hierarchyId;
     private long dataHierarchyId;
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
@@ -24,43 +25,64 @@ public class HierarchyElementDb {
     /** Used for active entity operations. */
     @Generated(hash = 117377468)
     private transient HierarchyElementDbDao myDao;
-    @Generated(hash = 273382347)
+
+    @Generated(hash = 78743735)
     public HierarchyElementDb(Long primaryKey, @NonNull String name, Long parentId,
-            long dataHierarchyId) {
+            Long hierarchyId, long dataHierarchyId) {
         this.primaryKey = primaryKey;
         this.name = name;
         this.parentId = parentId;
+        this.hierarchyId = hierarchyId;
         this.dataHierarchyId = dataHierarchyId;
     }
+
     @Generated(hash = 908607129)
     public HierarchyElementDb() {
     }
-    public Long getPrimaryKey() {
-        return this.primaryKey;
-    }
-    public void setPrimaryKey(Long primaryKey) {
-        this.primaryKey = primaryKey;
-    }
-    public String getName() {
-        return this.name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public Long getParentId() {
-        return this.parentId;
-    }
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
-    }
+
+    @Generated(hash = 1585811300)
+    private transient Long dataHierarchyDb__resolvedKey;
+
     public long getDataHierarchyId() {
-        return this.dataHierarchyId;
+        return dataHierarchyId;
     }
+
     public void setDataHierarchyId(long dataHierarchyId) {
         this.dataHierarchyId = dataHierarchyId;
     }
-    @Generated(hash = 1585811300)
-    private transient Long dataHierarchyDb__resolvedKey;
+
+    public Long getPrimaryKey() {
+        return this.primaryKey;
+    }
+
+    public void setPrimaryKey(Long primaryKey) {
+        this.primaryKey = primaryKey;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getParentId() {
+        return this.parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
+    }
+
+    public Long getHierarchyId() {
+        return this.hierarchyId;
+    }
+
+    public void setHierarchyId(Long hierarchyId) {
+        this.hierarchyId = hierarchyId;
+    }
+
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 2033874534)
     public DataHierarchyDb getDataHierarchyDb() {
@@ -80,6 +102,7 @@ public class HierarchyElementDb {
         }
         return dataHierarchyDb;
     }
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 606537728)
     public void setDataHierarchyDb(@NonNull DataHierarchyDb dataHierarchyDb) {
@@ -93,6 +116,7 @@ public class HierarchyElementDb {
             dataHierarchyDb__resolvedKey = dataHierarchyId;
         }
     }
+
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
      * Entity must attached to an entity context.
@@ -104,6 +128,7 @@ public class HierarchyElementDb {
         }
         myDao.delete(this);
     }
+
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -115,6 +140,7 @@ public class HierarchyElementDb {
         }
         myDao.refresh(this);
     }
+
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
      * Entity must attached to an entity context.
@@ -126,6 +152,7 @@ public class HierarchyElementDb {
         }
         myDao.update(this);
     }
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1820719)
     public void __setDaoSession(DaoSession daoSession) {
