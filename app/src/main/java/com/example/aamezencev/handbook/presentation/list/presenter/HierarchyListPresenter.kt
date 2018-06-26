@@ -50,4 +50,11 @@ class HierarchyListPresenter(override val viewModel: HierarchyListContract.ViewM
         val (hierarchyDb, dataDb, modelList) = HierarchyElementMapper.fromDb(hierarchyElement)
         interactor.insertHierarchyElement(hierarchyDb, dataDb, if (modelList != null) modelList else listOf())
     }
+
+    override fun addHierarchyListElement(hierarchyElementList: List<HierarchyElement>) {
+        interactor.insertHierarchyElementList(hierarchyElementList.map {
+            val (hierarchyDb, dataDb, modelList) = HierarchyElementMapper.fromDb(it)
+            return@map Triple(hierarchyDb, dataDb, if (modelList == null) listOf() else modelList)
+        })
+    }
 }

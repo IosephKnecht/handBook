@@ -16,6 +16,7 @@ import com.example.aamezencev.handbook.data.parcel.ParcelHierarchy
 import com.example.aamezencev.handbook.data.presentation.HierarchyElement
 import com.example.aamezencev.handbook.data.presentation.hierarchyElementOf
 import com.example.aamezencev.handbook.databinding.HierarchyFragmentBinding
+import com.example.aamezencev.handbook.domain.FakeService
 import com.example.aamezencev.handbook.presentation.list.HierarchyListContract
 import com.example.aamezencev.handbook.presentation.list.di.HierarchyListComponent
 import com.example.aamezencev.handbook.presentation.list.di.HierarchyListModule
@@ -91,6 +92,7 @@ class HierarchyFragment : AbstractFragment<HierarchyListContract.ViewModel, Hier
 //        }
 //
 //        presenter?.addHierarchyElement(test)
+        presenter?.addHierarchyListElement(FakeService.buildFakeHierarchy())
     }
 
     private fun initParentId(parentId: Long) {

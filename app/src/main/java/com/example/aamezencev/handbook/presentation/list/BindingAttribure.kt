@@ -21,7 +21,7 @@ fun RecyclerView.setHierarchy(hierarchyList: List<HierarchyElement>) {
 @BindingAdapter("setVisible")
 fun TextView.setVisible(value: DataHierarchyElement?) {
     this.apply {
-        if (value != null) visibility = View.VISIBLE
+        if (value == null) visibility = View.VISIBLE
         else visibility = View.INVISIBLE
     }
 }

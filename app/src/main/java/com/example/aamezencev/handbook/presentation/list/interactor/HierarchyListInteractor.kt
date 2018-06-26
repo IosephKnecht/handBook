@@ -28,4 +28,10 @@ class HierarchyListInteractor(private val dataBaseService: DataBaseService) : Ab
                 .subscribeOn(Schedulers.io())
                 .subscribe()
     }
+
+    override fun insertHierarchyElementList(list: List<Triple<HierarchyElementDb, DataHierarchyDb, List<ThreeDimensionalModelDb>>>) {
+        dataBaseService.insertHierarchyList(list)
+                .subscribeOn(Schedulers.io())
+                .subscribe()
+    }
 }

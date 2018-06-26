@@ -65,4 +65,9 @@ class DataBaseService(private val daoSession: DaoSession) {
                             }
                 }
     }
+
+    fun insertHierarchyList(list: List<Triple<HierarchyElementDb, DataHierarchyDb, List<ThreeDimensionalModelDb>>>): Observable<Unit> {
+        return Observable.fromIterable(list)
+                .flatMap { insert(it.first, it.second, it.third) }
+    }
 }

@@ -24,6 +24,7 @@ interface HierarchyListContract {
     interface Presenter : MvpPresenter<ViewModel> {
         fun obtainHieararchy(parentId: Long?)
         fun addHierarchyElement(hierarchyElement: HierarchyElement)
+        fun addHierarchyListElement(hierarchyElementList: List<HierarchyElement>)
     }
 
     interface Interactor : MvpInteractor<Listener> {
@@ -31,5 +32,7 @@ interface HierarchyListContract {
         fun insertHierarchyElement(hierarchyElement: HierarchyElementDb,
                                    data: DataHierarchyDb,
                                    modelList: List<ThreeDimensionalModelDb>)
+
+        fun insertHierarchyElementList(list: List<Triple<HierarchyElementDb, DataHierarchyDb, List<ThreeDimensionalModelDb>>>)
     }
 }
