@@ -15,7 +15,7 @@ class HierarchyListModule {
     @Provides
     @ModuleScope
     fun provideHierarchyListPresenter(viewModel: HierarchyElementVM, interactor: HierarchyListInteractor): HierarchyListPresenter {
-        return HierarchyListPresenter(viewModel, interactor)
+        return HierarchyListPresenter(interactor)
     }
 
     @Provides

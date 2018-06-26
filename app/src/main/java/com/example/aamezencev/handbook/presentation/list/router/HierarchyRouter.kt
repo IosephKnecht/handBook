@@ -11,6 +11,7 @@ class HierarchyRouter(private var context: FragmentActivity?) {
         context?.supportFragmentManager
                 ?.beginTransaction()
                 ?.replace(R.id.hierarchyContainer, HierarchyFragment.instanceFragment(parentId))
+                ?.addToBackStack("hierarchy")
                 ?.commit()
     }
 

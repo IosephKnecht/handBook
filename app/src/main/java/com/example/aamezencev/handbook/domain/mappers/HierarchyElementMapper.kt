@@ -24,10 +24,4 @@ object HierarchyElementMapper {
                 DataHierarchyElementMapper.fromDb(model.dataHierarchyElement),
                 ThreeDimensionalMapper.fromDb(model.dataHierarchyElement?.threeDimensionalModels))
     }
-
-//    fun fromViewModel(model: HierarchyElement): HierarchyElementVM {
-//        return HierarchyElementVM().apply {
-//            hierarchy=HierarchyElement(model.)
-//        }
-//    }
 }

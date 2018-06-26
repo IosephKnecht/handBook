@@ -3,9 +3,7 @@ package com.example.aamezencev.handbook.presentation.list.view.fragment
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.example.aamezencev.handbook.R
 import com.example.aamezencev.handbook.application.AppDelegate
 import com.example.aamezencev.handbook.common.view.AbstractFragment
@@ -62,6 +60,7 @@ class HierarchyFragment : AbstractFragment<HierarchyListContract.ViewModel, Hier
 
         binding.viewModel = viewModel!! as HierarchyElementVM
         val view = binding.root
+        setHasOptionsMenu(true)
         return view
     }
 
@@ -75,11 +74,25 @@ class HierarchyFragment : AbstractFragment<HierarchyListContract.ViewModel, Hier
             setHasFixedSize(true)
             adapter = hierarchyAdapter
         }
+    }
 
+    override fun onStart() {
+        super.onStart()
         presenter?.obtainHieararchy(parentId)
+    }
 
-//        presenter?.addHierarchyElement(test)
-        //presenter?.addHierarchyListElement(FakeService.buildFakeHierarchy())
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.hierarchy_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.initDb -> {
+                presenter?.addHierarchyListElement(FakeService.buildFakeHierarchy())
+            }
+        }
+        return false
     }
 
     private fun initParentId(parentId: Long) {

@@ -6,6 +6,8 @@ import com.example.aamezencev.handbook.presentation.list.view.fragment.Hierarchy
 
 class MainActivity : AppCompatActivity() {
 
+    private val INIT_FRAGMENT = "INIT_FRAGMENT"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -13,9 +15,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.hierarchyContainer, HierarchyFragment.instanceFragment(-1))
-                .commit()
+        val oldFragment = supportFragmentManager.findFragmentByTag(INIT_FRAGMENT)
+        if (oldFragment == null) {
+            supportFragmentManager
+                    .beginTransaction()
+                    .add(R.id.hierarchyContainer, HierarchyFragment.instanceFragment(-1), INIT_FRAGMENT)
+                    .commit()
+        }
     }
 }

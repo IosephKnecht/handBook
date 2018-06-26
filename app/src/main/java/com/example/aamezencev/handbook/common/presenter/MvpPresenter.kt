@@ -7,5 +7,6 @@ interface MvpPresenter<VM : MvpViewModel> {
     fun attachView(viewModel: VM, androidComponent: AndroidComponent)
     fun detachView()
     fun destroy()
-    val viewModel: VM
+    var viewModel: VM?
+    var androidComponent: AndroidComponent?
 }
