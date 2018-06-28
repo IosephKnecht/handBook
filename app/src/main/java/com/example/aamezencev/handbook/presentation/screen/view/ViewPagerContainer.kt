@@ -1,11 +1,6 @@
 package com.example.aamezencev.handbook.presentation.screen.view
 
 import android.os.Bundle
-import android.os.Parcelable
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +11,7 @@ import com.example.aamezencev.handbook.common.view.AbstractFragment
 import com.example.aamezencev.handbook.presentation.screen.HierarchyScreenContract
 import com.example.aamezencev.handbook.presentation.screen.di.HierarchyScreenComponent
 import com.example.aamezencev.handbook.presentation.screen.di.HierarchyScreenModule
+import com.example.aamezencev.handbook.presentation.screen.view.adapter.PagerAdapter
 import com.example.aamezencev.handbook.presentation.screen.viewModel.HierarchyInfoVM
 import kotlinx.android.synthetic.main.page_fragment.*
 
@@ -64,24 +60,5 @@ class ViewPagerContainer : AbstractFragment<HierarchyScreenContract.ViewModel, H
 
             }
         })
-    }
-
-    private class PagerAdapter(fragmentManager: FragmentManager?, private val viewModel: Parcelable) : FragmentStatePagerAdapter(fragmentManager) {
-        private var cacheValue: Int? = null
-        override fun getItem(position: Int): Fragment {
-            return PagerFragment.instanceFragment(position, viewModel)
-        }
-
-        override fun getCount(): Int {
-            val pageCount = (viewModel as HierarchyInfoVM).description?.run { length % 1000 } ?: 1
-            if (cacheValue != pageCount) {
-                cacheValue = pageCount
-                notifyDataSetChanged()
-                return pageCount
-            } else {
-                return pageCount
-            }
-        }
-
     }
 }
