@@ -46,7 +46,7 @@ class ViewPagerContainer : AbstractFragment<HierarchyScreenContract.ViewModel, H
         super.onStart()
         val dataId = arguments?.run { getLong(DATA_ID) } ?: -1
         presenter?.obtainDataElement(dataId)
-        pager.adapter = PagerAdapter(fragmentManager, viewModel!! as HierarchyInfoVM)
+        if (pager.adapter == null) pager.adapter = PagerAdapter(fragmentManager, viewModel!! as HierarchyInfoVM)
         pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
 
