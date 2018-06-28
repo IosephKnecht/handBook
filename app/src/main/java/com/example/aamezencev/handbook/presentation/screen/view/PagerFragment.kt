@@ -1,32 +1,34 @@
 package com.example.aamezencev.handbook.presentation.screen.view
 
+import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.aamezencev.handbook.R
+import com.example.aamezencev.handbook.databinding.PagerFragmentBinding
+import com.example.aamezencev.handbook.presentation.screen.viewModel.HierarchyInfoVM
 import kotlinx.android.synthetic.main.pager_fragment.*
 
 class PagerFragment : Fragment() {
     companion object {
         private val PAGE_NUMBER = "CURRENT_PAGE"
-        private val PAGE_TEXT = "TEXT"
-        fun instanceFragment(pageNumber: Int, textPage: String) = PagerFragment().apply {
+        private val PAGE_MODEL = "VIEW_MODEL"
+        fun instanceFragment(pageNumber: Int, viewModel: Parcelable) = PagerFragment().apply {
             arguments = Bundle().apply {
                 putInt(PAGE_NUMBER, pageNumber)
-                putString(PAGE_TEXT, textPage)
+                putParcelable(PAGE_MODEL, viewModel)
             }
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.pager_fragment, container, false)
-        return view
-    }
+    private lateinit var binding: PagerFragmentBinding
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        pageText.text = arguments?.run { getString(PAGE_TEXT) } ?: "Error"
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.pager_fragment, container, false)
+        binding.viewModel = arguments?.run { getParcelable<HierarchyInfoVM>(PAGE_MODEL) }
+        return binding.root
     }
 }

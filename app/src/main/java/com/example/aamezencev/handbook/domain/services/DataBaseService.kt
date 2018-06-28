@@ -4,7 +4,7 @@ import com.example.aamezencev.handbook.data.db.*
 import io.reactivex.Observable
 
 class DataBaseService(private val daoSession: DaoSession) {
-    fun get(parentId: Long?): Observable<List<HierarchyElementDb>> {
+    fun getHierarchyElement(parentId: Long?): Observable<List<HierarchyElementDb>> {
         return Observable.create {
             try {
                 val query = if (parentId != null) {
@@ -20,7 +20,7 @@ class DataBaseService(private val daoSession: DaoSession) {
         }
     }
 
-    fun insert(hierarchyElementDb: HierarchyElementDb): Observable<Long> {
+    fun insertHierarchyElement(hierarchyElementDb: HierarchyElementDb): Observable<Long> {
         return Observable.create {
             try {
                 it.onNext(daoSession.hierarchyElementDbDao.insert(hierarchyElementDb))
@@ -53,12 +53,12 @@ class DataBaseService(private val daoSession: DaoSession) {
         }
     }
 
-    fun insert(hierarchyElementDb: HierarchyElementDb,
-               data: DataHierarchyDb,
-               modelList: List<ThreeDimensionalModelDb>): Observable<Unit> {
+    fun insertHierarchyElement(hierarchyElementDb: HierarchyElementDb,
+                               data: DataHierarchyDb,
+                               modelList: List<ThreeDimensionalModelDb>): Observable<Unit> {
         return insertHierarchyElementData(data)
                 .flatMap { dataId ->
-                    insert(hierarchyElementDb.apply { dataHierarchyId = dataId })
+                    insertHierarchyElement(hierarchyElementDb.apply { dataHierarchyId = dataId })
                             .flatMap {
                                 insertThrModelList(modelList
                                         .map { it.apply { dataHierarchyId = dataId } })
@@ -68,6 +68,18 @@ class DataBaseService(private val daoSession: DaoSession) {
 
     fun insertHierarchyList(list: List<Triple<HierarchyElementDb, DataHierarchyDb, List<ThreeDimensionalModelDb>>>): Observable<Unit> {
         return Observable.fromIterable(list)
-                .flatMap { insert(it.first, it.second, it.third) }
+                .flatMap { insertHierarchyElement(it.first, it.second, it.third) }
+    }
+
+    fun getHierarchyDataElement(dataId: Long): Observable<DataHierarchyDb> {
+        return Observable.create {
+            try {
+                val query = daoSession.dataHierarchyDbDao.queryBuilder()
+                it.onNext(query.where(DataHierarchyDbDao.Properties.PrimaryKey.eq(dataId)).build().unique())
+            } catch (e: Exception) {
+                it.onError(e)
+            }
+            it.onComplete()
+        }
     }
 }

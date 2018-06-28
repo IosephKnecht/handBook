@@ -11,21 +11,25 @@ class HierarchyScreenPresenter(private var router: HierarchyScreenRouter,
         HierarchyScreenContract.Presenter, HierarchyScreenContract.Listener {
     override fun attachView(viewModel: HierarchyScreenContract.ViewModel, androidComponent: AndroidComponent) {
         super.attachView(viewModel, androidComponent)
+        interactor.setListener(this)
     }
 
     override fun detachView() {
         super.detachView()
+        androidComponent = null
     }
 
     override fun destroy() {
+        interactor.onDestroy()
         super.destroy()
     }
 
     override fun obtainDataElement(dataId: Long) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        interactor.getDataElement(dataId)
     }
 
     override fun onObtainDataElement(data: DataHierarchyElement) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        viewModel!!.description = data.description
+        viewModel!!.listModels = data.threeDimensionalModels
     }
 }

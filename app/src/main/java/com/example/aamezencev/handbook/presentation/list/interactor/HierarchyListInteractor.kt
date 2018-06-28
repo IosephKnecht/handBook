@@ -17,7 +17,7 @@ class HierarchyListInteractor(private val dataBaseService: DataBaseService) : Ab
     }
 
     override fun getHierarchy(parentId: Long?) {
-        compositeDisposable.add(dataBaseService.get(parentId)
+        compositeDisposable.add(dataBaseService.getHierarchyElement(parentId)
                 .subscribeOn(Schedulers.io())
                 .subscribe {
                     interactorListener?.onObtainHieararchy(it)
@@ -27,7 +27,7 @@ class HierarchyListInteractor(private val dataBaseService: DataBaseService) : Ab
     override fun insertHierarchyElement(hierarchyElement: HierarchyElementDb,
                                         data: DataHierarchyDb,
                                         modelList: List<ThreeDimensionalModelDb>) {
-        compositeDisposable.add(dataBaseService.insert(hierarchyElement, data, modelList)
+        compositeDisposable.add(dataBaseService.insertHierarchyElement(hierarchyElement, data, modelList)
                 .subscribeOn(Schedulers.io())
                 .subscribe())
     }

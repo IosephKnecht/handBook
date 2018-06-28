@@ -16,9 +16,9 @@ abstract class AbstractFragment<VM : MvpViewModel, Presenter : MvpPresenter<VM>>
 
     private lateinit var LOADER_ID: UUID
 
-    override val activityComponent: AppCompatActivity
+    final override val activityComponent: AppCompatActivity
         get() = activity as AppCompatActivity
-    override val fragmentManagerComponent: FragmentManager
+    final override val fragmentManagerComponent: FragmentManager
         get() = activity?.supportFragmentManager as FragmentManager
 
     abstract fun injectDi()
