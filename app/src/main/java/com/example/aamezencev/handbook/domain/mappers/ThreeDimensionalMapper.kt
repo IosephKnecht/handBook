@@ -11,4 +11,10 @@ object ThreeDimensionalMapper {
     fun fromDb(modelList: List<ThreeDimensionalModel>?): List<ThreeDimensionalModelDb>? {
         return modelList?.map { ThreeDimensionalModelDb().apply { modelArray = it?.modelArray } }
     }
+
+    fun fromDb(model: ThreeDimensionalModel): ThreeDimensionalModelDb {
+        return ThreeDimensionalModelDb().apply {
+            modelArray = model.modelArray
+        }
+    }
 }

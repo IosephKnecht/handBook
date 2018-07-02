@@ -6,8 +6,9 @@ import com.example.aamezencev.handbook.data.presentation.DataHierarchyElement
 object DataHierarchyElementMapper {
     fun fromPresentation(model: DataHierarchyDb?): DataHierarchyElement? {
         if (model != null && !model.isEmpty) {
-            return DataHierarchyElement(model.primaryKey, model.description, model.threeDimensionalModels
-                    .map { ThreeDimensionalMapper.fromPresentation(it) })
+            return DataHierarchyElement(model.primaryKey, model.description,
+                    model.threeDimensionalModels.map { ThreeDimensionalMapper.fromPresentation(it) },
+                    model.pointerList.map { PointerHierarchyMapper.fromPresentation(it) })
         } else {
             return null
         }

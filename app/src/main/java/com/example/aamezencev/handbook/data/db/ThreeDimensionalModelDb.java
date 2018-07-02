@@ -10,6 +10,7 @@ public class ThreeDimensionalModelDb {
     private Long primaryKey;
     private long dataHierarchyId;
     private byte[] modelArray;
+
     @Generated(hash = 295823407)
     public ThreeDimensionalModelDb(Long primaryKey, long dataHierarchyId,
             byte[] modelArray) {
@@ -17,24 +18,31 @@ public class ThreeDimensionalModelDb {
         this.dataHierarchyId = dataHierarchyId;
         this.modelArray = modelArray;
     }
+
     @Generated(hash = 594339448)
     public ThreeDimensionalModelDb() {
     }
-    public Long getPrimaryKey() {
-        return this.primaryKey;
-    }
-    public void setPrimaryKey(Long primaryKey) {
-        this.primaryKey = primaryKey;
-    }
+
     public long getDataHierarchyId() {
-        return this.dataHierarchyId;
+        return dataHierarchyId;
     }
+
     public void setDataHierarchyId(long dataHierarchyId) {
         this.dataHierarchyId = dataHierarchyId;
     }
+
+    public Long getPrimaryKey() {
+        return this.primaryKey;
+    }
+
+    public void setPrimaryKey(Long primaryKey) {
+        this.primaryKey = primaryKey;
+    }
+
     public byte[] getModelArray() {
         return this.modelArray;
     }
+
     public void setModelArray(byte[] modelArray) {
         this.modelArray = modelArray;
     }

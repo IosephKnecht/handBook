@@ -6,6 +6,7 @@ import com.example.aamezencev.handbook.data.db.ThreeDimensionalModelDb
 import com.example.aamezencev.handbook.data.presentation.HierarchyElement
 
 object HierarchyElementMapper {
+
     fun fromPresentation(model: HierarchyElementDb): HierarchyElement {
         return HierarchyElement(model.hierarchyId,
                 model.parentId,

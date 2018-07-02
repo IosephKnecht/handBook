@@ -16,14 +16,12 @@ public class DataHierarchyDb {
     @ToMany(referencedJoinProperty = "dataHierarchyId")
     private List<ThreeDimensionalModelDb> threeDimensionalModels;
     private String description;
-    /**
-     * Used to resolve relations
-     */
+    @ToMany(referencedJoinProperty = "refDataHierarchyDb")
+    private List<PointerHierarchyDb> pointerList;
+    /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    /**
-     * Used for active entity operations.
-     */
+    /** Used for active entity operations. */
     @Generated(hash = 2075737267)
     private transient DataHierarchyDbDao myDao;
 
@@ -35,6 +33,10 @@ public class DataHierarchyDb {
 
     @Generated(hash = 1535947472)
     public DataHierarchyDb() {
+    }
+
+    public boolean isEmpty() {
+        return description == null && threeDimensionalModels == null;
     }
 
     public Long getPrimaryKey() {
@@ -77,12 +79,39 @@ public class DataHierarchyDb {
         return threeDimensionalModels;
     }
 
-    /**
-     * Resets a to-many relationship, making the next get call to query for a fresh result.
-     */
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     @Generated(hash = 2077843052)
     public synchronized void resetThreeDimensionalModels() {
         threeDimensionalModels = null;
+    }
+
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 433618480)
+    public List<PointerHierarchyDb> getPointerList() {
+        if (pointerList == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            PointerHierarchyDbDao targetDao = daoSession.getPointerHierarchyDbDao();
+            List<PointerHierarchyDb> pointerListNew = targetDao
+                    ._queryDataHierarchyDb_PointerList(primaryKey);
+            synchronized (this) {
+                if (pointerList == null) {
+                    pointerList = pointerListNew;
+                }
+            }
+        }
+        return pointerList;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 933011918)
+    public synchronized void resetPointerList() {
+        pointerList = null;
     }
 
     /**
@@ -121,16 +150,10 @@ public class DataHierarchyDb {
         myDao.update(this);
     }
 
-    /**
-     * called by internal mechanisms, do not call yourself.
-     */
+    /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 181828319)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getDataHierarchyDbDao() : null;
-    }
-
-    public boolean isEmpty() {
-        return description == null && threeDimensionalModels == null;
     }
 }
