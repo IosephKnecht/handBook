@@ -4,7 +4,7 @@ import android.databinding.Bindable
 import com.example.aamezencev.handbook.common.interactor.MvpInteractor
 import com.example.aamezencev.handbook.common.presenter.MvpPresenter
 import com.example.aamezencev.handbook.common.viewModel.MvpViewModel
-import com.example.aamezencev.handbook.data.presentation.DataHierarchyElement
+import com.example.aamezencev.handbook.data.presentation.DataElement
 import com.example.aamezencev.handbook.data.presentation.ThreeDimensionalModel
 
 interface HierarchyScreenContract {
@@ -15,7 +15,7 @@ interface HierarchyScreenContract {
     }
 
     interface Listener : MvpInteractor.Listener {
-        fun onObtainDataElement(data: DataHierarchyElement)
+        fun onObtainDataElement(data: DataElement)
     }
 
     interface Presenter : MvpPresenter<ViewModel> {

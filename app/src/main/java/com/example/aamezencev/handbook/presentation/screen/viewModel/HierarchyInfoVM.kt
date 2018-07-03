@@ -2,7 +2,6 @@ package com.example.aamezencev.handbook.presentation.screen.viewModel
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.android.databinding.library.baseAdapters.BR
 import com.example.aamezencev.handbook.common.viewModel.AbstractViewModel
 import com.example.aamezencev.handbook.data.presentation.ThreeDimensionalModel
 import com.example.aamezencev.handbook.presentation.screen.HierarchyScreenContract

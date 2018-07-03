@@ -5,16 +5,19 @@ import com.example.aamezencev.handbook.data.presentation.ThreeDimensionalModel
 
 object ThreeDimensionalMapper {
     fun fromPresentation(model: ThreeDimensionalModelDb): ThreeDimensionalModel {
-        return ThreeDimensionalModel(model.primaryKey, model.dataHierarchyId, model.modelArray)
+        return ThreeDimensionalModel.Builder().build()
+        //return ThreeDimensionalModel(model.primaryKey, model.modelArray)
     }
 
     fun fromDb(modelList: List<ThreeDimensionalModel>?): List<ThreeDimensionalModelDb>? {
-        return modelList?.map { ThreeDimensionalModelDb().apply { modelArray = it?.modelArray } }
+        return listOf()
+        //return modelList?.map { ThreeDimensionalModelDb().apply { modelArray = it?.modelArray } }
     }
 
     fun fromDb(model: ThreeDimensionalModel): ThreeDimensionalModelDb {
-        return ThreeDimensionalModelDb().apply {
-            modelArray = model.modelArray
-        }
+        return ThreeDimensionalModelDb()
+//        return ThreeDimensionalModelDb().apply {
+//            modelArray = model.modelArray
+//        }
     }
 }

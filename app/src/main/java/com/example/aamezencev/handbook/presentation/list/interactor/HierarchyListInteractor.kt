@@ -4,6 +4,7 @@ import com.example.aamezencev.handbook.common.interactor.AbstractInteractor
 import com.example.aamezencev.handbook.data.db.DataHierarchyDb
 import com.example.aamezencev.handbook.data.db.HierarchyElementDb
 import com.example.aamezencev.handbook.data.db.ThreeDimensionalModelDb
+import com.example.aamezencev.handbook.data.help.HierarchyContainerDb
 import com.example.aamezencev.handbook.domain.services.DataBaseService
 import com.example.aamezencev.handbook.presentation.list.HierarchyListContract
 import io.reactivex.disposables.CompositeDisposable
@@ -24,16 +25,15 @@ class HierarchyListInteractor(private val dataBaseService: DataBaseService) : Ab
                 })
     }
 
-    override fun insertHierarchyElement(hierarchyElement: HierarchyElementDb,
-                                        data: DataHierarchyDb,
-                                        modelList: List<ThreeDimensionalModelDb>) {
-        compositeDisposable.add(dataBaseService.insertHierarchyElement(hierarchyElement, data, modelList)
+    override fun insertHierarchyElement(containerDb: HierarchyContainerDb) {
+        compositeDisposable.add(dataBaseService.insertHierarchyElement(containerDb.hierarchyElementDb,
+                containerDb.hierarchyDataHierarchyDb, containerDb.pointerList)
                 .subscribeOn(Schedulers.io())
                 .subscribe())
     }
 
-    override fun insertHierarchyElementList(list: List<Triple<HierarchyElementDb, DataHierarchyDb, List<ThreeDimensionalModelDb>>>) {
-        compositeDisposable.add(dataBaseService.insertHierarchyList(list)
+    override fun insertHierarchyElementList(containerDbList: List<HierarchyContainerDb>) {
+        compositeDisposable.add(dataBaseService.insertHierarchyList(containerDbList)
                 .subscribeOn(Schedulers.io())
                 .subscribe())
     }

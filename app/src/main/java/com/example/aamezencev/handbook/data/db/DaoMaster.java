@@ -23,7 +23,7 @@ public class DaoMaster extends AbstractDaoMaster {
     public static void createAllTables(Database db, boolean ifNotExists) {
         DataHierarchyDbDao.createTable(db, ifNotExists);
         HierarchyElementDbDao.createTable(db, ifNotExists);
-        PointerHierarchyDbDao.createTable(db, ifNotExists);
+        PointerDataDbDao.createTable(db, ifNotExists);
         ThreeDimensionalModelDbDao.createTable(db, ifNotExists);
     }
 
@@ -31,7 +31,7 @@ public class DaoMaster extends AbstractDaoMaster {
     public static void dropAllTables(Database db, boolean ifExists) {
         DataHierarchyDbDao.dropTable(db, ifExists);
         HierarchyElementDbDao.dropTable(db, ifExists);
-        PointerHierarchyDbDao.dropTable(db, ifExists);
+        PointerDataDbDao.dropTable(db, ifExists);
         ThreeDimensionalModelDbDao.dropTable(db, ifExists);
     }
 
@@ -53,7 +53,7 @@ public class DaoMaster extends AbstractDaoMaster {
         super(db, SCHEMA_VERSION);
         registerDaoClass(DataHierarchyDbDao.class);
         registerDaoClass(HierarchyElementDbDao.class);
-        registerDaoClass(PointerHierarchyDbDao.class);
+        registerDaoClass(PointerDataDbDao.class);
         registerDaoClass(ThreeDimensionalModelDbDao.class);
     }
 

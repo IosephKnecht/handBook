@@ -23,8 +23,8 @@ class HierarchyAdapter(private val router: HierarchyRouter) : RecyclerView.Adapt
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val element = elementList[position]
         holder.binding.hierarchyElement = element
-        if (element.dataHierarchyElement == null) holder.itemView.setOnClickListener { router.clickChapter(element.hierarchyId) }
-        else holder.itemView.setOnClickListener { router.clickPage(element.dataHierarchyElement.hierarchyId) }
+        if (element.childrenList == null) holder.itemView.setOnClickListener { router.clickChapter(element.id) }
+        else holder.itemView.setOnClickListener { router.clickPage(element.id) }
     }
 
     class ViewHolder(val binding: ItemHierarchyBinding) : RecyclerView.ViewHolder(binding.root)

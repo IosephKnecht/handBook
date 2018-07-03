@@ -40,14 +40,12 @@ class HierarchyListPresenter(private var interactor: HierarchyListInteractor?)
     }
 
     override fun addHierarchyElement(hierarchyElement: HierarchyElement) {
-        val (hierarchyDb, dataDb, modelList) = HierarchyElementMapper.fromDb(hierarchyElement)
-        interactor!!.insertHierarchyElement(hierarchyDb, dataDb, if (modelList != null) modelList else listOf())
+        val containerDb = HierarchyElementMapper.fromDb(hierarchyElement)
+        interactor!!.insertHierarchyElement(containerDb)
     }
 
     override fun addHierarchyListElement(hierarchyElementList: List<HierarchyElement>) {
-        interactor!!.insertHierarchyElementList(hierarchyElementList.map {
-            val (hierarchyDb, dataDb, modelList) = HierarchyElementMapper.fromDb(it)
-            return@map Triple(hierarchyDb, dataDb, if (modelList == null) listOf() else modelList)
-        })
+        interactor!!.insertHierarchyElementList(hierarchyElementList
+                .map { HierarchyElementMapper.fromDb(it) })
     }
 }

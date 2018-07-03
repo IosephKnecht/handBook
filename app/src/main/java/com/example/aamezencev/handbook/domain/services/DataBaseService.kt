@@ -1,6 +1,7 @@
 package com.example.aamezencev.handbook.domain.services
 
 import com.example.aamezencev.handbook.data.db.*
+import com.example.aamezencev.handbook.data.help.HierarchyContainerDb
 import io.reactivex.Observable
 
 class DataBaseService(private val daoSession: DaoSession) {
@@ -31,7 +32,7 @@ class DataBaseService(private val daoSession: DaoSession) {
         }
     }
 
-    fun insertHierarchyElementData(data: DataHierarchyDb): Observable<Long> {
+    fun insertHierarchyElementData(data: DataHierarchyDb?): Observable<Long> {
         return Observable.create {
             try {
                 it.onNext(daoSession.dataHierarchyDbDao.insert(data))
@@ -42,10 +43,21 @@ class DataBaseService(private val daoSession: DaoSession) {
         }
     }
 
-    fun insertThrModelList(model: List<ThreeDimensionalModelDb>): Observable<Unit> {
+//    fun insertThrModelList(model: List<ThreeDimensionalModelDb>): Observable<Unit> {
+//        return Observable.create {
+//            try {
+//                it.onNext(daoSession.threeDimensionalModelDbDao.insertInTx(model))
+//            } catch (e: Exception) {
+//                it.onError(e)
+//            }
+//            it.onComplete()
+//        }
+//    }
+
+    fun insertPointerList(pointerList: List<PointerDataDb>?): Observable<Unit> {
         return Observable.create {
             try {
-                it.onNext(daoSession.threeDimensionalModelDbDao.insertInTx(model))
+                it.onNext(daoSession.pointerDataDbDao.insertInTx(pointerList))
             } catch (e: Exception) {
                 it.onError(e)
             }
@@ -54,21 +66,21 @@ class DataBaseService(private val daoSession: DaoSession) {
     }
 
     fun insertHierarchyElement(hierarchyElementDb: HierarchyElementDb,
-                               data: DataHierarchyDb,
-                               modelList: List<ThreeDimensionalModelDb>): Observable<Unit> {
+                               data: DataHierarchyDb?,
+                               pointerList: List<PointerDataDb>?): Observable<Unit> {
         return insertHierarchyElementData(data)
                 .flatMap { dataId ->
                     insertHierarchyElement(hierarchyElementDb.apply { dataHierarchyId = dataId })
                             .flatMap {
-                                insertThrModelList(modelList
-                                        .map { it.apply { dataHierarchyId = dataId } })
+                                insertPointerList(pointerList
+                                        ?.map { it.apply { dataHierarchyId = dataId } })
                             }
                 }
     }
 
-    fun insertHierarchyList(list: List<Triple<HierarchyElementDb, DataHierarchyDb, List<ThreeDimensionalModelDb>>>): Observable<Unit> {
-        return Observable.fromIterable(list)
-                .flatMap { insertHierarchyElement(it.first, it.second, it.third) }
+    fun insertHierarchyList(containerDbList: List<HierarchyContainerDb>): Observable<Unit> {
+        return Observable.fromIterable(containerDbList)
+                .flatMap { insertHierarchyElement(it.hierarchyElementDb, it.hierarchyDataHierarchyDb, it.pointerList) }
     }
 
     fun getHierarchyDataElement(dataId: Long): Observable<DataHierarchyDb> {
