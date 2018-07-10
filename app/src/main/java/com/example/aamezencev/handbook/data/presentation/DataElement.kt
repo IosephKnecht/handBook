@@ -4,7 +4,7 @@ import com.example.aamezencev.handbook.data.HierarchyDSL
 
 class DataElement(val id: Long,
                   val description: String,
-                  val pointerList: List<DataPointer>?) {
+                  val pointerList: List<DataPointer>) {
     @HierarchyDSL
     class Builder {
         var id = -1L

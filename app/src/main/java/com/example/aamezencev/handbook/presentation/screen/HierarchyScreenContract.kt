@@ -5,13 +5,14 @@ import com.example.aamezencev.handbook.common.interactor.MvpInteractor
 import com.example.aamezencev.handbook.common.presenter.MvpPresenter
 import com.example.aamezencev.handbook.common.viewModel.MvpViewModel
 import com.example.aamezencev.handbook.data.presentation.DataElement
+import com.example.aamezencev.handbook.data.presentation.DataPointer
 import com.example.aamezencev.handbook.data.presentation.ThreeDimensionalModel
 
 interface HierarchyScreenContract {
     interface ViewModel : MvpViewModel {
         var description: String?
             @Bindable get
-        var listModels: List<ThreeDimensionalModel>?
+        var pointerList: List<DataPointer>
     }
 
     interface Listener : MvpInteractor.Listener {

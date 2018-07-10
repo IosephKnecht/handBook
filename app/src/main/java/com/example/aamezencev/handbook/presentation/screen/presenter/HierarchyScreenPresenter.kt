@@ -30,6 +30,6 @@ class HierarchyScreenPresenter(private var router: HierarchyScreenRouter,
 
     override fun onObtainDataElement(data: DataElement) {
         viewModel!!.description = data.description
-        //viewModel!!.listModels = data.pointerList
+        viewModel!!.pointerList = data.pointerList
     }
 }
