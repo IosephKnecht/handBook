@@ -18,10 +18,6 @@ public class HierarchyElementDb {
     private Long parentId;
     private Long dataHierarchyId;
 
-    @ToOne(joinProperty = "parentId")
-    private HierarchyElementDb parentHierarchyElement;
-    @ToMany(referencedJoinProperty = "parentId")
-    private List<HierarchyElementDb> childrenHierarchyElements;
     @ToOne(joinProperty = "dataHierarchyId")
     private DataHierarchyDb dataHierarchyDb;
     /** Used to resolve relations */
@@ -44,27 +40,6 @@ public class HierarchyElementDb {
     public HierarchyElementDb() {
     }
 
-    @Generated(hash = 497750080)
-    private transient Long parentHierarchyElement__resolvedKey;
-    @Generated(hash = 1585811300)
-    private transient Long dataHierarchyDb__resolvedKey;
-
-    public Long getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
-    }
-
-    public Long getDataHierarchyId() {
-        return dataHierarchyId;
-    }
-
-    public void setDataHierarchyId(Long dataHierarchyId) {
-        this.dataHierarchyId = dataHierarchyId;
-    }
-
     public Long getPrimaryKey() {
         return this.primaryKey;
     }
@@ -81,37 +56,24 @@ public class HierarchyElementDb {
         this.name = name;
     }
 
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1376359965)
-    public HierarchyElementDb getParentHierarchyElement() {
-        Long __key = this.parentId;
-        if (parentHierarchyElement__resolvedKey == null
-                || !parentHierarchyElement__resolvedKey.equals(__key)) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            HierarchyElementDbDao targetDao = daoSession.getHierarchyElementDbDao();
-            HierarchyElementDb parentHierarchyElementNew = targetDao.load(__key);
-            synchronized (this) {
-                parentHierarchyElement = parentHierarchyElementNew;
-                parentHierarchyElement__resolvedKey = __key;
-            }
-        }
-        return parentHierarchyElement;
+    public Long getParentId() {
+        return this.parentId;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 677623975)
-    public void setParentHierarchyElement(
-            HierarchyElementDb parentHierarchyElement) {
-        synchronized (this) {
-            this.parentHierarchyElement = parentHierarchyElement;
-            parentId = parentHierarchyElement == null ? null
-                    : parentHierarchyElement.getPrimaryKey();
-            parentHierarchyElement__resolvedKey = parentId;
-        }
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
+
+    public Long getDataHierarchyId() {
+        return this.dataHierarchyId;
+    }
+
+    public void setDataHierarchyId(Long dataHierarchyId) {
+        this.dataHierarchyId = dataHierarchyId;
+    }
+
+    @Generated(hash = 1585811300)
+    private transient Long dataHierarchyDb__resolvedKey;
 
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 1687107720)
@@ -142,35 +104,6 @@ public class HierarchyElementDb {
                     : dataHierarchyDb.getPrimaryKey();
             dataHierarchyDb__resolvedKey = dataHierarchyId;
         }
-    }
-
-    /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
-     */
-    @Generated(hash = 488566963)
-    public List<HierarchyElementDb> getChildrenHierarchyElements() {
-        if (childrenHierarchyElements == null) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            HierarchyElementDbDao targetDao = daoSession.getHierarchyElementDbDao();
-            List<HierarchyElementDb> childrenHierarchyElementsNew = targetDao
-                    ._queryHierarchyElementDb_ChildrenHierarchyElements(primaryKey);
-            synchronized (this) {
-                if (childrenHierarchyElements == null) {
-                    childrenHierarchyElements = childrenHierarchyElementsNew;
-                }
-            }
-        }
-        return childrenHierarchyElements;
-    }
-
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    @Generated(hash = 382921749)
-    public synchronized void resetChildrenHierarchyElements() {
-        childrenHierarchyElements = null;
     }
 
     /**

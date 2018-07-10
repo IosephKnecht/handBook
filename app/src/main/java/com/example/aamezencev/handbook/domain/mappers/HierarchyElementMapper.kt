@@ -1,24 +1,23 @@
 package com.example.aamezencev.handbook.domain.mappers
 
-import com.example.aamezencev.handbook.data.db.DataHierarchyDb
 import com.example.aamezencev.handbook.data.db.HierarchyElementDb
-import com.example.aamezencev.handbook.data.db.ThreeDimensionalModelDb
-import com.example.aamezencev.handbook.data.help.HierarchyContainerDb
 import com.example.aamezencev.handbook.data.presentation.HierarchyElement
 
 object HierarchyElementMapper {
 
     fun fromPresentation(model: HierarchyElementDb): HierarchyElement {
-        return HierarchyElement.Builder().build()
-//        return HierarchyElement(model.primaryKey,
-//                model.parentId,
-//                model.name,
-//                model.dataHierarchyId,
-//                DataHierarchyElementMapper.fromPresentation(model.dataHierarchyDb))
+        return HierarchyElement(model.primaryKey,
+                model.parentId,
+                model.name,
+                DataHierarchyElementMapper.fromPresentation(model.getDataHierarchyDb()))
     }
 
-    fun fromDb(model: HierarchyElement): HierarchyContainerDb {
-        return HierarchyContainerDb(HierarchyElementDb(), DataHierarchyDb(), listOf(), listOf())
+    fun fromDb(model: HierarchyElement): HierarchyElementDb {
+        return HierarchyElementDb().apply {
+            name = model.name
+            parentId = model.parentId
+            dataHierarchyId = model.dataElement?.id
+        }
 //        return HierarchyContainerDb(HierarchyElementDb().apply {
 //            name = model.name
 //            id = model.hierarchyId

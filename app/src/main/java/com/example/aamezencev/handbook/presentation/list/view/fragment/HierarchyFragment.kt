@@ -87,11 +87,6 @@ class HierarchyFragment : AbstractFragment<HierarchyListContract.ViewModel, Hier
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.initDb -> {
-                presenter?.addHierarchyListElement(FakeService.buildFakeHierarchy())
-            }
-        }
         return false
     }
 

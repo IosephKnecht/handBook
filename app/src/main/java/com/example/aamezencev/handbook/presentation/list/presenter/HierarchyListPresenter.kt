@@ -38,14 +38,4 @@ class HierarchyListPresenter(private var interactor: HierarchyListInteractor?)
     override fun obtainHieararchy(parentId: Long?) {
         if (viewModel!!.hierarchy.isEmpty()) interactor!!.getHierarchy(parentId)
     }
-
-    override fun addHierarchyElement(hierarchyElement: HierarchyElement) {
-        val containerDb = HierarchyElementMapper.fromDb(hierarchyElement)
-        interactor!!.insertHierarchyElement(containerDb)
-    }
-
-    override fun addHierarchyListElement(hierarchyElementList: List<HierarchyElement>) {
-        interactor!!.insertHierarchyElementList(hierarchyElementList
-                .map { HierarchyElementMapper.fromDb(it) })
-    }
 }

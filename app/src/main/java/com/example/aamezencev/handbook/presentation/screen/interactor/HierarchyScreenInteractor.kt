@@ -19,7 +19,7 @@ class HierarchyScreenInteractor(private val dataBaseService: DataBaseService) : 
     }
 
     override fun getDataElement(dataId: Long) {
-        dataBaseService.getHierarchyDataElement(dataId)
+        dataBaseService.getDataElement(dataId)
                 .subscribeOn(Schedulers.io())
                 .map { DataHierarchyElementMapper.fromPresentation(it) }
                 .subscribe {

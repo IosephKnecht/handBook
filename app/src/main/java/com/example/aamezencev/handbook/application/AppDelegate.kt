@@ -3,6 +3,7 @@ package com.example.aamezencev.handbook.application
 import android.app.Application
 import com.example.aamezencev.handbook.data.db.DaoMaster
 import com.example.aamezencev.handbook.data.db.DaoSession
+import com.example.aamezencev.handbook.domain.DataBaseOpenHelper
 
 class AppDelegate : Application() {
     companion object {
@@ -15,6 +16,7 @@ class AppDelegate : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        DataBaseOpenHelper.copyDataBase(this)
         initDataBase()
 
         appComponent = DaggerAppComponent.builder()
@@ -33,7 +35,7 @@ class AppDelegate : Application() {
     }
 
     private fun initDataBase() {
-        val helper = DaoMaster.DevOpenHelper(this, "handBook-db")
+        val helper = DaoMaster.DevOpenHelper(this, DataBaseOpenHelper.DATABASE_NAME)
         val dataBase = helper.writableDb
         daoSession = DaoMaster(dataBase).newSession()
     }

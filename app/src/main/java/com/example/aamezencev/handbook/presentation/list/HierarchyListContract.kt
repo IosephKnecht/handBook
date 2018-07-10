@@ -5,7 +5,6 @@ import com.example.aamezencev.handbook.common.interactor.MvpInteractor
 import com.example.aamezencev.handbook.common.presenter.MvpPresenter
 import com.example.aamezencev.handbook.common.viewModel.MvpViewModel
 import com.example.aamezencev.handbook.data.db.HierarchyElementDb
-import com.example.aamezencev.handbook.data.help.HierarchyContainerDb
 import com.example.aamezencev.handbook.data.presentation.HierarchyElement
 
 interface HierarchyListContract {
@@ -20,13 +19,9 @@ interface HierarchyListContract {
 
     interface Presenter : MvpPresenter<ViewModel> {
         fun obtainHieararchy(parentId: Long?)
-        fun addHierarchyElement(hierarchyElement: HierarchyElement)
-        fun addHierarchyListElement(hierarchyElementList: List<HierarchyElement>)
     }
 
     interface Interactor : MvpInteractor<Listener> {
         fun getHierarchy(parentId: Long?)
-        fun insertHierarchyElement(containerDb: HierarchyContainerDb)
-        fun insertHierarchyElementList(containerDbList: List<HierarchyContainerDb>)
     }
 }

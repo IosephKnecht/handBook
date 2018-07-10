@@ -5,16 +5,19 @@ import com.example.aamezencev.handbook.data.presentation.DataPointer
 
 object PointerHierarchyMapper {
     fun fromPresentation(model: PointerDataDb): DataPointer {
-        return DataPointer.Builder().build()
-        //return PointerHierarchy(model.startIndex, model.finalIndex, ThreeDimensionalMapper.fromPresentation(model.threeDimensionalModelDb))
+        return DataPointer(model.primaryKey,
+                model.startIndex,
+                model.finalIndex,
+                model.dataHierarchyId.toInt(),
+                ThreeDimensionalMapper.fromPresentation(model.getThreeDimensionalModelDb()))
     }
 
     fun fromDb(model: DataPointer): PointerDataDb {
-        return PointerDataDb()
-//        return PointerHierarchyDb().apply {
-//            startIndex = model.startIndex
-//            finalIndex = model.finalIndex
-//            threeDimensionalModelDb = ThreeDimensionalMapper.fromDb(model.threeDimensionalModel)
-//        }
+        return PointerDataDb().apply {
+            startIndex = model.startIndex
+            finalIndex = model.finalIndex
+            dataHierarchyId = model.dataHierarchyId.toLong()
+            thrModelId = model.model.id
+        }
     }
 }
