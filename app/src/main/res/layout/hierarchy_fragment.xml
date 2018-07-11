@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.aamezencev.handbook.presentation.list.viewModel.HierarchyElementVM" />
+            type="com.example.aamezencev.handbook.presentation.hierarchy.list.viewModel.HierarchyElementVM" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

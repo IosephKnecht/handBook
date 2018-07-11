@@ -1,10 +1,12 @@
 package com.example.aamezencev.handbook.application
 
 import com.example.aamezencev.handbook.presentation.PresentationScope
-import com.example.aamezencev.handbook.presentation.list.di.HierarchyListComponent
-import com.example.aamezencev.handbook.presentation.list.di.HierarchyListModule
-import com.example.aamezencev.handbook.presentation.screen.di.HierarchyScreenComponent
-import com.example.aamezencev.handbook.presentation.screen.di.HierarchyScreenModule
+import com.example.aamezencev.handbook.presentation.hierarchy.list.di.HierarchyListComponent
+import com.example.aamezencev.handbook.presentation.hierarchy.list.di.HierarchyListModule
+import com.example.aamezencev.handbook.presentation.hierarchy.screen.di.HierarchyScreenComponent
+import com.example.aamezencev.handbook.presentation.hierarchy.screen.di.HierarchyScreenModule
+import com.example.aamezencev.handbook.presentation.viewer.di.ViewerComponent
+import com.example.aamezencev.handbook.presentation.viewer.di.ViewerModule
 import dagger.Component
 
 @Component(modules = [PresentationModule::class], dependencies = [BusinessComponent::class])
@@ -12,4 +14,5 @@ import dagger.Component
 interface PresentationComponent {
     fun addHierarchyListSubmodule(module: HierarchyListModule): HierarchyListComponent
     fun addHierarchyScreenSubmodule(module: HierarchyScreenModule): HierarchyScreenComponent
+    fun addViewerModule(viewerModule: ViewerModule): ViewerComponent
 }

@@ -2,7 +2,7 @@ package com.example.aamezencev.handbook
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.example.aamezencev.handbook.presentation.list.view.fragment.HierarchyFragment
+import com.example.aamezencev.handbook.presentation.hierarchy.list.view.fragment.HierarchyFragment
 
 class MainActivity : AppCompatActivity() {
 
