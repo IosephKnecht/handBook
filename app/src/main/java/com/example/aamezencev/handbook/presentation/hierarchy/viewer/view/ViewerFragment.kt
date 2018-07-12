@@ -1,4 +1,4 @@
-package com.example.aamezencev.handbook.presentation.viewer.view
+package com.example.aamezencev.handbook.presentation.hierarchy.viewer.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import com.example.aamezencev.handbook.R
 import com.example.aamezencev.handbook.application.AppDelegate
 import com.example.aamezencev.handbook.common.view.AbstractFragment
-import com.example.aamezencev.handbook.presentation.viewer.ViewerContract
-import com.example.aamezencev.handbook.presentation.viewer.di.ViewerComponent
-import com.example.aamezencev.handbook.presentation.viewer.di.ViewerModule
+import com.example.aamezencev.handbook.presentation.hierarchy.viewer.ViewerContract
+import com.example.aamezencev.handbook.presentation.hierarchy.viewer.di.ViewerComponent
+import com.example.aamezencev.handbook.presentation.hierarchy.viewer.di.ViewerModule
 import kotlinx.android.synthetic.main.viewer_layout.*
 
 class ViewerFragment : AbstractFragment<ViewerContract.ViewModel, ViewerContract.Presenter>() {

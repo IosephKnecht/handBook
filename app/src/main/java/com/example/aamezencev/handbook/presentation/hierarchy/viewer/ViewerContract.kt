@@ -1,4 +1,4 @@
-package com.example.aamezencev.handbook.presentation.viewer
+package com.example.aamezencev.handbook.presentation.hierarchy.viewer
 
 import com.example.aamezencev.handbook.common.interactor.MvpInteractor
 import com.example.aamezencev.handbook.common.presenter.MvpPresenter

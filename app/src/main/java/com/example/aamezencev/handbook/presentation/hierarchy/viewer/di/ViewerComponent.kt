@@ -1,7 +1,7 @@
-package com.example.aamezencev.handbook.presentation.viewer.di
+package com.example.aamezencev.handbook.presentation.hierarchy.viewer.di
 
 import com.example.aamezencev.handbook.presentation.common.ModuleScope
-import com.example.aamezencev.handbook.presentation.viewer.ViewerContract
+import com.example.aamezencev.handbook.presentation.hierarchy.viewer.ViewerContract
 import dagger.Subcomponent
 
 @Subcomponent(modules = [ViewerModule::class])

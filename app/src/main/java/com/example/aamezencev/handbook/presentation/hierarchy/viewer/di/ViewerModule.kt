@@ -1,12 +1,12 @@
-package com.example.aamezencev.handbook.presentation.viewer.di
+package com.example.aamezencev.handbook.presentation.hierarchy.viewer.di
 
 import android.content.Context
 import com.example.aamezencev.a3dviewer.di.DaggerViewerComponent
 import com.example.aamezencev.handbook.presentation.common.ModuleScope
-import com.example.aamezencev.handbook.presentation.viewer.ViewerContract
-import com.example.aamezencev.handbook.presentation.viewer.interactor.ViewerInteractor
-import com.example.aamezencev.handbook.presentation.viewer.presenter.ViewerPresenter
-import com.example.aamezencev.handbook.presentation.viewer.viewModel.ViewerViewModel
+import com.example.aamezencev.handbook.presentation.hierarchy.viewer.ViewerContract
+import com.example.aamezencev.handbook.presentation.hierarchy.viewer.interactor.ViewerInteractor
+import com.example.aamezencev.handbook.presentation.hierarchy.viewer.presenter.ViewerPresenter
+import com.example.aamezencev.handbook.presentation.hierarchy.viewer.viewModel.ViewerViewModel
 import dagger.Module
 import dagger.Provides
 

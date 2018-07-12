@@ -5,8 +5,8 @@ import com.example.aamezencev.handbook.presentation.hierarchy.list.di.HierarchyL
 import com.example.aamezencev.handbook.presentation.hierarchy.list.di.HierarchyListModule
 import com.example.aamezencev.handbook.presentation.hierarchy.screen.di.HierarchyScreenComponent
 import com.example.aamezencev.handbook.presentation.hierarchy.screen.di.HierarchyScreenModule
-import com.example.aamezencev.handbook.presentation.viewer.di.ViewerComponent
-import com.example.aamezencev.handbook.presentation.viewer.di.ViewerModule
+import com.example.aamezencev.handbook.presentation.hierarchy.viewer.di.ViewerComponent
+import com.example.aamezencev.handbook.presentation.hierarchy.viewer.di.ViewerModule
 import dagger.Component
 
 @Component(modules = [PresentationModule::class], dependencies = [BusinessComponent::class])
