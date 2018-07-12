@@ -1,8 +1,6 @@
 package com.example.aamezencev.handbook.presentation.hierarchy.screen.view
 
-import android.databinding.Observable
 import android.os.Bundle
-import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +10,9 @@ import com.example.aamezencev.handbook.common.view.AbstractFragment
 import com.example.aamezencev.handbook.presentation.hierarchy.screen.HierarchyScreenContract
 import com.example.aamezencev.handbook.presentation.hierarchy.screen.di.HierarchyScreenComponent
 import com.example.aamezencev.handbook.presentation.hierarchy.screen.di.HierarchyScreenModule
-import com.example.aamezencev.handbook.presentation.hierarchy.screen.view.adapter.PagerAdapter
+import com.example.aamezencev.handbook.presentation.hierarchy.screen.view.adapter.ScreenPagerAdapter
 import com.example.aamezencev.handbook.presentation.hierarchy.screen.viewModel.HierarchyInfoVM
-import com.example.aamezencev.handbook.presentation.viewer.view.ViewerFragment
 import kotlinx.android.synthetic.main.page_fragment.*
-import kotlinx.android.synthetic.main.pager_fragment.*
 
 class ViewPagerContainer : AbstractFragment<HierarchyScreenContract.ViewModel, HierarchyScreenContract.Presenter>() {
     companion object {
@@ -53,20 +49,6 @@ class ViewPagerContainer : AbstractFragment<HierarchyScreenContract.ViewModel, H
             presenter?.obtainDataElement(dataId)
         }
 
-        if (pager.adapter == null) pager.adapter = PagerAdapter(fragmentManager, viewModel!! as HierarchyInfoVM)
-
-        pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrollStateChanged(state: Int) {
-
-            }
-
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-
-            }
-
-            override fun onPageSelected(position: Int) {
-
-            }
-        })
+        if (pager.adapter == null) pager.adapter = ScreenPagerAdapter(this.activityComponent, viewModel!! as HierarchyInfoVM)
     }
 }
