@@ -12,7 +12,7 @@ import com.example.aamezencev.handbook.presentation.hierarchy.screen.di.Hierarch
 import com.example.aamezencev.handbook.presentation.hierarchy.screen.di.HierarchyScreenModule
 import com.example.aamezencev.handbook.presentation.hierarchy.screen.view.adapter.ScreenPagerAdapter
 import com.example.aamezencev.handbook.presentation.hierarchy.screen.viewModel.HierarchyInfoVM
-import kotlinx.android.synthetic.main.page_fragment.*
+import kotlinx.android.synthetic.main.pager_container_fragment.*
 
 class ViewPagerContainer : AbstractFragment<HierarchyScreenContract.ViewModel, HierarchyScreenContract.Presenter>() {
     companion object {
@@ -37,7 +37,7 @@ class ViewPagerContainer : AbstractFragment<HierarchyScreenContract.ViewModel, H
     override fun createViewModel(): HierarchyScreenContract.ViewModel = diComponent.getViewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.page_fragment, container, false)
+        val view = inflater.inflate(R.layout.pager_container_fragment, container, false)
         return view
     }
 
