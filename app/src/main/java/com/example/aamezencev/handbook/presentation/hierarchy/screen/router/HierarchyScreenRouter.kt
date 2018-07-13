@@ -8,11 +8,11 @@ import com.example.aamezencev.handbook.presentation.hierarchy.screen.HierarchySc
 import com.example.aamezencev.handbook.presentation.hierarchy.viewer.view.ViewerFragment
 
 class HierarchyScreenRouter : AbstractRouter(), HierarchyScreenContract.Router {
-    override fun showViewer(androidComponent: AndroidComponent, model: ThreeDimensionalModel) {
+    override fun showViewer(androidComponent: AndroidComponent, thrModelId: Long) {
         androidComponent.activityComponent
                 .supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.hierarchyContainer, ViewerFragment.instanceFragment(model.modelArray))
+                .replace(R.id.hierarchyContainer, ViewerFragment.instanceFragment(thrModelId))
                 .addToBackStack("viewer")
                 .commit()
     }

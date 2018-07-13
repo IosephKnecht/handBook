@@ -11,23 +11,15 @@ class HierarchyScreenInteractor(private val dataBaseService: DataBaseService) : 
         HierarchyScreenContract.Interactor {
     private val compositeDisposable = CompositeDisposable()
 
-    override fun setListener(presenter: HierarchyScreenContract.Listener?) {
-        super.setListener(presenter)
-        interactorListener = presenter
-    }
-
     override fun onDestroy() {
-        interactorListener = null
         compositeDisposable.clear()
         super.onDestroy()
     }
 
     override fun getDataElement(dataId: Long) {
-        compositeDisposable.add(dataBaseService.getDataElement(dataId)
-                .subscribeOn(Schedulers.io())
-                .map { DataHierarchyElementMapper.fromPresentation(it) }
-                .subscribe {
-                    interactorListener!!.onObtainDataElement(it!!)
-                })
+        compositeDisposable.add(discardResult(dataBaseService.getDataElement(dataId)
+                .map { DataHierarchyElementMapper.fromPresentation(it) }) { listener, result ->
+            listener!!.onObtainDataElement(result!!)
+        })
     }
 }

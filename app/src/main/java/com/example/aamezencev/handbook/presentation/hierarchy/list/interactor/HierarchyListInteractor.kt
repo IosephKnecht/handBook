@@ -9,16 +9,11 @@ import io.reactivex.schedulers.Schedulers
 class HierarchyListInteractor(private val dataBaseService: DataBaseService) : AbstractInteractor<HierarchyListContract.Listener>(), HierarchyListContract.Interactor {
     private val compositeDisposable = CompositeDisposable()
 
-    override fun setListener(presenter: HierarchyListContract.Listener?) {
-        interactorListener = presenter
-    }
 
     override fun getHierarchy(parentId: Long?) {
-        compositeDisposable.add(dataBaseService.getHierarchyList(parentId)
-                .subscribeOn(Schedulers.io())
-                .subscribe {
-                    interactorListener?.onObtainHieararchy(it)
-                })
+        compositeDisposable.add(discardResult(dataBaseService.getHierarchyList(parentId)) { listener, result ->
+            listener!!.onObtainHieararchy(result)
+        })
     }
 
     override fun onDestroy() {

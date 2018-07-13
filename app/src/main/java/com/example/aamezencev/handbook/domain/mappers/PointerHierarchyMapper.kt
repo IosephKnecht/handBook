@@ -8,8 +8,8 @@ object PointerHierarchyMapper {
         return DataPointer(model.primaryKey,
                 model.startIndex,
                 model.finalIndex,
-                model.dataHierarchyId.toInt(),
-                ThreeDimensionalMapper.fromPresentation(model.getThreeDimensionalModelDb()))
+                model.dataHierarchyId,
+                model.thrModelId)
     }
 
     fun fromDb(model: DataPointer): PointerDataDb {
@@ -17,7 +17,7 @@ object PointerHierarchyMapper {
             startIndex = model.startIndex
             finalIndex = model.finalIndex
             dataHierarchyId = model.dataHierarchyId.toLong()
-            thrModelId = model.model.id
+            thrModelId = model.thrModelId
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.aamezencev.handbook.presentation.hierarchy.viewer.view
 
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import com.example.aamezencev.handbook.R
 import com.example.aamezencev.handbook.application.AppDelegate
 import com.example.aamezencev.handbook.common.view.AbstractFragment
+import com.example.aamezencev.handbook.databinding.ViewerLayoutBinding
 import com.example.aamezencev.handbook.presentation.hierarchy.viewer.ViewerContract
 import com.example.aamezencev.handbook.presentation.hierarchy.viewer.di.ViewerComponent
 import com.example.aamezencev.handbook.presentation.hierarchy.viewer.di.ViewerModule
@@ -14,17 +16,18 @@ import kotlinx.android.synthetic.main.viewer_layout.*
 
 class ViewerFragment : AbstractFragment<ViewerContract.ViewModel, ViewerContract.Presenter>() {
 
-    private val MODEL_ARRAY = "model"
+    private val THR_MODEL_ID = "model_id"
+
+    private var diComponent: ViewerComponent? = null
+    private lateinit var binding: ViewerLayoutBinding
 
     companion object {
-        fun instanceFragment(model: ByteArray) = ViewerFragment().apply {
+        fun instanceFragment(thrModelId: Long) = ViewerFragment().apply {
             arguments = Bundle().apply {
-                putByteArray(MODEL_ARRAY, model)
+                putLong(THR_MODEL_ID, thrModelId)
             }
         }
     }
-
-    private var diComponent: ViewerComponent? = null
 
     override fun injectDi() {
         diComponent = AppDelegate.presentationComponent!!
@@ -40,14 +43,15 @@ class ViewerFragment : AbstractFragment<ViewerContract.ViewModel, ViewerContract
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.viewer_layout, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.viewer_layout, container, false)
+        return binding.root
     }
 
     override fun onStart() {
         super.onStart()
-        val facade = diComponent!!.getViewer().getFacade()
-        val modelArray = arguments!!.getByteArray(MODEL_ARRAY)
-        val model = facade.buildModel(modelArray.inputStream())
-        model_container.addView(facade.buildSurfaceView(model, facade.buildFloor(), facade.buildLight()))
+        binding.viewModel = viewModel
+        binding.facade = diComponent!!.getViewer().getFacade()
+        val thrModelId = arguments!!.getLong(THR_MODEL_ID)
+        presenter!!.obtainThrModel(thrModelId)
     }
 }

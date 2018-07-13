@@ -29,7 +29,7 @@ interface HierarchyScreenContract {
     }
 
     interface Router {
-        fun showViewer(androidComponent: AndroidComponent, model: ThreeDimensionalModel)
+        fun showViewer(androidComponent: AndroidComponent, thrModelId: Long)
     }
 
 }

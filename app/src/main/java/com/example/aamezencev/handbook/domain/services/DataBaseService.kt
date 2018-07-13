@@ -5,30 +5,38 @@ import io.reactivex.Observable
 
 class DataBaseService(private val daoSession: DaoSession) {
     fun getHierarchyList(parentId: Long?): Observable<List<HierarchyElementDb>> {
-        return Observable.create {
-            val query = daoSession.hierarchyElementDbDao.queryBuilder()
-            if (parentId == null) {
-                query.where(HierarchyElementDbDao.Properties.ParentId.isNull)
-            } else {
-                query.where(HierarchyElementDbDao.Properties.ParentId.eq(parentId))
-            }
-            try {
-                it.onNext(query.build().list())
-            } catch (e: Exception) {
-                it.onError(e)
-            }
-            it.onComplete()
+        return requestDb {
+            daoSession.hierarchyElementDbDao
+                    .queryBuilder()
+                    .where(parentId?.run { HierarchyElementDbDao.Properties.ParentId.eq(parentId) }
+                            ?: HierarchyElementDbDao.Properties.ParentId.isNull)
+                    .build()
+                    .list()
         }
     }
 
     fun getDataElement(dataId: Long): Observable<DataHierarchyDb> {
-        return Observable.create {
-            val query = daoSession.dataHierarchyDbDao
+        return requestDb {
+            daoSession.dataHierarchyDbDao
                     .queryBuilder()
                     .where(DataHierarchyDbDao.Properties.PrimaryKey.eq(dataId))
-                    .build()
+                    .unique()
+        }
+    }
+
+    fun getThrModel(thrModelId: Long): Observable<ThreeDimensionalModelDb> {
+        return requestDb {
+            daoSession.threeDimensionalModelDbDao
+                    .queryBuilder()
+                    .where(ThreeDimensionalModelDbDao.Properties.PrimaryKey.eq(thrModelId))
+                    .unique()
+        }
+    }
+
+    private fun <T> requestDb(block: DaoSession.() -> T): Observable<T> {
+        return Observable.create {
             try {
-                it.onNext(query.unique())
+                it.onNext(block(daoSession))
             } catch (e: Exception) {
                 it.onError(e)
             }

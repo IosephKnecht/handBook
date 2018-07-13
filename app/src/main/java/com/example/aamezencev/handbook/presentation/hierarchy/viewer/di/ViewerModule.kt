@@ -2,6 +2,7 @@ package com.example.aamezencev.handbook.presentation.hierarchy.viewer.di
 
 import android.content.Context
 import com.example.aamezencev.a3dviewer.di.DaggerViewerComponent
+import com.example.aamezencev.handbook.domain.services.DataBaseService
 import com.example.aamezencev.handbook.presentation.common.ModuleScope
 import com.example.aamezencev.handbook.presentation.hierarchy.viewer.ViewerContract
 import com.example.aamezencev.handbook.presentation.hierarchy.viewer.interactor.ViewerInteractor
@@ -26,8 +27,8 @@ class ViewerModule(private val context: Context) {
 
     @Provides
     @ModuleScope
-    fun provideViewerInteractor(): ViewerContract.Interactor {
-        return ViewerInteractor()
+    fun provideViewerInteractor(dataBaseService: DataBaseService): ViewerContract.Interactor {
+        return ViewerInteractor(dataBaseService)
     }
 
     @Provides

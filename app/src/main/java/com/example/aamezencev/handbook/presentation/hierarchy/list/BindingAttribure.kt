@@ -7,10 +7,13 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.URLSpan
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
+import com.example.aamezencev.a3dviewer.Facade
 import com.example.aamezencev.handbook.data.presentation.DataElement
 import com.example.aamezencev.handbook.data.presentation.HierarchyElement
+import com.example.aamezencev.handbook.data.presentation.ThreeDimensionalModel
 import com.example.aamezencev.handbook.presentation.hierarchy.list.view.adapter.HierarchyAdapter
 import com.example.aamezencev.handbook.presentation.hierarchy.screen.HierarchyScreenContract
 
@@ -26,5 +29,13 @@ fun TextView.setVisible(value: DataElement?) {
     this.apply {
         if (value == null) visibility = View.VISIBLE
         else visibility = View.INVISIBLE
+    }
+}
+
+@BindingAdapter(value = ["provideFacade","buildThreeDimensionalModel"])
+fun FrameLayout.buildModel(facade: Facade, threeDimensionalModel: ThreeDimensionalModel?) {
+    if (threeDimensionalModel != null) {
+        this.addView(facade.buildSurfaceView(facade.buildModel(threeDimensionalModel.modelArray.inputStream()),
+                facade.buildFloor(), facade.buildLight()))
     }
 }

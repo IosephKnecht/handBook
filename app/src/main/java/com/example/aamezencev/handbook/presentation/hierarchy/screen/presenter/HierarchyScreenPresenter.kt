@@ -31,7 +31,7 @@ class HierarchyScreenPresenter(private var router: HierarchyScreenContract.Route
 
     override fun onObtainDataElement(data: DataElement) {
         viewModel!!.description = SpannableMapper.fromSpannable(data.description, data.pointerList) {
-            router.showViewer(androidComponent!!, it.model)
+            router.showViewer(androidComponent!!, it.thrModelId)
         }
     }
 }
