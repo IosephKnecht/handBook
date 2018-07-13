@@ -61,7 +61,7 @@ class ViewPagerContainer : AbstractFragment<HierarchyScreenContract.ViewModel, H
                 if (pager != null) pager?.adapter?.notifyDataSetChanged()
             }
         }
-        callbackList!!.add(subscriber)
+        callbackList?.add(subscriber)
         return subscriber
     }
 
