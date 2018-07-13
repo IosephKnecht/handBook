@@ -52,6 +52,14 @@ class ViewerFragment : AbstractFragment<ViewerContract.ViewModel, ViewerContract
         binding.viewModel = viewModel
         binding.facade = diComponent!!.getViewer().getFacade()
         val thrModelId = arguments!!.getLong(THR_MODEL_ID)
-        presenter!!.obtainThrModel(thrModelId)
+        if (viewModel == null || viewModel!!.thrModel == null) {
+            presenter!!.obtainThrModel(thrModelId)
+        }
+    }
+
+    override fun onStop() {
+        model_container.removeAllViews()
+        model_container.destroyDrawingCache()
+        super.onStop()
     }
 }
