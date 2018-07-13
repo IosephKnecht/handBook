@@ -8,22 +8,36 @@
             type="com.example.aamezencev.handbook.data.presentation.HierarchyElement" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        tools:layout_editor_absoluteY="81dp">
+        android:layout_marginTop="5dp"
+        android:background="@drawable/item_border"
+        android:paddingBottom="5dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:paddingTop="5dp">
 
         <TextView
             android:id="@+id/titleTextView"
-            android:layout_width="2dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_weight="25"
-            android:paddingLeft="10dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:text="@{hierarchyElement.name}"
             android:textSize="20sp"
+            android:lines="1"
+            android:ellipsize="end"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/arrowTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Chapter Title" />
 
         <TextView
@@ -31,11 +45,12 @@
             setVisible="@{hierarchyElement.dataElement}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:paddingLeft="5dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:text=">"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/titleTextView"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 </layout>
