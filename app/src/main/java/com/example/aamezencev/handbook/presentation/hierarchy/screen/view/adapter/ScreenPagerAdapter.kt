@@ -1,7 +1,9 @@
 package com.example.aamezencev.handbook.presentation.hierarchy.screen.view.adapter
 
 import android.content.Context
+import android.databinding.BindingAdapter
 import android.support.v4.view.PagerAdapter
+import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
@@ -32,5 +34,9 @@ class ScreenPagerAdapter(private val context: Context, private val viewModel: Hi
         textView.text = viewModel.description
         container.addView(view)
         return view
+    }
+
+    override fun getItemPosition(`object`: Any): Int {
+        return POSITION_NONE
     }
 }

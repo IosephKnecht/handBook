@@ -2,20 +2,14 @@ package com.example.aamezencev.handbook.presentation.hierarchy.list
 
 import android.databinding.BindingAdapter
 import android.support.v7.widget.RecyclerView
-import android.text.SpannableStringBuilder
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
-import android.text.style.URLSpan
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
-import android.widget.Toast
 import com.example.aamezencev.a3dviewer.Facade
 import com.example.aamezencev.handbook.data.presentation.DataElement
 import com.example.aamezencev.handbook.data.presentation.HierarchyElement
 import com.example.aamezencev.handbook.data.presentation.ThreeDimensionalModel
 import com.example.aamezencev.handbook.presentation.hierarchy.list.view.adapter.HierarchyAdapter
-import com.example.aamezencev.handbook.presentation.hierarchy.screen.HierarchyScreenContract
 
 @BindingAdapter("setHierarchy")
 fun RecyclerView.setHierarchy(hierarchyList: List<HierarchyElement>) {
@@ -32,7 +26,7 @@ fun TextView.setVisible(value: DataElement?) {
     }
 }
 
-@BindingAdapter(value = ["provideFacade","buildThreeDimensionalModel"])
+@BindingAdapter(value = ["provideFacade", "buildThreeDimensionalModel"])
 fun FrameLayout.buildModel(facade: Facade, threeDimensionalModel: ThreeDimensionalModel?) {
     if (threeDimensionalModel != null) {
         this.addView(facade.buildSurfaceView(facade.buildModel(threeDimensionalModel.modelArray.inputStream()),

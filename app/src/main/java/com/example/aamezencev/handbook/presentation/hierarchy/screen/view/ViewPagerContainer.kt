@@ -1,5 +1,6 @@
 package com.example.aamezencev.handbook.presentation.hierarchy.screen.view
 
+import android.databinding.Observable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,7 @@ class ViewPagerContainer : AbstractFragment<HierarchyScreenContract.ViewModel, H
     }
 
     private lateinit var diComponent: HierarchyScreenComponent
+    private var callbackList: MutableList<Observable.OnPropertyChangedCallback>? = arrayListOf()
 
     override fun injectDi() {
         diComponent = AppDelegate
@@ -43,12 +45,31 @@ class ViewPagerContainer : AbstractFragment<HierarchyScreenContract.ViewModel, H
 
     override fun onStart() {
         super.onStart()
-
         val dataId = arguments?.run { getLong(DATA_ID) } ?: -1
         if (viewModel == null || viewModel!!.description.isEmpty()) {
             presenter?.obtainDataElement(dataId)
         }
 
         if (pager.adapter == null) pager.adapter = ScreenPagerAdapter(this.activityComponent, viewModel!! as HierarchyInfoVM)
+
+        viewModel!!.addOnPropertyChangedCallback(initSubscriptionViewModel())
+    }
+
+    private fun initSubscriptionViewModel(): Observable.OnPropertyChangedCallback {
+        val subscriber = object : Observable.OnPropertyChangedCallback() {
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                if (pager != null) pager?.adapter?.notifyDataSetChanged()
+            }
+        }
+        callbackList!!.add(subscriber)
+        return subscriber
+    }
+
+    override fun onStop() {
+        callbackList?.forEach {
+            viewModel!!.removeOnPropertyChangedCallback(it)
+        }
+        callbackList = null
+        super.onStop()
     }
 }
