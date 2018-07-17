@@ -1,5 +1,7 @@
 package com.example.aamezencev.handbook.common.interactor
 
+import com.example.aamezencev.handbook.application.Constants
+import com.hypertrack.hyperlog.HyperLog
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -16,12 +18,15 @@ abstract class AbstractInteractor<L : MvpInteractor.Listener> : MvpInteractor<L>
         interactorListener = null
     }
 
-    protected fun <R, O : Observable<R>> discardResult(observable: O, block: (listener: L?, result: R) -> Unit) : Disposable {
+    protected fun <R, O : Observable<R>> discardResult(observable: O, block: (listener: L?, result: R) -> Unit): Disposable {
         return observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
+                .subscribe({
                     block(interactorListener, it)
-                }
+                }, {
+                    it.printStackTrace()
+                    HyperLog.w(Constants.INTERACTOR_ERROR, it.message)
+                })
     }
 }

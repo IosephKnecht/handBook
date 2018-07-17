@@ -1,9 +1,11 @@
 package com.example.aamezencev.handbook.application
 
 import android.app.Application
+import android.util.Log
 import com.example.aamezencev.handbook.data.db.DaoMaster
 import com.example.aamezencev.handbook.data.db.DaoSession
 import com.example.aamezencev.handbook.domain.DataBaseOpenHelper
+import com.hypertrack.hyperlog.HyperLog
 
 class AppDelegate : Application() {
     companion object {
@@ -32,11 +34,17 @@ class AppDelegate : Application() {
                 .presentationModule(PresentationModule())
                 .businessComponent(businessComponent)
                 .build()
+        initLogger()
     }
 
     private fun initDataBase() {
         val helper = DaoMaster.DevOpenHelper(this, DataBaseOpenHelper.DATABASE_NAME)
         val dataBase = helper.writableDb
         daoSession = DaoMaster(dataBase).newSession()
+    }
+
+    private fun initLogger() {
+        HyperLog.initialize(this)
+        HyperLog.setLogLevel(Log.WARN)
     }
 }
