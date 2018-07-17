@@ -1,24 +1,28 @@
 package com.example.aamezencev.handbook.presentation.hierarchy.list.router
 
-import android.support.v4.app.FragmentActivity
 import com.example.aamezencev.handbook.R
-import com.example.aamezencev.handbook.presentation.hierarchy.list.view.fragment.HierarchyFragment
-import com.example.aamezencev.handbook.presentation.hierarchy.screen.view.ViewPagerContainer
+import com.example.aamezencev.handbook.common.router.AbstractRouter
+import com.example.aamezencev.handbook.common.view.AndroidComponent
+import com.example.aamezencev.handbook.presentation.hierarchy.list.HierarchyListContract
 
-class HierarchyRouter(private var context: FragmentActivity?) {
-    fun clickChapter(parentId: Long) {
-        context?.supportFragmentManager
-                ?.beginTransaction()
-                ?.replace(R.id.hierarchyContainer, HierarchyFragment.instanceFragment(parentId))
-                ?.addToBackStack("hierarchy")
-                ?.commit()
+class HierarchyRouter(private var module: HierarchyListContract.InputModule) :
+        AbstractRouter<HierarchyListContract.RouterListener>(), HierarchyListContract.Router {
+    private val CHAPTER = "chapter"
+    private val PAGE = "page"
+
+    override fun showChapter(androidComponent: AndroidComponent, parentId: Long) {
+        androidComponent.fragmentManagerComponent
+                .beginTransaction()
+                .replace(R.id.hierarchyContainer, module.createChapter(parentId))
+                .addToBackStack(CHAPTER)
+                .commit()
     }
 
-    fun clickPage(dataId: Long) {
-        context?.supportFragmentManager
-                ?.beginTransaction()
-                ?.replace(R.id.hierarchyContainer, ViewPagerContainer.instanceFragment(dataId))
-                ?.addToBackStack("page")
-                ?.commit()
+    override fun showPage(androidComponent: AndroidComponent, dataId: Long) {
+        androidComponent.fragmentManagerComponent
+                .beginTransaction()
+                .replace(R.id.hierarchyContainer, module.createPage(dataId))
+                .addToBackStack(PAGE)
+                .commit()
     }
 }

@@ -7,10 +7,11 @@ import android.view.ViewGroup
 import com.example.aamezencev.handbook.R
 import com.example.aamezencev.handbook.data.presentation.HierarchyElement
 import com.example.aamezencev.handbook.databinding.ItemHierarchyBinding
-import com.example.aamezencev.handbook.presentation.hierarchy.list.router.HierarchyRouter
 
-class HierarchyAdapter(private val router: HierarchyRouter) : RecyclerView.Adapter<HierarchyAdapter.ViewHolder>() {
+class HierarchyAdapter : RecyclerView.Adapter<HierarchyAdapter.ViewHolder>() {
     var elementList = listOf<HierarchyElement>()
+    var itemClickChapter: ((Long) -> Unit)? = null
+    var itemClickPage: ((Long) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = DataBindingUtil.inflate<ItemHierarchyBinding>(LayoutInflater.from(parent.context),
@@ -23,8 +24,8 @@ class HierarchyAdapter(private val router: HierarchyRouter) : RecyclerView.Adapt
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val element = elementList[position]
         holder.binding.hierarchyElement = element
-        if (element.dataElement == null) holder.itemView.setOnClickListener { router.clickChapter(element.id) }
-        else holder.itemView.setOnClickListener { router.clickPage(element.dataElement.id) }
+        if (element.dataElement == null) holder.itemView.setOnClickListener { itemClickChapter?.invoke(element.id) }
+        else holder.itemView.setOnClickListener { itemClickPage?.invoke(element.dataElement.id) }
     }
 
     class ViewHolder(val binding: ItemHierarchyBinding) : RecyclerView.ViewHolder(binding.root)

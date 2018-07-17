@@ -26,7 +26,9 @@ interface ViewerContract {
         fun getThreeDimensionalModel(thrModelId: Long)
     }
 
-    interface Router : MvpRouter {
+    interface RouterListener : MvpRouter.Listener
+
+    interface Router : MvpRouter<RouterListener> {
 
     }
 }
