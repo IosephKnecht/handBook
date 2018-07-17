@@ -44,7 +44,6 @@ class HierarchyFragment : AbstractFragment<HierarchyListContract.ViewModel, Hier
     private lateinit var hierarchyAdapter: HierarchyAdapter
     private lateinit var binding: HierarchyFragmentBinding
     private var parentId: Long? = null
-    private lateinit var router: HierarchyRouter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -59,8 +58,10 @@ class HierarchyFragment : AbstractFragment<HierarchyListContract.ViewModel, Hier
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        router = HierarchyRouter(this.activity)
-        hierarchyAdapter = HierarchyAdapter(router)
+        hierarchyAdapter = HierarchyAdapter().apply {
+            itemClickChapter = { diComponent?.getHierarchyListRouter()?.showChapter(this@HierarchyFragment, it) }
+            itemClickPage = { diComponent?.getHierarchyListRouter()?.showPage(this@HierarchyFragment, it) }
+        }
 
         hierarchyView.apply {
             layoutManager = LinearLayoutManager(this@HierarchyFragment.context)

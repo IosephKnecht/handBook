@@ -5,6 +5,7 @@ import android.databinding.Bindable
 import android.text.SpannableStringBuilder
 import com.example.aamezencev.handbook.common.interactor.MvpInteractor
 import com.example.aamezencev.handbook.common.presenter.MvpPresenter
+import com.example.aamezencev.handbook.common.router.MvpRouter
 import com.example.aamezencev.handbook.common.view.AndroidComponent
 import com.example.aamezencev.handbook.common.viewModel.MvpViewModel
 import com.example.aamezencev.handbook.data.presentation.DataElement
@@ -28,7 +29,9 @@ interface HierarchyScreenContract {
         fun getDataElement(dataId: Long)
     }
 
-    interface Router {
+    interface RouterListener : MvpRouter.Listener
+
+    interface Router : MvpRouter<RouterListener> {
         fun showViewer(androidComponent: AndroidComponent, thrModelId: Long)
     }
 

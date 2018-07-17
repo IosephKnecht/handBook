@@ -7,7 +7,7 @@ import com.example.aamezencev.handbook.data.presentation.ThreeDimensionalModel
 import com.example.aamezencev.handbook.presentation.hierarchy.screen.HierarchyScreenContract
 import com.example.aamezencev.handbook.presentation.hierarchy.viewer.view.ViewerFragment
 
-class HierarchyScreenRouter : AbstractRouter(), HierarchyScreenContract.Router {
+class HierarchyScreenRouter : AbstractRouter<HierarchyScreenContract.RouterListener>(), HierarchyScreenContract.Router {
     override fun showViewer(androidComponent: AndroidComponent, thrModelId: Long) {
         androidComponent.activityComponent
                 .supportFragmentManager

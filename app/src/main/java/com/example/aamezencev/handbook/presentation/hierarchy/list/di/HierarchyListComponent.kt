@@ -1,6 +1,7 @@
 package com.example.aamezencev.handbook.presentation.hierarchy.list.di
 
 import com.example.aamezencev.handbook.presentation.common.ModuleScope
+import com.example.aamezencev.handbook.presentation.hierarchy.list.HierarchyListContract
 import com.example.aamezencev.handbook.presentation.hierarchy.list.interactor.HierarchyListInteractor
 import com.example.aamezencev.handbook.presentation.hierarchy.list.presenter.HierarchyListPresenter
 import com.example.aamezencev.handbook.presentation.hierarchy.list.viewModel.HierarchyElementVM
@@ -13,5 +14,5 @@ interface HierarchyListComponent {
 
     fun getHierarchyListViewModel(): HierarchyElementVM
 
-    fun getHierarchyInteractor(): HierarchyListInteractor
+    fun getHierarchyListRouter(): HierarchyListContract.Router
 }
