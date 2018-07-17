@@ -9,11 +9,12 @@ import android.support.v7.app.AppCompatActivity
 import com.example.aamezencev.handbook.common.helper.AbstractLoader
 import com.example.aamezencev.handbook.common.presenter.MvpPresenter
 import com.example.aamezencev.handbook.common.viewModel.MvpViewModel
+import java.util.*
 
 abstract class AbstractActivity<VM : MvpViewModel, Presenter : MvpPresenter<VM>>
     : AppCompatActivity(), AndroidComponent, LoaderManager.LoaderCallbacks<Presenter> {
 
-    private val LOADER_ID = 1
+    private lateinit var LOADER_ID: UUID
 
     override val activityComponent: AppCompatActivity
         get() = this
@@ -31,11 +32,16 @@ abstract class AbstractActivity<VM : MvpViewModel, Presenter : MvpPresenter<VM>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (savedInstanceState == null) {
+            LOADER_ID = UUID.randomUUID()
+        } else {
+            LOADER_ID = UUID.fromString(savedInstanceState.getString("RANDOM_UUID"))
+        }
         injectDi()
         val loader = supportLoaderManager
-                .getLoader<AbstractLoader<VM, Presenter>>(LOADER_ID) as AbstractLoader<VM, Presenter>?
+                .getLoader<AbstractLoader<VM, Presenter>>(LOADER_ID.hashCode()) as AbstractLoader<VM, Presenter>?
         if (loader == null) {
-            supportLoaderManager.initLoader(LOADER_ID, null, this)
+            supportLoaderManager.initLoader(LOADER_ID.hashCode(), null, this)
             presenter = createPresenter()
             viewModel = createViewModel()
         } else {
@@ -53,6 +59,11 @@ abstract class AbstractActivity<VM : MvpViewModel, Presenter : MvpPresenter<VM>>
     override fun onStop() {
         super.onStop()
         presenter?.detachView()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString("RANDOM_UUID", LOADER_ID.toString())
+        super.onSaveInstanceState(outState)
     }
 
     override fun onDestroy() {
