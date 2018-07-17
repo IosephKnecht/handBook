@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.aamezencev.handbook.presentation.hierarchy.viewer.ViewerContract.ViewModel" />
+
+        <variable
+            name="facade"
+            type="com.example.aamezencev.a3dviewer.Facade" />
+    </data>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/model_container"
+        provideFacade = "@{facade}"
+        buildThreeDimensionalModel="@{viewModel.thrModel}"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+</layout>

@@ -1,0 +1,2 @@
+include ':app', ':viewer'
+project(':viewer').projectDir = new File('3dViewer/app')
