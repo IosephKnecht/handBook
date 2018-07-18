@@ -7,6 +7,8 @@ import com.example.aamezencev.handbook.presentation.hierarchy.screen.di.Hierarch
 import com.example.aamezencev.handbook.presentation.hierarchy.screen.di.HierarchyScreenModule
 import com.example.aamezencev.handbook.presentation.hierarchy.viewer.di.ViewerComponent
 import com.example.aamezencev.handbook.presentation.hierarchy.viewer.di.ViewerModule
+import com.example.aamezencev.handbook.presentation.loader.di.LoaderComponent
+import com.example.aamezencev.handbook.presentation.loader.di.LoaderModule
 import dagger.Component
 
 @Component(modules = [PresentationModule::class], dependencies = [BusinessComponent::class])
@@ -15,4 +17,5 @@ interface PresentationComponent {
     fun addHierarchyListSubmodule(module: HierarchyListModule): HierarchyListComponent
     fun addHierarchyScreenSubmodule(module: HierarchyScreenModule): HierarchyScreenComponent
     fun addViewerModule(viewerModule: ViewerModule): ViewerComponent
+    fun addLoaderSubmodule(loaderModule: LoaderModule): LoaderComponent
 }
