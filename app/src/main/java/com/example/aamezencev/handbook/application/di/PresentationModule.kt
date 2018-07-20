@@ -1,4 +1,4 @@
-package com.example.aamezencev.handbook.application
+package com.example.aamezencev.handbook.application.di
 
 import com.example.aamezencev.handbook.presentation.PresentationScope
 import com.example.aamezencev.handbook.presentation.hierarchy.list.HierarchyListContract

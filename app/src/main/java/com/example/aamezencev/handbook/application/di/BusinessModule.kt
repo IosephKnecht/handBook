@@ -1,6 +1,5 @@
-package com.example.aamezencev.handbook.application
+package com.example.aamezencev.handbook.application.di
 
-import com.example.aamezencev.handbook.data.db.DaoSession
 import com.example.aamezencev.handbook.domain.BusinessScope
 import com.example.aamezencev.handbook.domain.services.DataBaseService
 import com.example.aamezencev.handbook.domain.services.DatabaseLoaderService
@@ -11,8 +10,8 @@ import dagger.Provides
 class BusinessModule {
     @Provides
     @BusinessScope
-    fun provideDataBaseService(daoSession: DaoSession): DataBaseService {
-        return DataBaseService(daoSession)
+    fun provideDataBaseService(): DataBaseService {
+        return DataBaseService()
     }
 
     @Provides

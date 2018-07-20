@@ -1,12 +1,16 @@
 package com.example.aamezencev.handbook.domain.services
 
+import com.example.aamezencev.handbook.application.AppDelegate
 import com.example.aamezencev.handbook.data.db.*
 import io.reactivex.Observable
 
-class DataBaseService(private val daoSession: DaoSession) {
+class DataBaseService {
+    private val daoSession: DaoSession?
+        get() = AppDelegate.daoSession
+
     fun getHierarchyList(parentId: Long?): Observable<List<HierarchyElementDb>> {
         return requestDb {
-            daoSession.hierarchyElementDbDao
+            daoSession!!.hierarchyElementDbDao
                     .queryBuilder()
                     .where(parentId?.run { HierarchyElementDbDao.Properties.ParentId.eq(parentId) }
                             ?: HierarchyElementDbDao.Properties.ParentId.isNull)
@@ -17,7 +21,7 @@ class DataBaseService(private val daoSession: DaoSession) {
 
     fun getDataElement(dataId: Long): Observable<DataHierarchyDb> {
         return requestDb {
-            daoSession.dataHierarchyDbDao
+            daoSession!!.dataHierarchyDbDao
                     .queryBuilder()
                     .where(DataHierarchyDbDao.Properties.PrimaryKey.eq(dataId))
                     .unique()
@@ -26,7 +30,7 @@ class DataBaseService(private val daoSession: DaoSession) {
 
     fun getThrModel(thrModelId: Long): Observable<ThreeDimensionalModelDb> {
         return requestDb {
-            daoSession.threeDimensionalModelDbDao
+            daoSession!!.threeDimensionalModelDbDao
                     .queryBuilder()
                     .where(ThreeDimensionalModelDbDao.Properties.PrimaryKey.eq(thrModelId))
                     .unique()
@@ -36,7 +40,7 @@ class DataBaseService(private val daoSession: DaoSession) {
     private fun <T> requestDb(block: DaoSession.() -> T): Observable<T> {
         return Observable.create {
             try {
-                it.onNext(block(daoSession))
+                it.onNext(block(daoSession!!))
             } catch (e: Exception) {
                 it.onError(e)
             }
