@@ -10,7 +10,16 @@ import com.example.aamezencev.handbook.common.viewModel.MvpViewModel
 import java.io.InputStream
 
 interface LoaderContract {
-    interface ViewModel : MvpViewModel
+    enum class State {
+        IDLE,
+        PARSED,
+        LOADING
+    }
+
+    interface ViewModel : MvpViewModel {
+        var state: State
+        var uri: Uri?
+    }
 
     interface Presenter : MvpPresenter<ViewModel> {
         fun obtainFilePath(uri: Uri?)

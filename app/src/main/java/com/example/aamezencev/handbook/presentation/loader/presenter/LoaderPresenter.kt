@@ -32,7 +32,7 @@ class LoaderPresenter(private val interactor: LoaderContract.Interactor,
     }
 
     override fun onCopyDatabase(valid: Boolean) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (valid) viewModel!!.state = LoaderContract.State.LOADING
     }
 
     override fun destroy() {

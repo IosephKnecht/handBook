@@ -1,5 +1,7 @@
 package com.example.aamezencev.handbook.presentation.loader.di
 
+import com.example.aamezencev.handbook.data.db.DaoSession
+import com.example.aamezencev.handbook.domain.common.SessionInitializer
 import com.example.aamezencev.handbook.domain.services.DatabaseLoaderService
 import com.example.aamezencev.handbook.presentation.common.ModuleScope
 import com.example.aamezencev.handbook.presentation.loader.LoaderContract
@@ -27,8 +29,9 @@ class LoaderModule {
 
     @Provides
     @ModuleScope
-    fun provideInteractor(databaseLoaderService: DatabaseLoaderService): LoaderContract.Interactor {
-        return LoaderInteractor(databaseLoaderService)
+    fun provideInteractor(databaseLoaderService: DatabaseLoaderService,
+                          sessionInitializer: SessionInitializer<DaoSession>): LoaderContract.Interactor {
+        return LoaderInteractor(databaseLoaderService, sessionInitializer)
     }
 
     @Provides

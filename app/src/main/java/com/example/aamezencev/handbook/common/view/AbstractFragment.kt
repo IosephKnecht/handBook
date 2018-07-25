@@ -81,14 +81,14 @@ abstract class AbstractFragment<VM : MvpViewModel, Presenter : MvpPresenter<VM>>
         super.onDestroy()
     }
 
-    override fun onCreateLoader(id: Int, args: Bundle?): Loader<Presenter> {
+    final override fun onCreateLoader(id: Int, args: Bundle?): Loader<Presenter> {
         val loader = AbstractLoader(this.context!!, createPresenter())
         return loader
     }
 
-    override fun onLoadFinished(loader: Loader<Presenter>, data: Presenter) {
+    final override fun onLoadFinished(loader: Loader<Presenter>, data: Presenter) {
     }
 
-    override fun onLoaderReset(loader: Loader<Presenter>) {
+    final override fun onLoaderReset(loader: Loader<Presenter>) {
     }
 }

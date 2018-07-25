@@ -2,7 +2,7 @@ package com.example.aamezencev.handbook
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.example.aamezencev.handbook.presentation.hierarchy.list.view.fragment.HierarchyFragment
+import com.example.aamezencev.handbook.presentation.loader.view.LoaderFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         if (oldFragment == null) {
             supportFragmentManager
                     .beginTransaction()
-                    .add(R.id.hierarchyContainer, HierarchyFragment.instanceFragment(-1), INIT_FRAGMENT)
+                    .add(R.id.hierarchyContainer, LoaderFragment.instanceFragment(), INIT_FRAGMENT)
                     .commit()
         }
     }
