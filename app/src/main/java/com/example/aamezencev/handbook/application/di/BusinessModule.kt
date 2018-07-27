@@ -26,7 +26,7 @@ class BusinessModule {
 
     @Provides
     @BusinessScope
-    fun provideSessionInitializer(applicationContext: Context): SessionInitializer<Any> {
+    fun provideSessionInitializer(applicationContext: Context): SessionInitializer<DaoSession> {
         return GreenDaoSessionInitializer(applicationContext)
     }
 }

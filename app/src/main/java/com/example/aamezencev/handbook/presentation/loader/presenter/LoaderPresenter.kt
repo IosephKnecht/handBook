@@ -32,7 +32,10 @@ class LoaderPresenter(private val interactor: LoaderContract.Interactor,
     }
 
     override fun onCopyDatabase(valid: Boolean) {
-        if (valid) viewModel!!.state = LoaderContract.State.LOADING
+        if (valid) {
+            viewModel!!.state = LoaderContract.State.LOADING
+            router.showHierarchyFragment(androidComponent!!)
+        }
     }
 
     override fun destroy() {

@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         if (oldFragment == null) {
             supportFragmentManager
                     .beginTransaction()
-                    .add(R.id.hierarchyContainer, LoaderFragment.instanceFragment(), INIT_FRAGMENT)
+                    .replace(R.id.hierarchyContainer, LoaderFragment.instanceFragment(), INIT_FRAGMENT)
                     .commit()
         }
     }

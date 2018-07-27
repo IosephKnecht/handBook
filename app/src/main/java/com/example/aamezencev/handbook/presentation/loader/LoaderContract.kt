@@ -2,6 +2,7 @@ package com.example.aamezencev.handbook.presentation.loader
 
 import android.content.Intent
 import android.net.Uri
+import android.support.v4.app.Fragment
 import com.example.aamezencev.handbook.common.interactor.MvpInteractor
 import com.example.aamezencev.handbook.common.presenter.MvpPresenter
 import com.example.aamezencev.handbook.common.router.MvpRouter
@@ -40,9 +41,11 @@ interface LoaderContract {
     interface Router : MvpRouter<RouterListener> {
         fun convertUri(androidComponent: AndroidComponent, uri: Uri?)
         fun showSelectFileActivity(androidComponent: AndroidComponent)
+        fun showHierarchyFragment(androidComponent: AndroidComponent)
     }
 
     interface InputModule {
         fun createOpenFileIntent(): Intent
+        fun createHierarchyFragment(parentId: Long): Fragment
     }
 }
