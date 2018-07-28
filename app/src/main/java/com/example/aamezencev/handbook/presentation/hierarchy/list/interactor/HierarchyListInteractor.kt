@@ -12,7 +12,7 @@ class HierarchyListInteractor(private val dataBaseService: DataBaseService) : Ab
 
     override fun getHierarchy(parentId: Long?) {
         compositeDisposable.add(discardResult(dataBaseService.getHierarchyList(parentId)) { listener, result ->
-            listener!!.onObtainHieararchy(result)
+            result.data { listener!!.onObtainHieararchy(this) }
         })
     }
 

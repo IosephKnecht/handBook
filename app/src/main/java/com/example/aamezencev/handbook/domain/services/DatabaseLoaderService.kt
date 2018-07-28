@@ -1,5 +1,7 @@
 package com.example.aamezencev.handbook.domain.services
 
+import android.net.Uri
+import com.example.aamezencev.handbook.data.presentation.DatabaseInfo
 import io.reactivex.Observable
 import java.io.File
 import java.io.FileOutputStream
@@ -56,4 +58,6 @@ class DatabaseLoaderService {
             it.onComplete()
         }
     }
+
+    fun parseMetaData(uri: Uri) = Observable.just(DatabaseInfo("Someday will be realized", 999, uri))
 }

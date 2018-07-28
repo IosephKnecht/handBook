@@ -10,7 +10,7 @@ class ViewerInteractor(private val dataBaseService: DataBaseService) : AbstractI
 
     override fun getThreeDimensionalModel(thrModelId: Long) {
         compositeDisposable.add(discardResult(dataBaseService.getThrModel(thrModelId)) { listener, result ->
-            listener?.onObtainThrModel(result)
+            result.data { listener?.onObtainThrModel(this) }
         })
     }
 

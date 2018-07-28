@@ -19,7 +19,7 @@ class HierarchyScreenInteractor(private val dataBaseService: DataBaseService) : 
     override fun getDataElement(dataId: Long) {
         compositeDisposable.add(discardResult(dataBaseService.getDataElement(dataId)
                 .map { DataHierarchyElementMapper.fromPresentation(it) }) { listener, result ->
-            listener!!.onObtainDataElement(result!!)
+            result.data { listener!!.onObtainDataElement(this!!) }
         })
     }
 }

@@ -39,13 +39,13 @@ abstract class AbstractActivity<VM : MvpViewModel, Presenter : MvpPresenter<VM>>
         }
         injectDi()
         val loader = supportLoaderManager
-                .getLoader<AbstractLoader<VM, Presenter>>(LOADER_ID.hashCode()) as AbstractLoader<VM, Presenter>?
+                .getLoader<Presenter>(LOADER_ID.hashCode())
         if (loader == null) {
             supportLoaderManager.initLoader(LOADER_ID.hashCode(), null, this)
             presenter = createPresenter()
             viewModel = createViewModel()
         } else {
-            presenter = loader.savePresenter
+            presenter = (loader as AbstractLoader<VM, Presenter>).savePresenter
             viewModel = presenter!!.viewModel
         }
     }

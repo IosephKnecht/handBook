@@ -18,15 +18,23 @@ abstract class AbstractInteractor<L : MvpInteractor.Listener> : MvpInteractor<L>
         interactorListener = null
     }
 
-    protected fun <R, O : Observable<R>> discardResult(observable: O, block: (listener: L?, result: R) -> Unit): Disposable {
+    protected fun <R, O : Observable<R>> discardResult(observable: O,
+                                                       block: (listener: L?, result: PendingResult<R>) -> Unit): Disposable {
         return observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnError { block(interactorListener, PendingResult(null, it)) }
                 .subscribe({
-                    block(interactorListener, it)
+                    block(interactorListener, PendingResult(it, null))
                 }, {
                     it.printStackTrace()
                     HyperLog.w(Constants.INTERACTOR_ERROR, it.message)
                 })
+    }
+
+    data class PendingResult<R>(private val data: R?,
+                                private val throwable: Throwable?) {
+        fun data(block: R.() -> Unit) = data?.apply(block)
+        fun throwable(block: Throwable.() -> Unit) = throwable?.apply(block)
     }
 }

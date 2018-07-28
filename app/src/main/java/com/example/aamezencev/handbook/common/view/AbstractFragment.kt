@@ -60,17 +60,6 @@ abstract class AbstractFragment<VM : MvpViewModel, Presenter : MvpPresenter<VM>>
         super.onStop()
     }
 
-    //    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        super.onCreateView(inflater, container, savedInstanceState)
-//        presenter!!.attachView(viewModel!!,this)
-//        return null
-//    }
-//
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        presenter?.detachView()
-//    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString("RANDOM_UUID", LOADER_ID.toString())
         super.onSaveInstanceState(outState)
