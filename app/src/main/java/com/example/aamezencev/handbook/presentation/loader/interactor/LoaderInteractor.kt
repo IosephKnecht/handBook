@@ -4,15 +4,18 @@ import android.net.Uri
 import com.example.aamezencev.handbook.application.AppDelegate
 import com.example.aamezencev.handbook.common.interactor.AbstractInteractor
 import com.example.aamezencev.handbook.data.db.DaoSession
+import com.example.aamezencev.handbook.data.presentation.DatabaseInfo
 import com.example.aamezencev.handbook.domain.common.SessionInitializer
 import com.example.aamezencev.handbook.domain.services.DatabaseLoaderService
+import com.example.aamezencev.handbook.domain.services.SharedPreferenceService
 import com.example.aamezencev.handbook.presentation.loader.LoaderContract
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import java.io.InputStream
 
 class LoaderInteractor(private val databaseLoaderService: DatabaseLoaderService,
-                       private val sessionInitializer: SessionInitializer<*>) :
+                       private val sessionInitializer: SessionInitializer<*>,
+                       private val sharedPreferenceService: SharedPreferenceService) :
         AbstractInteractor<LoaderContract.Listener>(), LoaderContract.Interactor {
 
     private val compositeSubscription = CompositeDisposable()
@@ -27,6 +30,12 @@ class LoaderInteractor(private val databaseLoaderService: DatabaseLoaderService,
             result.data { listener!!.onCopyDatabase(this) }
             result.throwable { listener!!.invalidateCache() }
         })
+    }
+
+    override fun getCachedFilePath() = sharedPreferenceService.getFilePathList()
+
+    override fun cacheFilePath(databaseInfo: DatabaseInfo) {
+        sharedPreferenceService.saveFilePath(databaseInfo)
     }
 
     override fun onDestroy() {

@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_main.view.*
 class LoaderRouter(private val inputModule: LoaderInputModule) : AbstractRouter<LoaderContract.RouterListener>(), LoaderContract.Router {
     override fun convertUri(androidComponent: AndroidComponent, uri: Uri?) {
         val inputStream = androidComponent.activityComponent.contentResolver.openInputStream(uri)
-        routerListener!!.onCovertUri(inputStream)
+        routerListener!!.onCovertUri(uri, inputStream)
     }
 
     override fun showSelectFileActivity(androidComponent: AndroidComponent) {

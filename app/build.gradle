@@ -47,6 +47,7 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.1.15'
     implementation 'com.romandanylyk:pageindicatorview:1.0.1'
     implementation 'com.hypertrack:hyperlog:0.0.10'
+    implementation 'com.google.code.gson:gson:2.8.5'
 
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     kapt 'com.android.databinding:compiler:3.1.3'

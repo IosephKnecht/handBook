@@ -33,10 +33,12 @@ interface LoaderContract {
 
     interface Interactor : MvpInteractor<Listener> {
         fun copyDatabase(uri: Uri, inputSteam: InputStream?)
+        fun getCachedFilePath(): List<DatabaseInfo>
+        fun cacheFilePath(databaseInfo: DatabaseInfo)
     }
 
     interface RouterListener : MvpRouter.Listener {
-        fun onCovertUri(inputSteam: InputStream?)
+        fun onCovertUri(uri: Uri?, inputSteam: InputStream?)
     }
 
     interface Router : MvpRouter<RouterListener> {

@@ -6,7 +6,7 @@ import com.example.aamezencev.handbook.presentation.hierarchy.list.view.fragment
 import javax.inject.Inject
 
 class LoaderInputModule @Inject constructor() : LoaderContract.InputModule {
-    override fun createOpenFileIntent() = Intent(Intent.ACTION_GET_CONTENT).apply {
+    override fun createOpenFileIntent() = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
         addCategory(Intent.CATEGORY_DEFAULT)
         type = "*/*"
     }
