@@ -9,7 +9,6 @@ import com.example.aamezencev.handbook.domain.common.SessionInitializer
 import com.example.aamezencev.handbook.domain.services.DatabaseLoaderService
 import com.example.aamezencev.handbook.domain.services.SharedPreferenceService
 import com.example.aamezencev.handbook.presentation.loader.LoaderContract
-import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import java.io.InputStream
 
@@ -27,15 +26,18 @@ class LoaderInteractor(private val databaseLoaderService: DatabaseLoaderService,
                             .doOnNext { AppDelegate.daoSession = it as DaoSession }
                 }
                 .flatMap { databaseLoaderService.parseMetaData(uri) }) { listener, result ->
-            result.data { listener!!.onCopyDatabase(this) }
+            result.data {
+                cacheFilePath(this)
+                listener!!.onCopyDatabase(this)
+            }
             result.throwable { listener!!.invalidateCache() }
         })
     }
 
     override fun getCachedFilePath() = sharedPreferenceService.getFilePathList()
 
-    override fun cacheFilePath(databaseInfo: DatabaseInfo) {
-        sharedPreferenceService.saveFilePath(databaseInfo)
+    private fun cacheFilePath(databaseInfo: DatabaseInfo) {
+        sharedPreferenceService.saveUniqueFilePath(databaseInfo)
     }
 
     override fun onDestroy() {

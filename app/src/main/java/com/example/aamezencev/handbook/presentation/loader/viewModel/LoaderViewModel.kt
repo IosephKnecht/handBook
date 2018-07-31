@@ -15,11 +15,13 @@ class LoaderViewModel : AbstractViewModel(), LoaderContract.ViewModel {
             notifyChange()
         }
 
-    override fun cachedUri(databaseInfo: DatabaseInfo) {
-        if (databaseList.find { it.uri == databaseInfo.uri } == null) {
+    override fun cachedUri(databaseInfo: DatabaseInfo): Boolean {
+        val isUnique = databaseList.find { it.uri == databaseInfo.uri } == null
+        if (isUnique) {
             databaseList.add(databaseInfo)
             notifyChange()
         }
         loadableUri = null
+        return isUnique
     }
 }

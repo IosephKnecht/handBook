@@ -14,11 +14,13 @@ class SharedPreferenceService(private val applicationContext: Context,
     private fun savedPathCount() =
             sharedPrefFile.all.filter { it.key.contains(DATABASE_FILE_PATH_KEY) }.size
 
-    fun saveFilePath(databaseInfo: DatabaseInfo) {
+    fun saveUniqueFilePath(databaseInfo: DatabaseInfo) {
         val databaseInfoGson = gson.toJson(databaseInfo)
-        sharedPrefFile.edit()
-                .putString(DATABASE_FILE_PATH_KEY + (savedPathCount() + 1), databaseInfoGson)
-                .apply()
+        if (uniqueValue(databaseInfoGson)) {
+            sharedPrefFile.edit()
+                    .putString(DATABASE_FILE_PATH_KEY + (savedPathCount() + 1), databaseInfoGson)
+                    .apply()
+        }
     }
 
     fun getFilePathList(): List<DatabaseInfo> {
@@ -26,5 +28,7 @@ class SharedPreferenceService(private val applicationContext: Context,
                 .filter { it.key.contains(DATABASE_FILE_PATH_KEY) }
                 .map { gson.fromJson(it.value.toString(), DatabaseInfo::class.java) }
     }
+
+    private fun uniqueValue(value: String) = sharedPrefFile.all.filter { it.value == value }.isEmpty()
 
 }

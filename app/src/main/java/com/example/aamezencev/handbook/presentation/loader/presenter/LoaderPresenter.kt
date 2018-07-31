@@ -11,18 +11,14 @@ class LoaderPresenter(private val interactor: LoaderContract.Interactor,
                       private val router: LoaderContract.Router) :
         AbstractPresenter<LoaderContract.ViewModel>(), LoaderContract.Presenter, LoaderContract.Listener,
         LoaderContract.RouterListener {
-    private var cachedListUri: MutableList<DatabaseInfo> = mutableListOf()
     private var lastInitUri: Uri? = null
-
-    init {
-        cachedListUri = interactor.getCachedFilePath().toMutableList()
-    }
 
     override fun attachView(viewModel: LoaderContract.ViewModel, androidComponent: AndroidComponent) {
         super.attachView(viewModel, androidComponent)
         interactor.setListener(this)
         router.setListener(this)
-        initCacheFilePath()
+
+        updateViewModelList()
     }
 
     override fun detachView() {
@@ -43,18 +39,13 @@ class LoaderPresenter(private val interactor: LoaderContract.Interactor,
     }
 
     override fun openHierarchyFragment(uri: Uri) {
-        if (lastInitUri == null && lastInitUri != uri) {
-            obtainFilePath(uri)
-        }
+        obtainFilePath(uri)
         router.showHierarchyFragment(androidComponent!!)
     }
 
     override fun onCopyDatabase(databaseInfo: DatabaseInfo) {
-        lastInitUri = databaseInfo.uri
-        if (!cachedListUri.contains(databaseInfo)) {
-            cachedListUri.add(databaseInfo)
-            interactor.cacheFilePath(databaseInfo)
-            viewModel!!.cachedUri(databaseInfo)
+        if (viewModel!!.cachedUri(databaseInfo)) {
+            lastInitUri = databaseInfo.uri
         }
         //router.showHierarchyFragment(androidComponent!!)
     }
@@ -68,15 +59,9 @@ class LoaderPresenter(private val interactor: LoaderContract.Interactor,
         super.destroy()
     }
 
-    private fun isDuplicate(uri: Uri?): Boolean {
-        return uri?.run {
-            cachedListUri.forEach { if (it.uri == this) return true }
-            return false
-        } ?: true
-    }
-
-    private fun initCacheFilePath() {
-        if (cachedListUri.isNotEmpty() && cachedListUri != viewModel!!.databaseList)
-            viewModel!!.databaseList = cachedListUri
+    private fun updateViewModelList() {
+        val cachedListUri = interactor.getCachedFilePath()
+        if (viewModel!!.databaseList != cachedListUri)
+            viewModel!!.databaseList = cachedListUri.toMutableList()
     }
 }
