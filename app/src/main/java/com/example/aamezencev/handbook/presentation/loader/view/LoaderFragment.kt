@@ -30,7 +30,7 @@ class LoaderFragment : AbstractFragment<LoaderContract.ViewModel, LoaderContract
 
     override fun injectDi() {
         diComponent = AppDelegate.presentationComponent!!
-                .addLoaderSubmodule(LoaderModule())
+            .addLoaderSubmodule(LoaderModule())
     }
 
     override fun createPresenter(): LoaderContract.Presenter {
@@ -54,7 +54,10 @@ class LoaderFragment : AbstractFragment<LoaderContract.ViewModel, LoaderContract
             layoutManager = LinearLayoutManager(this.context)
             setHasFixedSize(true)
             adapter = LoaderAdapter().apply {
-                clickListener = { presenter!!.openHierarchyFragment(it) }
+                clickListener = {
+                    viewModel!!.state = LoaderContract.State.OPEN
+                    presenter!!.obtainFilePath(it)
+                }
             }
         }
 
@@ -63,6 +66,7 @@ class LoaderFragment : AbstractFragment<LoaderContract.ViewModel, LoaderContract
         }
 
         viewModel!!.loadableUri?.apply {
+            viewModel!!.state = LoaderContract.State.LOAD
             presenter!!.obtainFilePath(this)
         }
     }

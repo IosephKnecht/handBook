@@ -13,7 +13,13 @@ import com.example.aamezencev.handbook.data.presentation.DatabaseInfo
 import java.io.InputStream
 
 interface LoaderContract {
+    enum class State {
+        LOAD,
+        OPEN
+    }
+
     interface ViewModel : MvpViewModel {
+        var state: State
         var loadableUri: Uri?
         var databaseList: MutableList<DatabaseInfo>
             @Bindable get
@@ -23,12 +29,10 @@ interface LoaderContract {
 
     interface Presenter : MvpPresenter<ViewModel> {
         fun obtainFilePath(uri: Uri?)
-        fun openHierarchyFragment(uri: Uri)
     }
 
     interface Listener : MvpInteractor.Listener {
         fun onCopyDatabase(databaseInfo: DatabaseInfo)
-        fun invalidateCache()
     }
 
     interface Interactor : MvpInteractor<Listener> {

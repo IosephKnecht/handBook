@@ -9,10 +9,8 @@ import java.io.InputStream
 
 class LoaderPresenter(private val interactor: LoaderContract.Interactor,
                       private val router: LoaderContract.Router) :
-        AbstractPresenter<LoaderContract.ViewModel>(), LoaderContract.Presenter, LoaderContract.Listener,
-        LoaderContract.RouterListener {
-    private var lastInitUri: Uri? = null
-
+    AbstractPresenter<LoaderContract.ViewModel>(), LoaderContract.Presenter, LoaderContract.Listener,
+    LoaderContract.RouterListener {
     override fun attachView(viewModel: LoaderContract.ViewModel, androidComponent: AndroidComponent) {
         super.attachView(viewModel, androidComponent)
         interactor.setListener(this)
@@ -33,25 +31,13 @@ class LoaderPresenter(private val interactor: LoaderContract.Interactor,
 
     override fun obtainFilePath(uri: Uri?) {
         //condition on double loading
-        if (lastInitUri == null || lastInitUri != uri) {
-            router.convertUri(androidComponent!!, uri)
-        }
-    }
-
-    override fun openHierarchyFragment(uri: Uri) {
-        obtainFilePath(uri)
-        router.showHierarchyFragment(androidComponent!!)
+        router.convertUri(androidComponent!!, uri)
     }
 
     override fun onCopyDatabase(databaseInfo: DatabaseInfo) {
-        if (viewModel!!.cachedUri(databaseInfo)) {
-            lastInitUri = databaseInfo.uri
-        }
-        //router.showHierarchyFragment(androidComponent!!)
-    }
-
-    override fun invalidateCache() {
-        lastInitUri = null
+        viewModel!!.cachedUri(databaseInfo)
+        if (viewModel!!.state == LoaderContract.State.OPEN)
+            router.showHierarchyFragment(androidComponent!!)
     }
 
     override fun destroy() {

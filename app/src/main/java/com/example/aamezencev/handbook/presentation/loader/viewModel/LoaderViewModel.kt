@@ -7,6 +7,7 @@ import com.example.aamezencev.handbook.data.presentation.DatabaseInfo
 import com.example.aamezencev.handbook.presentation.loader.LoaderContract
 
 class LoaderViewModel : AbstractViewModel(), LoaderContract.ViewModel {
+    override var state: LoaderContract.State = LoaderContract.State.LOAD
     override var loadableUri: Uri? = null
     override var databaseList: MutableList<DatabaseInfo> = mutableListOf()
         @Bindable get() = field
