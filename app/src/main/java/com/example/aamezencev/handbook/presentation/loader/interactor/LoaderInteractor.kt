@@ -1,5 +1,6 @@
 package com.example.aamezencev.handbook.presentation.loader.interactor
 
+import android.database.Cursor
 import android.net.Uri
 import com.example.aamezencev.handbook.application.AppDelegate
 import com.example.aamezencev.handbook.common.interactor.AbstractInteractor
@@ -21,24 +22,17 @@ class LoaderInteractor(private val databaseLoaderService: DatabaseLoaderService,
     private val compositeSubscription = CompositeDisposable()
     private var lastSuccessInit: DatabaseInfo? = null
 
-    override fun copyDatabase(uri: Uri, inputSteam: InputStream?) {
+    override fun copyDatabase(cursor: Cursor, inputSteam: InputStream?) {
         compositeSubscription.add(discardResult(
             databaseLoaderService.copyDatabase(inputSteam)
-                .flatMap {
+                .flatMap { _ ->
                     sessionInitializer.initSesseion()
-                        .flatMap {
-                            lastSuccessInit.takeUnless { it?.uri == uri }?.run {
+                        .flatMap { session ->
+                            lastSuccessInit.takeIf { it?.uri != cursor.notificationUri }.run {
                                 sessionInitializer.initSesseion()
-                                    .doOnNext { AppDelegate.daoSession = it as DaoSession }
-                                    .flatMap { databaseLoaderService.parseMetaData(uri) }
-                            }?:
-                            if (lastSuccessInit == null || lastSuccessInit!!.uri != uri) {
-                                sessionInitializer.initSesseion()
-                                    .doOnNext { AppDelegate.daoSession = it as DaoSession }
-                                    .flatMap { databaseLoaderService.parseMetaData(uri) }
-                            } else {
-                                Observable.just(lastSuccessInit)
-                            }
+                                    .doOnNext { AppDelegate.daoSession = session as DaoSession }
+                                    .flatMap { databaseLoaderService.parseMetaData(cursor) }
+                            } ?: Observable.just(lastSuccessInit)
                         }
                 }) { listener, result ->
             result.data {

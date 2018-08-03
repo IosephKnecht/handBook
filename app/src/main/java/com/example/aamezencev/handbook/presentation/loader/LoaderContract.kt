@@ -1,6 +1,7 @@
 package com.example.aamezencev.handbook.presentation.loader
 
 import android.content.Intent
+import android.database.Cursor
 import android.databinding.Bindable
 import android.net.Uri
 import android.support.v4.app.Fragment
@@ -36,12 +37,12 @@ interface LoaderContract {
     }
 
     interface Interactor : MvpInteractor<Listener> {
-        fun copyDatabase(uri: Uri, inputSteam: InputStream?)
+        fun copyDatabase(cursor: Cursor, inputSteam: InputStream?)
         fun getCachedFilePath(): List<DatabaseInfo>
     }
 
     interface RouterListener : MvpRouter.Listener {
-        fun onCovertUri(uri: Uri?, inputSteam: InputStream?)
+        fun onCovertUri(cursor: Cursor, inputSteam: InputStream?)
     }
 
     interface Router : MvpRouter<RouterListener> {

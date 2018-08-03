@@ -1,5 +1,6 @@
 package com.example.aamezencev.handbook.presentation.loader.presenter
 
+import android.database.Cursor
 import android.net.Uri
 import com.example.aamezencev.handbook.common.presenter.AbstractPresenter
 import com.example.aamezencev.handbook.common.view.AndroidComponent
@@ -25,8 +26,8 @@ class LoaderPresenter(private val interactor: LoaderContract.Interactor,
         super.detachView()
     }
 
-    override fun onCovertUri(uri: Uri?, inputSteam: InputStream?) {
-        interactor.copyDatabase(uri!!, inputSteam)
+    override fun onCovertUri(cursor: Cursor, inputSteam: InputStream?) {
+        interactor.copyDatabase(cursor, inputSteam)
     }
 
     override fun obtainFilePath(uri: Uri?) {

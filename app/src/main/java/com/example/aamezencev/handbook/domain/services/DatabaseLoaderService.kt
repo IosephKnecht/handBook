@@ -1,6 +1,8 @@
 package com.example.aamezencev.handbook.domain.services
 
+import android.database.Cursor
 import android.net.Uri
+import android.provider.OpenableColumns
 import com.example.aamezencev.handbook.data.presentation.DatabaseInfo
 import io.reactivex.Observable
 import java.io.File
@@ -13,25 +15,8 @@ class DatabaseLoaderService {
 
     fun copyDatabase(inputStream: InputStream?): Observable<Unit> {
         return folderExist()
-                .flatMap { fileExist() }
-                .flatMap {
-                    lambda {
-                        val outputStream = FileOutputStream(DATABASE_PATH + DATABASE_NAME)
-                        val buffer = ByteArray(1024)
-                        var length = 0
-                        val line: () -> Int = {
-                            length = inputStream!!.read(buffer)
-                            length
-                        }
-                        while (line() > 0) {
-                            outputStream.write(buffer, 0, length)
-                        }
-                        outputStream.flush()
-                        outputStream.close()
-                        inputStream!!.close()
-
-                    }
-                }
+            .flatMap { fileExist() }
+            .flatMap { copy(inputStream) }
     }
 
     private fun fileExist(): Observable<Unit> {
@@ -48,6 +33,24 @@ class DatabaseLoaderService {
         }
     }
 
+    private fun copy(inputStream: InputStream?): Observable<Unit> {
+        return lambda {
+            val outputStream = FileOutputStream(DATABASE_PATH + DATABASE_NAME)
+            val buffer = ByteArray(1024)
+            var length = 0
+            val line: () -> Int = {
+                length = inputStream!!.read(buffer)
+                length
+            }
+            while (line() > 0) {
+                outputStream.write(buffer, 0, length)
+            }
+            outputStream.flush()
+            outputStream.close()
+            inputStream!!.close()
+        }
+    }
+
     private fun <T> lambda(block: () -> T): Observable<T> {
         return Observable.create {
             try {
@@ -59,5 +62,19 @@ class DatabaseLoaderService {
         }
     }
 
-    fun parseMetaData(uri: Uri) = Observable.just(DatabaseInfo("Someday will be realized", 999, uri))
+    fun parseMetaData(cursor: Cursor?): Observable<DatabaseInfo> {
+        return lambda {
+            cursor?.takeIf { cursor.moveToFirst() }?.run {
+                return@lambda DatabaseInfo().apply {
+                    name = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                    size = cursor.getColumnIndex(OpenableColumns.SIZE).let { sizeIndex ->
+                        cursor.takeIf { !it.isNull(sizeIndex) }.run {
+                            cursor.getString(sizeIndex)
+                        } ?: "Unknown"
+                    }
+                    uri = cursor.notificationUri
+                }
+            } ?: DatabaseInfo()
+        }.doAfterTerminate { cursor?.close() }
+    }
 }
