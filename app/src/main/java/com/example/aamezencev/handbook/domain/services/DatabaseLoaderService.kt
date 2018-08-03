@@ -1,8 +1,9 @@
 package com.example.aamezencev.handbook.domain.services
 
 import android.database.Cursor
-import android.net.Uri
 import android.provider.OpenableColumns
+import com.example.aamezencev.handbook.application.Constants.DATABASE_NAME
+import com.example.aamezencev.handbook.application.Constants.DATABASE_PATH
 import com.example.aamezencev.handbook.data.presentation.DatabaseInfo
 import io.reactivex.Observable
 import java.io.File
@@ -10,9 +11,6 @@ import java.io.FileOutputStream
 import java.io.InputStream
 
 class DatabaseLoaderService {
-    private val DATABASE_PATH = "/data/data/com.example.aamezencev.handbook/databases/"
-    val DATABASE_NAME = "handBook-db"
-
     fun copyDatabase(inputStream: InputStream?): Observable<Unit> {
         return folderExist()
             .flatMap { fileExist() }
@@ -70,7 +68,7 @@ class DatabaseLoaderService {
                     size = cursor.getColumnIndex(OpenableColumns.SIZE).let { sizeIndex ->
                         cursor.takeIf { !it.isNull(sizeIndex) }.run {
                             cursor.getString(sizeIndex)
-                        } ?: "Unknown"
+                        }.toLong()
                     }
                     uri = cursor.notificationUri
                 }

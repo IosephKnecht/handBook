@@ -75,11 +75,6 @@ class HierarchyFragment : AbstractFragment<HierarchyListContract.ViewModel, Hier
         presenter?.obtainHieararchy(parentId)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.hierarchy_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return false
     }

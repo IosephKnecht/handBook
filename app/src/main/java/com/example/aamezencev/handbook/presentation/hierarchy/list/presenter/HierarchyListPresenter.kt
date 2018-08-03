@@ -3,7 +3,6 @@ package com.example.aamezencev.handbook.presentation.hierarchy.list.presenter
 import com.example.aamezencev.handbook.common.presenter.AbstractPresenter
 import com.example.aamezencev.handbook.common.view.AndroidComponent
 import com.example.aamezencev.handbook.data.db.HierarchyElementDb
-import com.example.aamezencev.handbook.data.presentation.IHierarchy
 import com.example.aamezencev.handbook.domain.mappers.HierarchyElementMapper
 import com.example.aamezencev.handbook.presentation.hierarchy.list.HierarchyListContract
 import com.example.aamezencev.handbook.presentation.hierarchy.list.interactor.HierarchyListInteractor
@@ -11,7 +10,6 @@ import com.example.aamezencev.handbook.presentation.hierarchy.list.interactor.Hi
 class HierarchyListPresenter(private var interactor: HierarchyListInteractor?,
                              private val router: HierarchyListContract.Router)
     : AbstractPresenter<HierarchyListContract.ViewModel>(), HierarchyListContract.Presenter, HierarchyListContract.Listener {
-    private var cacheHierarchy: IHierarchy? = null
 
     override fun attachView(viewModel: HierarchyListContract.ViewModel, androidComponent: AndroidComponent) {
         super.attachView(viewModel, androidComponent)
