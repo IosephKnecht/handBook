@@ -28,11 +28,11 @@ class LoaderInteractor(private val databaseLoaderService: DatabaseLoaderService,
                 .flatMap { _ ->
                     sessionInitializer.initSesseion()
                         .flatMap { session ->
-                            lastSuccessInit.takeIf { it?.uri != cursor.notificationUri }.run {
+                            if (lastSuccessInit == null || lastSuccessInit?.uri != cursor.notificationUri) {
                                 sessionInitializer.initSesseion()
                                     .doOnNext { AppDelegate.daoSession = session as DaoSession }
                                     .flatMap { databaseLoaderService.parseMetaData(cursor) }
-                            } ?: Observable.just(lastSuccessInit)
+                            } else  Observable.just(lastSuccessInit)
                         }
                 }) { listener, result ->
             result.data {
