@@ -30,6 +30,7 @@ interface LoaderContract {
 
     interface Presenter : MvpPresenter<ViewModel> {
         fun obtainFilePath(uri: Uri?)
+        fun deleteFilePath(databaseInfo: DatabaseInfo)
     }
 
     interface Listener : MvpInteractor.Listener {
@@ -39,6 +40,7 @@ interface LoaderContract {
     interface Interactor : MvpInteractor<Listener> {
         fun copyDatabase(cursor: Cursor, inputSteam: InputStream?)
         fun getCachedFilePath(): List<DatabaseInfo>
+        fun removeFilepath(databaseInfo: DatabaseInfo)
     }
 
     interface RouterListener : MvpRouter.Listener {

@@ -32,7 +32,7 @@ class LoaderInteractor(private val databaseLoaderService: DatabaseLoaderService,
                                 sessionInitializer.initSesseion()
                                     .doOnNext { AppDelegate.daoSession = session as DaoSession }
                                     .flatMap { databaseLoaderService.parseMetaData(cursor) }
-                            } else  Observable.just(lastSuccessInit)
+                            } else Observable.just(lastSuccessInit)
                         }
                 }) { listener, result ->
             result.data {
@@ -45,6 +45,10 @@ class LoaderInteractor(private val databaseLoaderService: DatabaseLoaderService,
     }
 
     override fun getCachedFilePath() = sharedPreferenceService.getFilePathList()
+
+    override fun removeFilepath(databaseInfo: DatabaseInfo) {
+        sharedPreferenceService.removeFilePath(databaseInfo)
+    }
 
     private fun cacheFilePath(databaseInfo: DatabaseInfo) {
         sharedPreferenceService.saveUniqueFilePath(databaseInfo)

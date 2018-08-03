@@ -35,6 +35,10 @@ class LoaderPresenter(private val interactor: LoaderContract.Interactor,
         router.convertUri(androidComponent!!, uri)
     }
 
+    override fun deleteFilePath(databaseInfo: DatabaseInfo) {
+        interactor.removeFilepath(databaseInfo)
+    }
+
     override fun onCopyDatabase(databaseInfo: DatabaseInfo) {
         viewModel!!.cachedUri(databaseInfo)
         if (viewModel!!.state == LoaderContract.State.OPEN)
