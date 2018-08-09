@@ -7,7 +7,6 @@ import com.example.aamezencev.handbook.domain.services.DataBaseService
 import com.example.aamezencev.handbook.domain.services.SharedPreferenceService
 import com.example.aamezencev.handbook.presentation.hierarchy.screen.HierarchyScreenContract
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 
 class HierarchyScreenInteractor(private val dataBaseService: DataBaseService,
                                 private val sharedPreferenceService: SharedPreferenceService) : AbstractInteractor<HierarchyScreenContract.Listener>(),

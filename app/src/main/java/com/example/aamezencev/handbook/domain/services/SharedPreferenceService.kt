@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import com.example.aamezencev.handbook.data.presentation.BookmarkInfo
 import com.example.aamezencev.handbook.data.presentation.DatabaseInfo
 import com.google.gson.Gson
+import io.reactivex.Observable
 
 class SharedPreferenceService(applicationContext: Context,
                               private val gson: Gson) {
@@ -16,6 +17,10 @@ class SharedPreferenceService(applicationContext: Context,
 
     private val databaseInfoFile = applicationContext.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
     private val bookmarksInfoFile = applicationContext.getSharedPreferences(BOOKMARK_PREF_NAME, Context.MODE_PRIVATE)
+
+    fun <T> makeReactive(block: SharedPreferenceService.() -> T): Observable<T> {
+        return Observable.fromCallable { block() }
+    }
 
     fun saveUniqueFilePath(databaseInfo: DatabaseInfo) {
         val databaseInfoGson = gson.toJson(databaseInfo)
