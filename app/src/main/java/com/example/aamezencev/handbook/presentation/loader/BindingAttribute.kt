@@ -7,6 +7,6 @@ import com.example.aamezencev.handbook.presentation.loader.view.adapter.LoaderAd
 
 @BindingAdapter("setDatabaseInfo")
 fun RecyclerView.setDatabaseInfo(list: List<DatabaseInfo>) {
-    (this.adapter as LoaderAdapter).databaseList = list
+    (this.adapter as LoaderAdapter).databaseList = list.toMutableList()
     this.adapter.notifyDataSetChanged()
 }

@@ -1,62 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <FrameLayout
+        android:id="@+id/background_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/preview"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_database"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="0dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:paddingBottom="2dp"
-            android:paddingLeft="2dp"
-            android:paddingRight="2dp"
-            android:paddingTop="2dp"
-            app:layout_constraintEnd_toStartOf="@+id/arrow_right"
-            app:layout_constraintStart_toEndOf="@+id/preview"
-            app:layout_constraintTop_toTopOf="@+id/preview"
-            tools:text="filename" />
+            android:background="@color/red"
+            tools:visibility="invisible">
 
-        <TextView
-            android:id="@+id/arrow_right"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginEnd="8dp"
-            android:gravity="center"
-            android:text=">"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/size"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/name" />
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_delete"
+                android:layout_alignParentEnd="true"/>
 
-        <TextView
-            android:id="@+id/size"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginTop="4dp"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="@+id/preview"
-            app:layout_constraintEnd_toEndOf="@+id/name"
-            app:layout_constraintTop_toBottomOf="@+id/name"
-            tools:text="20 МБ" />
+        </RelativeLayout>
 
-    </android.support.constraint.ConstraintLayout>
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/foreground_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white_1">
+
+            <ImageView
+                android:id="@+id/preview"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_database"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:paddingBottom="2dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:paddingTop="2dp"
+                app:layout_constraintEnd_toStartOf="@+id/arrow_right"
+                app:layout_constraintStart_toEndOf="@+id/preview"
+                app:layout_constraintTop_toTopOf="@+id/preview"
+                tools:text="filename" />
+
+            <TextView
+                android:id="@+id/arrow_right"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:text=">"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/name" />
+
+            <TextView
+                android:id="@+id/size"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="@+id/preview"
+                app:layout_constraintEnd_toEndOf="@+id/name"
+                app:layout_constraintTop_toBottomOf="@+id/name"
+                tools:text="20 МБ" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </FrameLayout>
 </layout>

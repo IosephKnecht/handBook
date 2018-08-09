@@ -3,7 +3,11 @@ package com.example.aamezencev.handbook.presentation.loader.view
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,9 +22,10 @@ import com.example.aamezencev.handbook.presentation.loader.di.LoaderComponent
 import com.example.aamezencev.handbook.presentation.loader.di.LoaderModule
 import com.example.aamezencev.handbook.presentation.loader.presenter.LoaderPresenter
 import com.example.aamezencev.handbook.presentation.loader.view.adapter.LoaderAdapter
+import com.example.aamezencev.handbook.presentation.loader.view.adapter.LoaderItemTouchHelper
 import kotlinx.android.synthetic.main.loader_fragment.*
 
-class LoaderFragment : AbstractFragment<LoaderContract.ViewModel, LoaderContract.Presenter>() {
+class LoaderFragment : AbstractFragment<LoaderContract.ViewModel, LoaderContract.Presenter>(), LoaderItemTouchHelper.RecyclerItemTouchHelperListener {
     private var diComponent: LoaderComponent? = null
     private lateinit var binding: LoaderFragmentBinding
 
@@ -59,6 +64,13 @@ class LoaderFragment : AbstractFragment<LoaderContract.ViewModel, LoaderContract
                     presenter!!.obtainFilePath(it)
                 }
             }
+            itemAnimator = DefaultItemAnimator()
+            addItemDecoration(DividerItemDecoration(this@LoaderFragment.context, DividerItemDecoration.VERTICAL))
+
+            LoaderItemTouchHelper(0, ItemTouchHelper.LEFT, this@LoaderFragment)
+                .let {
+                    ItemTouchHelper(it).attachToRecyclerView(this@apply)
+                }
         }
 
         fab_database.setOnClickListener {
@@ -75,6 +87,13 @@ class LoaderFragment : AbstractFragment<LoaderContract.ViewModel, LoaderContract
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == DATABASE_READ_REQUEST_CODE) {
             viewModel!!.loadableUri = data?.data
+        }
+    }
+
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int, position: Int) {
+        with(database_info_view.adapter as LoaderAdapter) {
+            presenter!!.deleteFilePath(this.databaseList[position])
+            this.removeItem(position)
         }
     }
 }

@@ -9,9 +9,12 @@ import com.example.aamezencev.handbook.R
 import com.example.aamezencev.handbook.data.presentation.DatabaseInfo
 import com.example.aamezencev.handbook.databinding.ItemDatabaseBinding
 import com.example.aamezencev.handbook.domain.utils.SizeUtil
+import android.content.ClipData.Item
+
+
 
 class LoaderAdapter : RecyclerView.Adapter<LoaderAdapter.ViewHolder>() {
-    var databaseList: List<DatabaseInfo> = listOf()
+    var databaseList: MutableList<DatabaseInfo> = mutableListOf()
     var clickListener: ((Uri) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,6 +31,11 @@ class LoaderAdapter : RecyclerView.Adapter<LoaderAdapter.ViewHolder>() {
             holder.binding.size.text = SizeUtil.sizeToString(size)
             holder.binding.root.setOnClickListener { clickListener?.invoke(uri) }
         }
+    }
+
+    fun removeItem(position: Int) {
+        databaseList.removeAt(position)
+        notifyItemRemoved(position)
     }
 
     class ViewHolder(val binding: ItemDatabaseBinding) : RecyclerView.ViewHolder(binding.root)
