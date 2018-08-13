@@ -2,6 +2,7 @@ package com.example.aamezencev.handbook.ui.view
 
 import android.content.Context
 import android.support.annotation.IdRes
+import android.support.annotation.LayoutRes
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +10,9 @@ import android.widget.FrameLayout
 import com.example.aamezencev.handbook.R
 
 class RemovableItem : FrameLayout {
-    @IdRes
+    @LayoutRes
     private var foregroundViewRes: Int? = null
-    @IdRes
+    @LayoutRes
     private var backgroundViewRes: Int? = null
 
     var foregroundView: View? = null
