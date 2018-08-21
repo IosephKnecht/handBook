@@ -1,4 +1,4 @@
-package com.example.aamezencev.handbook.ui.bookmark_layout
+package com.example.aamezencev.handbook.ui.bookmarkLayout
 
 interface SwipeTouchListener {
     fun onSwipeTop()
