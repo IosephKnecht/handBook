@@ -1,12 +1,11 @@
 package com.example.aamezencev.handbook.ui.bookmark_layout
 
-import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
-import android.support.annotation.DrawableRes
 import android.util.AttributeSet
-import android.view.Gravity
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
-import android.view.ViewPropertyAnimator
 import android.view.animation.AccelerateInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -18,73 +17,126 @@ class BookmarkLayout @JvmOverloads constructor(context: Context,
                                                defStyle: Int = 0) : LinearLayout(context, attributeSet, defStyle), SwipeTouchListener {
     private var bookmarkImage: ImageView = ImageView(context)
 
-    private val bottomSwipeAnimator: ValueAnimator
-
     private var bookmarkWidth = 0
     private var bookmarkHeight = 0
     private var bookmarkDrawable: Int? = null
     private var bookmarkVisible = false
         set(value) {
             field = value
-            bookmarkImage.visibility = if (bookmarkVisible) View.VISIBLE else View.INVISIBLE
+            bookmarkImage.translationY = bookmarkHeight.toFloat()
         }
+    private var bookmarkColor = -1
 
-    private val listener = OnSwipeTouchListener(context, this)
+    private val swipeListener = OnSwipeTouchListener(context, this)
+    private var bookmarkListener: BookmarkListener? = null
 
     init {
         context.obtainStyledAttributes(attributeSet, R.styleable.BookmarkLayout).apply {
             bookmarkWidth = getDimensionPixelSize(R.styleable.BookmarkLayout_bookmark_width, 0)
             bookmarkHeight = getDimensionPixelSize(R.styleable.BookmarkLayout_bookmark_height, 0)
             bookmarkDrawable = getResourceId(R.styleable.BookmarkLayout_bookmark_image, -1)
-            bookmarkVisible = getBoolean(R.styleable.BookmarkLayout_bookmark_visible, true)
+            bookmarkVisible = getBoolean(R.styleable.BookmarkLayout_bookmark_visible, false)
+            bookmarkColor = getColor(R.styleable.BookmarkLayout_bookmark_color, resources.getColor(android.R.color.black))
             recycle()
         }
 
-        bottomSwipeAnimator = initAnimator(0f, 500f)
-        initBookmarkImage(bookmarkDrawable!!, bookmarkWidth, bookmarkHeight)
-
-        setOnTouchListener(listener)
-    }
-
-    private fun initBookmarkImage(@DrawableRes id: Int, width: Int, height: Int) {
-        bookmarkImage.setImageDrawable(resources.getDrawable(id))
-
-        val lp = LinearLayout.LayoutParams(width, height)
-        lp.gravity = Gravity.CENTER
-        lp.marginStart = this.width / 4
-        bookmarkImage.layoutParams = lp
-
         addView(bookmarkImage)
+        setOnTouchListener(swipeListener)
     }
 
-    private fun initAnimator(startY: Float, endY: Float): ValueAnimator {
-        val animator = ValueAnimator.ofFloat(startY, endY)
-        animator.interpolator = AccelerateInterpolator()
-        animator.duration = 500
-        animator.addUpdateListener {
-            val progress = it.animatedValue as Float
-            bookmarkImage.translationY = progress
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        super.onLayout(changed, l, t, r, b)
+
+        val count = childCount - 1
+        for (i in 0..count) {
+            val view = getChildAt(i)
+            if (view != bookmarkImage) initAloneChilds(view)
         }
-        return animator
+
+        initBookmarkImage()
     }
 
-    override fun onSwipeRight() {
+    private fun initAloneChilds(view: View) {
+        view.let {
+            it.layout(it.left, it.top + bookmarkHeight, it.right, it.bottom + bookmarkHeight)
+        }
     }
 
-    override fun onSwipeLeft() {
+    private fun initBookmarkImage() {
+        bookmarkImage.setImageDrawable(resources.getDrawable(bookmarkDrawable ?: -1))
+        bookmarkImage.setColorFilter(bookmarkColor)
+
+        val bkmLeft = (measuredWidth * 0.75).toInt() - bookmarkWidth
+        val bkmTop = bookmarkHeight * -1
+        val bkmRight = bkmLeft + bookmarkWidth
+        val bkmBottom = 1
+
+        bookmarkImage.layout(bkmLeft, bkmTop, bkmRight, bkmBottom)
     }
 
     override fun onSwipeTop() {
-//        if (bookmarkVisible) {
-        bottomSwipeAnimator.reverse()
-        //bookmarkVisible = !bookmarkVisible
-//        }
+        bookmarkImage.animate()
+            .setDuration(500)
+            .setInterpolator(AccelerateInterpolator())
+            .alpha(0f)
+            .translationY(0f)
+            .withEndAction { bookmarkListener?.onRemovedBookmark() }
     }
 
     override fun onSwipeBottom() {
-//        if (!bookmarkVisible) {
-        bottomSwipeAnimator.start()
-        //bookmarkVisible = !bookmarkVisible
-//        }
+        bookmarkImage.animate()
+            .setDuration(500)
+            .setInterpolator(AccelerateInterpolator())
+            .alpha(1f)
+            .translationY(bookmarkHeight.toFloat())
+            .withEndAction { bookmarkListener?.onAddedBookmark() }
+    }
+
+
+    private class OnSwipeTouchListener(ctx: Context,
+                                       private val listener: SwipeTouchListener) : OnTouchListener {
+
+        companion object {
+            private const val SWIPE_THRESHOLD = 100
+            private const val SWIPE_VELOCITY_THRESHOLD = 100
+        }
+
+        private val gestureDetector: GestureDetector
+
+        init {
+            gestureDetector = GestureDetector(ctx, GestureListener())
+        }
+
+        @SuppressLint("ClickableViewAccessibility")
+        override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+            return gestureDetector.onTouchEvent(event)
+        }
+
+        private inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
+
+            override fun onDown(e: MotionEvent): Boolean {
+                return true
+            }
+
+            override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+                var result = false
+                try {
+                    val diffY = e2.y - e1.y
+                    val diffX = e2.x - e1.x
+                    if (Math.abs(diffX) < Math.abs(diffY) && Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                        if (diffY > 0) {
+                            listener.onSwipeBottom()
+                        } else {
+                            listener.onSwipeTop()
+                        }
+                        result = true
+                    }
+                } catch (exception: Exception) {
+                    exception.printStackTrace()
+                }
+
+                return result
+            }
+        }
     }
 }
