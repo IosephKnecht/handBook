@@ -8,13 +8,14 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.widget.ImageView
-import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import com.example.aamezencev.handbook.R
 
 
 class BookmarkLayout @JvmOverloads constructor(context: Context,
                                                attributeSet: AttributeSet? = null,
-                                               defStyle: Int = 0) : LinearLayout(context, attributeSet, defStyle), SwipeTouchListener {
+                                               defStyle: Int = 0) :
+    RelativeLayout(context, attributeSet, defStyle), SwipeTouchListener {
     private var bookmarkImage: ImageView = ImageView(context)
 
     private var bookmarkWidth = 0
@@ -23,12 +24,12 @@ class BookmarkLayout @JvmOverloads constructor(context: Context,
     private var bookmarkVisible = false
         set(value) {
             field = value
-            bookmarkImage.translationY = bookmarkHeight.toFloat()
+            if (field) bookmarkImage.translationY = bookmarkHeight.toFloat()
         }
     private var bookmarkColor = -1
 
     private val swipeListener = OnSwipeTouchListener(context, this)
-    private var bookmarkListener: BookmarkListener? = null
+    var bookmarkListener: BookmarkListener? = null
 
     init {
         context.obtainStyledAttributes(attributeSet, R.styleable.BookmarkLayout).apply {
@@ -57,8 +58,12 @@ class BookmarkLayout @JvmOverloads constructor(context: Context,
     }
 
     private fun initAloneChilds(view: View) {
-        view.let {
-            it.layout(it.left, it.top + bookmarkHeight, it.right, it.bottom + bookmarkHeight)
+        if (view.top < bookmarkHeight) {
+            view.let {
+                val childBottom =
+                    if (it.bottom < bookmarkHeight) it.measuredHeight + bookmarkHeight else it.bottom
+                it.layout(it.left, bookmarkHeight, it.right, childBottom)
+            }
         }
     }
 
@@ -75,19 +80,12 @@ class BookmarkLayout @JvmOverloads constructor(context: Context,
     }
 
     override fun onSwipeTop() {
-        bookmarkImage.animate()
-            .setDuration(500)
-            .setInterpolator(AccelerateInterpolator())
-            .alpha(0f)
-            .translationY(0f)
-            .withEndAction { bookmarkListener?.onRemovedBookmark() }
+        bookmarkImage.animate().setDuration(500).setInterpolator(AccelerateInterpolator()).alpha(0f)
+            .translationY(0f).withEndAction { bookmarkListener?.onRemovedBookmark() }
     }
 
     override fun onSwipeBottom() {
-        bookmarkImage.animate()
-            .setDuration(500)
-            .setInterpolator(AccelerateInterpolator())
-            .alpha(1f)
+        bookmarkImage.animate().setDuration(500).setInterpolator(AccelerateInterpolator()).alpha(1f)
             .translationY(bookmarkHeight.toFloat())
             .withEndAction { bookmarkListener?.onAddedBookmark() }
     }
@@ -97,7 +95,7 @@ class BookmarkLayout @JvmOverloads constructor(context: Context,
                                        private val listener: SwipeTouchListener) : OnTouchListener {
 
         companion object {
-            private const val SWIPE_THRESHOLD = 100
+            private const val SWIPE_THRESHOLD = 150
             private const val SWIPE_VELOCITY_THRESHOLD = 100
         }
 
@@ -123,7 +121,9 @@ class BookmarkLayout @JvmOverloads constructor(context: Context,
                 try {
                     val diffY = e2.y - e1.y
                     val diffX = e2.x - e1.x
-                    if (Math.abs(diffX) < Math.abs(diffY) && Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                    if (Math.abs(diffX) < Math.abs(diffY) && Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(
+                            velocityY) > SWIPE_VELOCITY_THRESHOLD
+                    ) {
                         if (diffY > 0) {
                             listener.onSwipeBottom()
                         } else {
