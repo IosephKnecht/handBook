@@ -9,5 +9,4 @@ import dagger.Subcomponent
 interface BookmarksComponent {
     fun getViewModel(): BookmarksContract.ViewModel
     fun getPresenter(): BookmarksContract.Presenter
-    fun getRouter(): BookmarksContract.Router
 }

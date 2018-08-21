@@ -1,5 +1,9 @@
 package com.example.aamezencev.handbook.presentation.bookmarks.di
 
+import com.example.aamezencev.handbook.data.db.DaoSession
+import com.example.aamezencev.handbook.domain.common.SessionInitializer
+import com.example.aamezencev.handbook.domain.services.DatabaseLoaderService
+import com.example.aamezencev.handbook.domain.services.GreenDaoSessionInitializer
 import com.example.aamezencev.handbook.domain.services.SharedPreferenceService
 import com.example.aamezencev.handbook.presentation.bookmarks.BookmarksContract
 import com.example.aamezencev.handbook.presentation.bookmarks.interactor.BookmarksInteractor
@@ -29,8 +33,10 @@ class BookmarksModule {
 
     @Provides
     @ModuleScope
-    fun provideInteractor(sharedPreferenceService: SharedPreferenceService): BookmarksContract.Interactor {
-        return BookmarksInteractor(sharedPreferenceService)
+    fun provideInteractor(sharedPreferenceService: SharedPreferenceService,
+                          databaseLoaderService: DatabaseLoaderService,
+                          sessionInitializer: SessionInitializer<DaoSession>): BookmarksContract.Interactor {
+        return BookmarksInteractor(sharedPreferenceService, databaseLoaderService, sessionInitializer)
     }
 
     @Provides

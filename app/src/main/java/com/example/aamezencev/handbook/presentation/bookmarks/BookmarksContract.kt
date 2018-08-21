@@ -7,6 +7,8 @@ import com.example.aamezencev.handbook.common.router.MvpRouter
 import com.example.aamezencev.handbook.common.view.AndroidComponent
 import com.example.aamezencev.handbook.common.viewModel.MvpViewModel
 import com.example.aamezencev.handbook.data.presentation.BookmarkInfo
+import com.example.aamezencev.handbook.data.presentation.DatabaseInfo
+import java.io.InputStream
 
 interface BookmarksContract {
     interface ViewModel : MvpViewModel {
@@ -16,6 +18,7 @@ interface BookmarksContract {
 
     interface Presenter : MvpPresenter<ViewModel> {
         fun obtainBookmarks()
+        fun openBookmark(bookmarkInfo: BookmarkInfo)
         fun removeBookmark(bookmarkInfo: BookmarkInfo)
         fun removeAllBookmarks()
     }
@@ -24,10 +27,12 @@ interface BookmarksContract {
         fun onObtainBookmarks(bookmarkList: List<BookmarkInfo>)
         fun onRemoveBookmark(bookmarkInfo: BookmarkInfo)
         fun onRemoveAllBookmarks()
+        fun onOpenedDatabase(bookmarkInfo: BookmarkInfo)
     }
 
     interface Interactor : MvpInteractor<Listener> {
         fun getBookmarks()
+        fun openDatabase(bookmarkInfo: BookmarkInfo)
     }
 
     interface RouterListener : MvpRouter.Listener

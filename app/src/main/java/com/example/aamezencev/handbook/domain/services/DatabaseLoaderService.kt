@@ -1,6 +1,9 @@
 package com.example.aamezencev.handbook.domain.services
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.database.Cursor
+import android.net.Uri
 import android.provider.OpenableColumns
 import com.example.aamezencev.handbook.application.Constants.DATABASE_NAME
 import com.example.aamezencev.handbook.application.Constants.DATABASE_PATH
@@ -10,11 +13,17 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 
-class DatabaseLoaderService {
+class DatabaseLoaderService(private val applicationContext: Context) {
     fun copyDatabase(inputStream: InputStream?): Observable<Unit> {
         return folderExist()
             .flatMap { fileExist() }
             .flatMap { copy(inputStream) }
+    }
+
+    fun copyDatabase(uri: Uri?): Observable<Unit> {
+        return folderExist()
+            .flatMap { fileExist() }
+            .flatMap { copy(uri) }
     }
 
     private fun fileExist(): Observable<Unit> {
@@ -28,6 +37,34 @@ class DatabaseLoaderService {
         return lambda {
             val folder = File(DATABASE_PATH)
             if (!folder.exists()) folder.mkdirs()
+        }
+    }
+
+    private fun copy(uri: Uri?): Observable<Unit> {
+        return Observable.fromCallable { obtainInputStream(uri) }
+            .flatMap {
+                lambda {
+                    val outputStream = FileOutputStream(DATABASE_PATH + DATABASE_NAME)
+                    val buffer = ByteArray(1024)
+                    var length = 0
+                    val line: () -> Int = {
+                        length = it!!.read(buffer)
+                        length
+                    }
+                    while (line() > 0) {
+                        outputStream.write(buffer, 0, length)
+                    }
+                    outputStream.flush()
+                    outputStream.close()
+                    it!!.close()
+                }
+            }
+    }
+
+    @SuppressLint("Recycle")
+    private fun obtainInputStream(uri: Uri?): InputStream? {
+        with(applicationContext.contentResolver) {
+            return openInputStream(uri)
         }
     }
 

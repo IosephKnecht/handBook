@@ -32,6 +32,7 @@ class LoaderInteractor(private val databaseLoaderService: DatabaseLoaderService,
                                 sessionInitializer.initSesseion()
                                     .doOnNext { AppDelegate.daoSession = session as DaoSession }
                                     .flatMap { databaseLoaderService.parseMetaData(cursor) }
+                                    .doAfterNext { sharedPreferenceService.saveDatabaseName(it.name) }
                             } else Observable.just(lastSuccessInit)
                         }
                 }) { listener, result ->

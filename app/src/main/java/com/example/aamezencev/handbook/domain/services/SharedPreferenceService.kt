@@ -9,14 +9,17 @@ import io.reactivex.Observable
 
 class SharedPreferenceService(applicationContext: Context,
                               private val gson: Gson) {
-    private val SHARED_PREF_NAME = "handbook_shared_pref"
+    private val DATABASE_PREF_NAME = "handbook_database_pref"
     private val BOOKMARK_PREF_NAME = "handbook_bookmark_pref"
+    private val COMMON_SHAREDPRE_NAME = "handbook_shared_pref"
 
     private val DATABASE_FILE_PATH_KEY = "database_path"
     private val BOOKMARK_PREF_KEY = "bookmark"
+    private val DATABASE_NAME = "database_name"
 
-    private val databaseInfoFile = applicationContext.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
+    private val databaseInfoFile = applicationContext.getSharedPreferences(DATABASE_PREF_NAME, Context.MODE_PRIVATE)
     private val bookmarksInfoFile = applicationContext.getSharedPreferences(BOOKMARK_PREF_NAME, Context.MODE_PRIVATE)
+    private val commonSharedPref = applicationContext.getSharedPreferences(COMMON_SHAREDPRE_NAME, Context.MODE_PRIVATE)
 
     fun <T> makeReactive(block: SharedPreferenceService.() -> T): Observable<T> {
         return Observable.fromCallable { block() }
@@ -79,6 +82,15 @@ class SharedPreferenceService(applicationContext: Context,
                     .apply()
             }
     }
+
+    fun saveDatabaseName(name: String) {
+        commonSharedPref.edit()
+            .putString(DATABASE_NAME, name)
+            .apply()
+    }
+
+    fun getDatabaseName() = commonSharedPref.getString(DATABASE_NAME, null)
+
 
     private fun uniqueValue(sharedPrefFile: SharedPreferences, value: String) =
         sharedPrefFile.all.filter { it.value == value }.isEmpty()

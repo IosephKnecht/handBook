@@ -2,6 +2,7 @@ package com.example.aamezencev.handbook.presentation.bookmarks.presenter
 
 import com.example.aamezencev.handbook.common.presenter.AbstractPresenter
 import com.example.aamezencev.handbook.data.presentation.BookmarkInfo
+import com.example.aamezencev.handbook.data.presentation.DatabaseInfo
 import com.example.aamezencev.handbook.presentation.bookmarks.BookmarksContract
 
 class BookmarksPresenter(private val interactor: BookmarksContract.Interactor,
@@ -17,6 +18,10 @@ class BookmarksPresenter(private val interactor: BookmarksContract.Interactor,
     override fun removeAllBookmarks() {
     }
 
+    override fun openBookmark(bookmarkInfo: BookmarkInfo) {
+        interactor.openDatabase(bookmarkInfo)
+    }
+
     override fun onObtainBookmarks(bookmarkList: List<BookmarkInfo>) {
         viewModel!!.bookmarkList = bookmarkList
     }
@@ -25,5 +30,10 @@ class BookmarksPresenter(private val interactor: BookmarksContract.Interactor,
     }
 
     override fun onRemoveAllBookmarks() {
+
+    }
+
+    override fun onOpenedDatabase(bookmarkInfo: BookmarkInfo) {
+        router.openBookmark(androidComponent!!, bookmarkInfo)
     }
 }

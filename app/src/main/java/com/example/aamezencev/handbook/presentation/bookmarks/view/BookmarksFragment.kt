@@ -48,7 +48,7 @@ class BookmarksFragment : AbstractFragment<BookmarksContract.ViewModel, Bookmark
             setHasFixedSize(true)
             adapter = BookmarksAdapter().apply {
                 clickListener = {
-                    diComponent.getRouter().openBookmark(this@BookmarksFragment, it)
+                    presenter?.openBookmark(it)
                 }
             }
         }
