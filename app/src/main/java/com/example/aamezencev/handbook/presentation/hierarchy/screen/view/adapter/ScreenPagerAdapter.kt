@@ -8,21 +8,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.aamezencev.handbook.R
+import com.example.aamezencev.handbook.data.presentation.Page
 import com.example.aamezencev.handbook.databinding.PagerFragmentBinding
 import com.example.aamezencev.handbook.presentation.hierarchy.screen.viewModel.HierarchyInfoVM
 import com.example.aamezencev.handbook.ui.bookmarkLayout.BookmarkLayout
 import com.example.aamezencev.handbook.ui.bookmarkLayout.BookmarkListener
 
 
-class ScreenPagerAdapter(private val context: Context, private val viewModel: HierarchyInfoVM) : PagerAdapter() {
+class ScreenPagerAdapter(private val context: Context) : PagerAdapter() {
     var listener: BookmarkListener? = null
+    var pageList = listOf<Page>()
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
         return view == `object`
     }
 
     override fun getCount(): Int {
-        return 10
+        return pageList.size
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
@@ -32,11 +34,11 @@ class ScreenPagerAdapter(private val context: Context, private val viewModel: Hi
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val inflater = LayoutInflater.from(context)
         val binding = DataBindingUtil.inflate<PagerFragmentBinding>(inflater, R.layout.pager_fragment, container, false)
-        binding.viewModel = viewModel
+        binding.page = pageList[position]
 
         (binding.root as BookmarkLayout).apply {
             bookmarkListener = this@ScreenPagerAdapter.listener
-            establishVisibleBookmark(viewModel.marked)
+            establishVisibleBookmark(pageList[position].marked)
         }
 
         binding.pageText.movementMethod = LinkMovementMethod.getInstance()

@@ -34,15 +34,15 @@ class HierarchyScreenPresenter(private var router: HierarchyScreenContract.Route
     }
 
     override fun addBookmark(dataId: Long, position: Int) {
-        interactor.saveBookmark(dataId, viewModel!!.contentChipping(CONTENT_CHIPPING_VALUE), position)
+        interactor.saveBookmark(dataId, viewModel!!.contentChipping(position, CONTENT_CHIPPING_VALUE), position)
     }
 
     override fun removeBookmark(dataId: Long, position: Int) {
-        interactor.removeBookmark(dataId, viewModel!!.contentChipping(CONTENT_CHIPPING_VALUE), position)
+        interactor.removeBookmark(dataId, viewModel!!.contentChipping(position, CONTENT_CHIPPING_VALUE), position)
     }
 
     override fun onObtainDataElement(data: DataElement) {
-        viewModel!!.description = SpannableMapper.fromSpannable(data.description, data.pointerList) {
+        viewModel!!.pageList = SpannableMapper.fromSpannable(data.description, data.pointerList) {
             router.showViewer(androidComponent!!, it.thrModelId)
         }
     }

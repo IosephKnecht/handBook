@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="com.example.aamezencev.handbook.presentation.hierarchy.screen.HierarchyScreenContract.ViewModel"/>
+            name="page"
+            type="com.example.aamezencev.handbook.data.presentation.Page"/>
     </data>
 
     <com.example.aamezencev.handbook.ui.bookmarkLayout.BookmarkLayout
@@ -23,7 +23,7 @@
             android:id="@+id/pageText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.description}"
+            android:text="@{page.description}"
             tools:text="Text Page"/>
 
     </com.example.aamezencev.handbook.ui.bookmarkLayout.BookmarkLayout>

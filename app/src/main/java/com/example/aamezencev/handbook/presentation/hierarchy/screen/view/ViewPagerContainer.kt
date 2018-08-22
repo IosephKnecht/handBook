@@ -48,12 +48,13 @@ class ViewPagerContainer : AbstractFragment<HierarchyScreenContract.ViewModel, H
     override fun onStart() {
         super.onStart()
         val dataId = arguments?.run { getLong(DATA_ID) } ?: -1
-        if (viewModel == null || viewModel!!.description.isEmpty()) {
+        if (viewModel == null || viewModel!!.pageList.isEmpty()) {
             presenter?.obtainDataElement(dataId)
         }
 
         if (pager.adapter == null) {
-            pager.adapter = ScreenPagerAdapter(this.activityComponent, viewModel!! as HierarchyInfoVM).apply {
+            pager.adapter = ScreenPagerAdapter(this.activityComponent).apply {
+                pageList = viewModel!!.pageList
                 listener = this@ViewPagerContainer
             }
         }
@@ -70,19 +71,26 @@ class ViewPagerContainer : AbstractFragment<HierarchyScreenContract.ViewModel, H
     }
 
     override fun onAddedBookmark() {
-        viewModel!!.marked = true
+        val position = pager.currentItem
+        (pager.adapter as ScreenPagerAdapter).pageList[position].marked = true
         val dataId = arguments?.run { getLong(DATA_ID) } ?: -1
-        presenter!!.addBookmark(dataId, pager.currentItem)
+        presenter!!.addBookmark(dataId, position)
     }
 
     override fun onRemovedBookmark() {
-        viewModel!!.marked = false
+        val position = pager.currentItem
+        (pager.adapter as ScreenPagerAdapter).pageList[position].marked = true
+        val dataId = arguments?.run { getLong(DATA_ID) } ?: -1
+        presenter!!.removeBookmark(dataId, position)
     }
 
     private fun initSubscriptionViewModel(): Observable.OnPropertyChangedCallback {
         val subscriber = object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                if (pager != null) pager?.adapter?.notifyDataSetChanged()
+                if (pager != null) {
+                    (pager?.adapter as ScreenPagerAdapter).pageList = viewModel!!.pageList
+                    pager?.adapter?.notifyDataSetChanged()
+                }
             }
         }
         callbackList?.add(subscriber)
