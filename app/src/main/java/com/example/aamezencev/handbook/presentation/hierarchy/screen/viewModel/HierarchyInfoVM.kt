@@ -13,4 +13,11 @@ class HierarchyInfoVM : AbstractViewModel(), HierarchyScreenContract.ViewModel {
             field = value
             notifyPropertyChanged(BR.viewModel)
         }
+
+    override var marked: Boolean = false
+
+    override fun contentChipping(endIndex: Int): String {
+        return if (endIndex > description.length) description.toString()
+        else description.substring(endIndex)
+    }
 }

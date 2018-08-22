@@ -8,14 +8,16 @@ import android.view.ViewGroup
 import com.example.aamezencev.handbook.R
 import com.example.aamezencev.handbook.application.AppDelegate
 import com.example.aamezencev.handbook.common.view.AbstractFragment
+import com.example.aamezencev.handbook.data.presentation.BookmarkInfo
 import com.example.aamezencev.handbook.presentation.hierarchy.screen.HierarchyScreenContract
 import com.example.aamezencev.handbook.presentation.hierarchy.screen.di.HierarchyScreenComponent
 import com.example.aamezencev.handbook.presentation.hierarchy.screen.di.HierarchyScreenModule
 import com.example.aamezencev.handbook.presentation.hierarchy.screen.view.adapter.ScreenPagerAdapter
 import com.example.aamezencev.handbook.presentation.hierarchy.screen.viewModel.HierarchyInfoVM
+import com.example.aamezencev.handbook.ui.bookmarkLayout.BookmarkListener
 import kotlinx.android.synthetic.main.pager_container_fragment.*
 
-class ViewPagerContainer : AbstractFragment<HierarchyScreenContract.ViewModel, HierarchyScreenContract.Presenter>() {
+class ViewPagerContainer : AbstractFragment<HierarchyScreenContract.ViewModel, HierarchyScreenContract.Presenter>(), BookmarkListener {
     companion object {
         val DATA_ID = "DATA_ID"
         fun instanceFragment(dataId: Long) = ViewPagerContainer().apply {
@@ -50,9 +52,31 @@ class ViewPagerContainer : AbstractFragment<HierarchyScreenContract.ViewModel, H
             presenter?.obtainDataElement(dataId)
         }
 
-        if (pager.adapter == null) pager.adapter = ScreenPagerAdapter(this.activityComponent, viewModel!! as HierarchyInfoVM)
+        if (pager.adapter == null) {
+            pager.adapter = ScreenPagerAdapter(this.activityComponent, viewModel!! as HierarchyInfoVM).apply {
+                listener = this@ViewPagerContainer
+            }
+        }
 
         viewModel!!.addOnPropertyChangedCallback(initSubscriptionViewModel())
+    }
+
+    override fun onStop() {
+        callbackList?.forEach {
+            viewModel!!.removeOnPropertyChangedCallback(it)
+        }
+        callbackList = null
+        super.onStop()
+    }
+
+    override fun onAddedBookmark() {
+        viewModel!!.marked = true
+        val dataId = arguments?.run { getLong(DATA_ID) } ?: -1
+        presenter!!.addBookmark(dataId, pager.currentItem)
+    }
+
+    override fun onRemovedBookmark() {
+        viewModel!!.marked = false
     }
 
     private fun initSubscriptionViewModel(): Observable.OnPropertyChangedCallback {
@@ -63,13 +87,5 @@ class ViewPagerContainer : AbstractFragment<HierarchyScreenContract.ViewModel, H
         }
         callbackList?.add(subscriber)
         return subscriber
-    }
-
-    override fun onStop() {
-        callbackList?.forEach {
-            viewModel!!.removeOnPropertyChangedCallback(it)
-        }
-        callbackList = null
-        super.onStop()
     }
 }

@@ -10,7 +10,7 @@ import io.reactivex.disposables.CompositeDisposable
 
 class HierarchyScreenInteractor(private val dataBaseService: DataBaseService,
                                 private val sharedPreferenceService: SharedPreferenceService) : AbstractInteractor<HierarchyScreenContract.Listener>(),
-    HierarchyScreenContract.Interactor {
+        HierarchyScreenContract.Interactor {
     private val compositeDisposable = CompositeDisposable()
 
     override fun onDestroy() {
@@ -18,13 +18,19 @@ class HierarchyScreenInteractor(private val dataBaseService: DataBaseService,
         super.onDestroy()
     }
 
-    override fun saveBookmark(bookmarkInfo: BookmarkInfo) {
+    override fun saveBookmark(dataId: Long, contentChipping: String, position: Int) {
+        val bookmarkInfo = BookmarkInfo(sharedPreferenceService.getDatabaseName(), dataId, position.toLong(), contentChipping)
         sharedPreferenceService.saveUniqueBookmark(bookmarkInfo)
+    }
+
+    override fun removeBookmark(dataId: Long, contentChipping: String, position: Int) {
+        val bookmarkInfo = BookmarkInfo(sharedPreferenceService.getDatabaseName(), dataId, position.toLong(), contentChipping)
+        sharedPreferenceService.removeBookmark(bookmarkInfo)
     }
 
     override fun getDataElement(dataId: Long) {
         compositeDisposable.add(discardResult(dataBaseService.getDataElement(dataId)
-            .map { DataHierarchyElementMapper.fromPresentation(it) }) { listener, result ->
+                .map { DataHierarchyElementMapper.fromPresentation(it) }) { listener, result ->
             result.data { listener!!.onObtainDataElement(this!!) }
         })
     }

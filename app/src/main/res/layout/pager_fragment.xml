@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="viewModel"
-            type="com.example.aamezencev.handbook.presentation.hierarchy.screen.HierarchyScreenContract.ViewModel" />
+            type="com.example.aamezencev.handbook.presentation.hierarchy.screen.HierarchyScreenContract.ViewModel"/>
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <com.example.aamezencev.handbook.ui.bookmarkLayout.BookmarkLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:bookmark_width="50dp"
+        app:bookmark_height="50dp"
+        app:bookmark_image="@drawable/ic_bookmark"
+        app:bookmark_color="@color/colorPrimaryDark"
+        tools:bookmark_visible="true">
 
         <TextView
             android:id="@+id/pageText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Text Page" />
+            android:text="@{viewModel.description}"
+            tools:text="Text Page"/>
 
-    </LinearLayout>
+    </com.example.aamezencev.handbook.ui.bookmarkLayout.BookmarkLayout>
 </layout>

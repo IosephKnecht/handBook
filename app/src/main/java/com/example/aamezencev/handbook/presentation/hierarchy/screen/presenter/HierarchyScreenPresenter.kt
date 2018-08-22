@@ -10,7 +10,10 @@ import com.example.aamezencev.handbook.presentation.hierarchy.screen.router.Hier
 
 class HierarchyScreenPresenter(private var router: HierarchyScreenContract.Router,
                                private var interactor: HierarchyScreenContract.Interactor) : AbstractPresenter<HierarchyScreenContract.ViewModel>(),
-    HierarchyScreenContract.Presenter, HierarchyScreenContract.Listener {
+        HierarchyScreenContract.Presenter, HierarchyScreenContract.Listener {
+
+    private val CONTENT_CHIPPING_VALUE = 100
+
     override fun attachView(viewModel: HierarchyScreenContract.ViewModel, androidComponent: AndroidComponent) {
         super.attachView(viewModel, androidComponent)
         interactor.setListener(this)
@@ -30,8 +33,12 @@ class HierarchyScreenPresenter(private var router: HierarchyScreenContract.Route
         interactor.getDataElement(dataId)
     }
 
-    override fun addBookmark(bookmarkInfo: BookmarkInfo) {
-        interactor.saveBookmark(bookmarkInfo)
+    override fun addBookmark(dataId: Long, position: Int) {
+        interactor.saveBookmark(dataId, viewModel!!.contentChipping(CONTENT_CHIPPING_VALUE), position)
+    }
+
+    override fun removeBookmark(dataId: Long, position: Int) {
+        interactor.removeBookmark(dataId, viewModel!!.contentChipping(CONTENT_CHIPPING_VALUE), position)
     }
 
     override fun onObtainDataElement(data: DataElement) {
