@@ -1,6 +1,5 @@
 package com.example.aamezencev.handbook.presentation.loader.interactor
 
-import android.database.Cursor
 import android.net.Uri
 import com.example.aamezencev.handbook.application.AppDelegate
 import com.example.aamezencev.handbook.common.interactor.AbstractInteractor
@@ -12,7 +11,6 @@ import com.example.aamezencev.handbook.domain.services.SharedPreferenceService
 import com.example.aamezencev.handbook.presentation.loader.LoaderContract
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
-import java.io.InputStream
 
 class LoaderInteractor(private val databaseLoaderService: DatabaseLoaderService,
                        private val sessionInitializer: SessionInitializer<*>,
@@ -22,26 +20,23 @@ class LoaderInteractor(private val databaseLoaderService: DatabaseLoaderService,
     private val compositeSubscription = CompositeDisposable()
     private var lastSuccessInit: DatabaseInfo? = null
 
-    override fun copyDatabase(cursor: Cursor, inputSteam: InputStream?) {
-        compositeSubscription.add(discardResult(
-            databaseLoaderService.copyDatabase(inputSteam)
-                .flatMap { _ ->
+    override fun copyDatabase(uri: Uri) {
+        val observable = if (lastSuccessInit == null || lastSuccessInit?.uri != uri) {
+            databaseLoaderService.copy(uri)
+                .flatMap {
                     sessionInitializer.initSesseion()
-                        .flatMap { session ->
-                            if (lastSuccessInit == null || lastSuccessInit?.uri != cursor.notificationUri) {
-                                sessionInitializer.initSesseion()
-                                    .doOnNext { AppDelegate.daoSession = session as DaoSession }
-                                    .flatMap { databaseLoaderService.parseMetaData(cursor) }
-                                    .doAfterNext { sharedPreferenceService.saveDatabaseName(it.name) }
-                            } else Observable.just(lastSuccessInit)
-                        }
-                }) { listener, result ->
+                        .doOnNext { session -> AppDelegate.daoSession = session as DaoSession }
+                        .flatMap { _ -> databaseLoaderService.parseMetaData(uri) }
+                        .doAfterNext { info -> sharedPreferenceService.saveDatabaseName(info.name) }
+                }
+        } else Observable.just(lastSuccessInit)
+
+        compositeSubscription.add(discardResult(observable) { listener, result ->
             result.data {
                 lastSuccessInit = this
                 cacheFilePath(this)
-                listener!!.onCopyDatabase(this)
+                listener!!.onObtainFilePath(this)
             }
-            result.throwable { lastSuccessInit = null }
         })
     }
 

@@ -26,7 +26,7 @@ class BookmarksInteractor(private val sharedPreferenceService: SharedPreferenceS
                 sharedPreferenceService.makeReactive { getFilePathList() }
                     .map { list -> list.find { it.name == bookmarkName } }
             }
-            .flatMap { databaseLoaderService.copyDatabase(it.uri) }
+            .flatMap { databaseLoaderService.copy(it.uri) }
             .flatMap { sessionInitializer.initSesseion() }
             .doOnNext { AppDelegate.daoSession = it }) { listener, result ->
             result.data { listener!!.onOpenedDatabase(bookmarkInfo) }
