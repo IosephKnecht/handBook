@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="bookmark"
+            type="com.example.aamezencev.handbook.data.presentation.BookmarkInfo" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/bookmark_preview"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_bookmark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/bookmark_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@{bookmark.databaseName}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/bookmark_preview"
+            app:layout_constraintTop_toTopOf="@+id/bookmark_preview"
+            tools:text="Bookmark 1" />
+
+        <TextView
+            android:id="@+id/contentChipping"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{bookmark.contentChipping}"
+            app:layout_constraintBottom_toBottomOf="@+id/bookmark_preview"
+            app:layout_constraintEnd_toEndOf="@+id/bookmark_name"
+            app:layout_constraintStart_toStartOf="@+id/bookmark_name"
+            tools:text="far far away" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

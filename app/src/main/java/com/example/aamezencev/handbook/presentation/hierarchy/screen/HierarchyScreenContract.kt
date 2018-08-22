@@ -8,6 +8,7 @@ import com.example.aamezencev.handbook.common.presenter.MvpPresenter
 import com.example.aamezencev.handbook.common.router.MvpRouter
 import com.example.aamezencev.handbook.common.view.AndroidComponent
 import com.example.aamezencev.handbook.common.viewModel.MvpViewModel
+import com.example.aamezencev.handbook.data.presentation.BookmarkInfo
 import com.example.aamezencev.handbook.data.presentation.DataElement
 import com.example.aamezencev.handbook.data.presentation.ThreeDimensionalModel
 
@@ -23,10 +24,12 @@ interface HierarchyScreenContract {
 
     interface Presenter : MvpPresenter<ViewModel> {
         fun obtainDataElement(dataId: Long)
+        fun addBookmark(bookmarkInfo: BookmarkInfo)
     }
 
     interface Interactor : MvpInteractor<Listener> {
         fun getDataElement(dataId: Long)
+        fun saveBookmark(bookmarkInfo: BookmarkInfo)
     }
 
     interface RouterListener : MvpRouter.Listener

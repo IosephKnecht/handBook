@@ -24,8 +24,8 @@ class BusinessModule {
 
     @Provides
     @BusinessScope
-    fun provideDatabaseLoaderService(): DatabaseLoaderService {
-        return DatabaseLoaderService()
+    fun provideDatabaseLoaderService(applicationContext: Context): DatabaseLoaderService {
+        return DatabaseLoaderService(applicationContext)
     }
 
     @Provides
