@@ -15,18 +15,15 @@ import com.example.aamezencev.handbook.R
 class BookmarkLayout @JvmOverloads constructor(context: Context,
                                                attributeSet: AttributeSet? = null,
                                                defStyle: Int = 0) :
-    RelativeLayout(context, attributeSet, defStyle), SwipeTouchListener {
+        RelativeLayout(context, attributeSet, defStyle), SwipeTouchListener {
     private var bookmarkImage: ImageView = ImageView(context)
 
     private var bookmarkWidth = 0
     private var bookmarkHeight = 0
     private var bookmarkDrawable: Int? = null
     private var bookmarkVisible = false
-        set(value) {
-            field = value
-            if (field) bookmarkImage.translationY = bookmarkHeight.toFloat()
-        }
     private var bookmarkColor = -1
+    private var swiped = false
 
     private val swipeListener = OnSwipeTouchListener(context, this)
     var bookmarkListener: BookmarkListener? = null
@@ -41,8 +38,15 @@ class BookmarkLayout @JvmOverloads constructor(context: Context,
             recycle()
         }
 
+        swiped = bookmarkVisible
+
         addView(bookmarkImage)
         setOnTouchListener(swipeListener)
+    }
+
+    fun establishVisibleBookmark(visible: Boolean) {
+        bookmarkVisible = visible
+        bookmarkImage.translationY = if (bookmarkVisible) bookmarkHeight.toFloat() else 0f
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
@@ -61,15 +65,18 @@ class BookmarkLayout @JvmOverloads constructor(context: Context,
         if (view.top < bookmarkHeight) {
             view.let {
                 val childBottom =
-                    if (it.bottom < bookmarkHeight) it.measuredHeight + bookmarkHeight else it.bottom
+                        if (it.bottom < bookmarkHeight) it.measuredHeight + bookmarkHeight else it.bottom
                 it.layout(it.left, bookmarkHeight, it.right, childBottom)
             }
         }
     }
 
     private fun initBookmarkImage() {
-        bookmarkImage.setImageDrawable(resources.getDrawable(bookmarkDrawable ?: -1))
+        if (bookmarkDrawable != null && bookmarkDrawable != -1)
+            bookmarkImage.setImageDrawable(resources.getDrawable(bookmarkDrawable!!))
+
         bookmarkImage.setColorFilter(bookmarkColor)
+        establishVisibleBookmark(bookmarkVisible)
 
         val bkmLeft = (measuredWidth * 0.75).toInt() - bookmarkWidth
         val bkmTop = bookmarkHeight * -1
@@ -80,14 +87,27 @@ class BookmarkLayout @JvmOverloads constructor(context: Context,
     }
 
     override fun onSwipeTop() {
-        bookmarkImage.animate().setDuration(500).setInterpolator(AccelerateInterpolator()).alpha(0f)
-            .translationY(0f).withEndAction { bookmarkListener?.onRemovedBookmark() }
+        if (swiped) bookmarkImage.animate()
+                .setDuration(500)
+                .setInterpolator(AccelerateInterpolator())
+                .alpha(0f)
+                .translationY(0f)
+                .withEndAction {
+                    swiped = !swiped
+                    bookmarkListener?.onRemovedBookmark()
+                }
     }
 
     override fun onSwipeBottom() {
-        bookmarkImage.animate().setDuration(500).setInterpolator(AccelerateInterpolator()).alpha(1f)
-            .translationY(bookmarkHeight.toFloat())
-            .withEndAction { bookmarkListener?.onAddedBookmark() }
+        if (!swiped) bookmarkImage.animate()
+                .setDuration(500)
+                .setInterpolator(AccelerateInterpolator())
+                .alpha(1f)
+                .translationY(bookmarkHeight.toFloat())
+                .withEndAction {
+                    swiped = !swiped
+                    bookmarkListener?.onAddedBookmark()
+                }
     }
 
 
@@ -122,7 +142,7 @@ class BookmarkLayout @JvmOverloads constructor(context: Context,
                     val diffY = e2.y - e1.y
                     val diffX = e2.x - e1.x
                     if (Math.abs(diffX) < Math.abs(diffY) && Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(
-                            velocityY) > SWIPE_VELOCITY_THRESHOLD
+                                    velocityY) > SWIPE_VELOCITY_THRESHOLD
                     ) {
                         if (diffY > 0) {
                             listener.onSwipeBottom()
