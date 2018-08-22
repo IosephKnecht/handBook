@@ -7,6 +7,7 @@ object SizeUtil {
         if (result > 0 && result < 1024) true else false
     }
 
+    @JvmStatic
     fun sizeToString(size: Long): String {
         return when {
             lamda.invoke(size, 1024 * 1024) -> "${(size / (1024 * 1024)).toDouble()} ${description[2]}"

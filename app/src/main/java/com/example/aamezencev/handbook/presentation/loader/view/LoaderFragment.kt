@@ -3,7 +3,10 @@ package com.example.aamezencev.handbook.presentation.loader.view
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,9 +21,11 @@ import com.example.aamezencev.handbook.presentation.loader.di.LoaderComponent
 import com.example.aamezencev.handbook.presentation.loader.di.LoaderModule
 import com.example.aamezencev.handbook.presentation.loader.presenter.LoaderPresenter
 import com.example.aamezencev.handbook.presentation.loader.view.adapter.LoaderAdapter
+import com.example.aamezencev.handbook.ui.removableItem.helper.RemovableItemContract
+import com.example.aamezencev.handbook.ui.removableItem.helper.RemovableItemTouchHelper
 import kotlinx.android.synthetic.main.loader_fragment.*
 
-class LoaderFragment : AbstractFragment<LoaderContract.ViewModel, LoaderContract.Presenter>() {
+class LoaderFragment : AbstractFragment<LoaderContract.ViewModel, LoaderContract.Presenter>(), RemovableItemContract.RemovableItemListener {
     private var diComponent: LoaderComponent? = null
     private lateinit var binding: LoaderFragmentBinding
 
@@ -30,7 +35,7 @@ class LoaderFragment : AbstractFragment<LoaderContract.ViewModel, LoaderContract
 
     override fun injectDi() {
         diComponent = AppDelegate.presentationComponent!!
-            .addLoaderSubmodule(LoaderModule())
+                .addLoaderSubmodule(LoaderModule())
     }
 
     override fun createPresenter(): LoaderContract.Presenter {
@@ -53,6 +58,13 @@ class LoaderFragment : AbstractFragment<LoaderContract.ViewModel, LoaderContract
         database_info_view.apply {
             layoutManager = LinearLayoutManager(this.context)
             setHasFixedSize(true)
+            itemAnimator = DefaultItemAnimator()
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+
+            RemovableItemTouchHelper(0, ItemTouchHelper.LEFT, this@LoaderFragment).let {
+                ItemTouchHelper(it).attachToRecyclerView(this)
+            }
+
             adapter = LoaderAdapter().apply {
                 clickListener = {
                     viewModel!!.state = LoaderContract.State.OPEN
@@ -75,6 +87,14 @@ class LoaderFragment : AbstractFragment<LoaderContract.ViewModel, LoaderContract
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == DATABASE_READ_REQUEST_CODE) {
             viewModel!!.loadableUri = data?.data
+        }
+    }
+
+    override fun onRemove(viewHolder: RemovableItemContract.RemovableViewHolder, direction: Int, position: Int) {
+        with((database_info_view.adapter as LoaderAdapter)) {
+            val databaseInfo = databaseList[position]
+            removeItem(position)
+            presenter!!.deleteFilePath(databaseInfo)
         }
     }
 }

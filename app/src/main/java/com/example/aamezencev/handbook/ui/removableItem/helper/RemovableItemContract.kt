@@ -8,6 +8,10 @@ interface RemovableItemContract {
         val removableItem: RemovableItem
     }
 
+    interface RemovableItemAdapter {
+        fun removeItem(position: Int)
+    }
+
     interface RemovableItemListener {
         fun onRemove(viewHolder: RemovableViewHolder,
                      direction: Int,
