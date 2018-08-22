@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <declare-styleable name="RemovableItem">
-        <attr name="rmv_background" format="reference" />
-        <attr name="rmv_foreground" format="reference" />
-    </declare-styleable>
-</resources>
