@@ -1,6 +1,7 @@
 package com.example.aamezencev.handbook.presentation.hierarchy.screen.di
 
 import com.example.aamezencev.handbook.domain.services.DataBaseService
+import com.example.aamezencev.handbook.domain.services.SharedPreferenceService
 import com.example.aamezencev.handbook.presentation.common.ModuleScope
 import com.example.aamezencev.handbook.presentation.hierarchy.screen.HierarchyScreenContract
 import com.example.aamezencev.handbook.presentation.hierarchy.screen.interactor.HierarchyScreenInteractor
@@ -27,8 +28,9 @@ class HierarchyScreenModule {
 
     @Provides
     @ModuleScope
-    fun provideHierarchyScreenInteractor(dataBaseService: DataBaseService): HierarchyScreenContract.Interactor {
-        return HierarchyScreenInteractor(dataBaseService)
+    fun provideHierarchyScreenInteractor(dataBaseService: DataBaseService,
+                                         sharedPreferenceService: SharedPreferenceService): HierarchyScreenContract.Interactor {
+        return HierarchyScreenInteractor(dataBaseService, sharedPreferenceService)
     }
 
     @Provides

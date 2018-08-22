@@ -1,6 +1,8 @@
 package com.example.aamezencev.handbook.application.di
 
 import com.example.aamezencev.handbook.presentation.PresentationScope
+import com.example.aamezencev.handbook.presentation.bookmarks.di.BookmarksComponent
+import com.example.aamezencev.handbook.presentation.bookmarks.di.BookmarksModule
 import com.example.aamezencev.handbook.presentation.hierarchy.list.di.HierarchyListComponent
 import com.example.aamezencev.handbook.presentation.hierarchy.list.di.HierarchyListModule
 import com.example.aamezencev.handbook.presentation.hierarchy.screen.di.HierarchyScreenComponent
@@ -18,4 +20,5 @@ interface PresentationComponent {
     fun addHierarchyScreenSubmodule(module: HierarchyScreenModule): HierarchyScreenComponent
     fun addViewerModule(viewerModule: ViewerModule): ViewerComponent
     fun addLoaderSubmodule(loaderModule: LoaderModule): LoaderComponent
+    fun addBookmarksModule(bookmarksModule: BookmarksModule): BookmarksComponent
 }

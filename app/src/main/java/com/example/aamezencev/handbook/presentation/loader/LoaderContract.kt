@@ -1,7 +1,6 @@
 package com.example.aamezencev.handbook.presentation.loader
 
 import android.content.Intent
-import android.database.Cursor
 import android.databinding.Bindable
 import android.net.Uri
 import android.support.v4.app.Fragment
@@ -11,7 +10,6 @@ import com.example.aamezencev.handbook.common.router.MvpRouter
 import com.example.aamezencev.handbook.common.view.AndroidComponent
 import com.example.aamezencev.handbook.common.viewModel.MvpViewModel
 import com.example.aamezencev.handbook.data.presentation.DatabaseInfo
-import java.io.InputStream
 
 interface LoaderContract {
     enum class State {
@@ -30,23 +28,22 @@ interface LoaderContract {
 
     interface Presenter : MvpPresenter<ViewModel> {
         fun obtainFilePath(uri: Uri?)
+        fun deleteFilePath(databaseInfo: DatabaseInfo)
     }
 
     interface Listener : MvpInteractor.Listener {
-        fun onCopyDatabase(databaseInfo: DatabaseInfo)
+        fun onObtainFilePath(databaseInfo: DatabaseInfo)
     }
 
     interface Interactor : MvpInteractor<Listener> {
-        fun copyDatabase(cursor: Cursor, inputSteam: InputStream?)
+        fun copyDatabase(uri: Uri)
         fun getCachedFilePath(): List<DatabaseInfo>
+        fun removeFilepath(databaseInfo: DatabaseInfo)
     }
 
-    interface RouterListener : MvpRouter.Listener {
-        fun onCovertUri(cursor: Cursor, inputSteam: InputStream?)
-    }
+    interface RouterListener : MvpRouter.Listener
 
     interface Router : MvpRouter<RouterListener> {
-        fun convertUri(androidComponent: AndroidComponent, uri: Uri?)
         fun showSelectFileActivity(androidComponent: AndroidComponent)
         fun showHierarchyFragment(androidComponent: AndroidComponent)
     }
