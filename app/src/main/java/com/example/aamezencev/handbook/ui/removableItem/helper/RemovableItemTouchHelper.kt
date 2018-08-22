@@ -1,4 +1,4 @@
-package com.example.aamezencev.handbook.ui.helper
+package com.example.aamezencev.handbook.ui.removableItem.helper
 
 import android.graphics.Canvas
 import android.support.v7.widget.RecyclerView

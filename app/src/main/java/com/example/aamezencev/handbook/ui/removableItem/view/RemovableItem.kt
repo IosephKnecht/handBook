@@ -1,4 +1,4 @@
-package com.example.aamezencev.handbook.ui.view
+package com.example.aamezencev.handbook.ui.removableItem.view
 
 import android.content.Context
 import android.support.annotation.LayoutRes

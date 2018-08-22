@@ -1,6 +1,6 @@
-package com.example.aamezencev.handbook.ui.helper
+package com.example.aamezencev.handbook.ui.removableItem.helper
 
-import com.example.aamezencev.handbook.ui.view.RemovableItem
+import com.example.aamezencev.handbook.ui.removableItem.view.RemovableItem
 
 interface RemovableItemContract {
 
