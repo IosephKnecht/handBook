@@ -7,4 +7,9 @@
         <attr name="bookmark_visible" format="boolean" />
         <attr name="bookmark_color" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="RemovableItem">
+        <attr name="rmv_background" format="reference" />
+        <attr name="rmv_foreground" format="reference" />
+    </declare-styleable>
 </resources>
