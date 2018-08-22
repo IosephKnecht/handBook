@@ -89,6 +89,7 @@ class ViewPagerContainer : AbstractFragment<HierarchyScreenContract.ViewModel, H
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 if (pager != null) {
                     (pager?.adapter as ScreenPagerAdapter).pageList = viewModel!!.pageList
+                    pageIndicatorView.count = viewModel!!.pageList.size
                     pager?.adapter?.notifyDataSetChanged()
                 }
             }
