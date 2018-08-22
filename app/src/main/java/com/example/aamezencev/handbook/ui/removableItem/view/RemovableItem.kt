@@ -40,7 +40,7 @@ class RemovableItem : FrameLayout {
         val foregroundHeight = foregroundView?.measuredHeight
         val backgroundHeight = backgroundView?.measuredHeight
         if (foregroundHeight != null && backgroundHeight != null)
-            setMeasuredDimension(measuredWidth, Math.min(foregroundHeight, backgroundHeight))
+            setMeasuredDimension(measuredWidth, Math.max(foregroundHeight, backgroundHeight))
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
