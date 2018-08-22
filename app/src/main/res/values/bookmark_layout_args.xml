@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BookmarkLayout">
+        <attr name="bookmark_width" format="dimension" />
+        <attr name="bookmark_height" format="dimension" />
+        <attr name="bookmark_image" format="reference" />
+        <attr name="bookmark_visible" format="boolean" />
+        <attr name="bookmark_color" format="color" />
+    </declare-styleable>
+</resources>
