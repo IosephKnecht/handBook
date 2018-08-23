@@ -21,7 +21,6 @@ class BookmarkLayout @JvmOverloads constructor(context: Context,
     private var bookmarkWidth = 0
     private var bookmarkHeight = 0
     private var bookmarkDrawable: Int? = null
-    private var bookmarkVisible = false
     private var bookmarkColor = -1
     private var swiped = false
 
@@ -33,20 +32,18 @@ class BookmarkLayout @JvmOverloads constructor(context: Context,
             bookmarkWidth = getDimensionPixelSize(R.styleable.BookmarkLayout_bookmark_width, 0)
             bookmarkHeight = getDimensionPixelSize(R.styleable.BookmarkLayout_bookmark_height, 0)
             bookmarkDrawable = getResourceId(R.styleable.BookmarkLayout_bookmark_image, -1)
-            bookmarkVisible = getBoolean(R.styleable.BookmarkLayout_bookmark_visible, false)
+            swiped = getBoolean(R.styleable.BookmarkLayout_bookmark_visible, false)
             bookmarkColor = getColor(R.styleable.BookmarkLayout_bookmark_color, resources.getColor(android.R.color.black))
             recycle()
         }
-
-        swiped = bookmarkVisible
 
         addView(bookmarkImage)
         setOnTouchListener(swipeListener)
     }
 
     fun establishVisibleBookmark(visible: Boolean) {
-        bookmarkVisible = visible
-        bookmarkImage.translationY = if (bookmarkVisible) bookmarkHeight.toFloat() else 0f
+        swiped = visible
+        bookmarkImage.translationY = if (swiped) bookmarkHeight.toFloat() else 0f
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
@@ -81,7 +78,7 @@ class BookmarkLayout @JvmOverloads constructor(context: Context,
             bookmarkImage.setImageDrawable(resources.getDrawable(bookmarkDrawable!!))
 
         bookmarkImage.setColorFilter(bookmarkColor)
-        establishVisibleBookmark(bookmarkVisible)
+        establishVisibleBookmark(swiped)
 
         val bkmLeft = (measuredWidth * 0.75).toInt() - bookmarkWidth
         val bkmTop = bookmarkHeight * -1
