@@ -20,9 +20,11 @@ import kotlinx.android.synthetic.main.pager_container_fragment.*
 class ViewPagerContainer : AbstractFragment<HierarchyScreenContract.ViewModel, HierarchyScreenContract.Presenter>(), BookmarkListener {
     companion object {
         val DATA_ID = "DATA_ID"
-        fun instanceFragment(dataId: Long) = ViewPagerContainer().apply {
+        val POSITION_ON_BOOKMARK = "BOOKMARK_POSITION"
+        fun instanceFragment(dataId: Long, position: Long = 0) = ViewPagerContainer().apply {
             arguments = Bundle().apply {
                 putLong(DATA_ID, dataId)
+                putLong(POSITION_ON_BOOKMARK, position)
             }
         }
     }
@@ -32,8 +34,8 @@ class ViewPagerContainer : AbstractFragment<HierarchyScreenContract.ViewModel, H
 
     override fun injectDi() {
         diComponent = AppDelegate
-                .presentationComponent!!
-                .addHierarchyScreenSubmodule(HierarchyScreenModule())
+            .presentationComponent!!
+            .addHierarchyScreenSubmodule(HierarchyScreenModule())
     }
 
     override fun createPresenter(): HierarchyScreenContract.Presenter = diComponent.getPresnter()
@@ -88,9 +90,12 @@ class ViewPagerContainer : AbstractFragment<HierarchyScreenContract.ViewModel, H
         val subscriber = object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 if (pager != null) {
+                    val position = arguments?.run { getLong(POSITION_ON_BOOKMARK) } ?: 0
                     (pager?.adapter as ScreenPagerAdapter).pageList = viewModel!!.pageList
                     pageIndicatorView.count = viewModel!!.pageList.size
                     pager?.adapter?.notifyDataSetChanged()
+                    pager?.currentItem = position.toInt()
+                    arguments?.remove(POSITION_ON_BOOKMARK)
                 }
             }
         }

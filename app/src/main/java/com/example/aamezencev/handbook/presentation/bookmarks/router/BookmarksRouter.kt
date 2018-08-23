@@ -16,7 +16,7 @@ class BookmarksRouter(private val module: HierarchyListContract.InputModule) : A
             .supportFragmentManager
             .beginTransaction()
             .addToBackStack(bookmarkInfo.databaseName)
-            .replace(R.id.hierarchyContainer, module.createPage(bookmarkInfo.dataHierarchyId))
+            .replace(R.id.hierarchyContainer, module.createPage(bookmarkInfo.dataHierarchyId, bookmarkInfo.pageNumber))
             .commit()
     }
 }

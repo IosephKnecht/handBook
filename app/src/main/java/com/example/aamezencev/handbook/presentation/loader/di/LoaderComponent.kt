@@ -9,4 +9,5 @@ import dagger.Subcomponent
 interface LoaderComponent {
     fun getViewModel(): LoaderContract.ViewModel
     fun getPresenter(): LoaderContract.Presenter
+    fun getRouter(): LoaderContract.Router
 }

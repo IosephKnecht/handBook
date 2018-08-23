@@ -19,4 +19,11 @@ class LoaderRouter(private val inputModule: LoaderInputModule) : AbstractRouter<
             .addToBackStack(null)
             .commit()
     }
+
+    override fun showBookmarksFragment(androidComponent: AndroidComponent) {
+        androidComponent.fragmentManagerComponent.beginTransaction()
+            .replace(R.id.hierarchyContainer, inputModule.createBookmarkFragment())
+            .addToBackStack(null)
+            .commit()
+    }
 }

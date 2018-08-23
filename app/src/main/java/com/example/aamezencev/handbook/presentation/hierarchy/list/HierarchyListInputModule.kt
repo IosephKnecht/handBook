@@ -6,5 +6,5 @@ import com.example.aamezencev.handbook.presentation.hierarchy.screen.view.ViewPa
 
 class HierarchyListInputModule : HierarchyListContract.InputModule {
     override fun createChapter(parentId: Long): Fragment = HierarchyFragment.instanceFragment(parentId)
-    override fun createPage(dataId: Long): Fragment = ViewPagerContainer.instanceFragment(dataId)
+    override fun createPage(dataId: Long, position: Long): Fragment = ViewPagerContainer.instanceFragment(dataId, position)
 }

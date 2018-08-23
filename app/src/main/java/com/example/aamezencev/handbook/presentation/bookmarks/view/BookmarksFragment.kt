@@ -43,6 +43,10 @@ class BookmarksFragment : AbstractFragment<BookmarksContract.ViewModel, Bookmark
 
         binding.viewModel = viewModel!!
 
+        if (viewModel!!.bookmarkList.isEmpty()) {
+            presenter!!.obtainBookmarks()
+        }
+
         bookmarks_view.apply {
             layoutManager = LinearLayoutManager(this@BookmarksFragment.context)
             setHasFixedSize(true)

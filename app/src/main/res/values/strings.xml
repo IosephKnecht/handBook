@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">HandBook</string>
+    <string name="bookmark_item">Go to bookmarks</string>
 </resources>
