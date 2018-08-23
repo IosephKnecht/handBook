@@ -7,6 +7,7 @@ import com.example.aamezencev.handbook.common.router.MvpRouter
 import com.example.aamezencev.handbook.common.view.AndroidComponent
 import com.example.aamezencev.handbook.common.viewModel.MvpViewModel
 import com.example.aamezencev.handbook.data.presentation.DataElement
+import com.example.aamezencev.handbook.data.presentation.DataPointer
 import com.example.aamezencev.handbook.data.presentation.Page
 
 interface HierarchyScreenContract {
@@ -19,7 +20,7 @@ interface HierarchyScreenContract {
     }
 
     interface Listener : MvpInteractor.Listener {
-        fun onObtainDataElement(data: DataElement)
+        fun onObtainDataElement(pageList: List<Page>, pointerList: List<DataPointer>)
     }
 
     interface Presenter : MvpPresenter<ViewModel> {

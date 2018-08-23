@@ -79,7 +79,7 @@ class ViewPagerContainer : AbstractFragment<HierarchyScreenContract.ViewModel, H
 
     override fun onRemovedBookmark() {
         val position = pager.currentItem
-        (pager.adapter as ScreenPagerAdapter).pageList[position].marked = true
+        (pager.adapter as ScreenPagerAdapter).pageList[position].marked = false
         val dataId = arguments?.run { getLong(DATA_ID) } ?: -1
         presenter!!.removeBookmark(dataId, position)
     }

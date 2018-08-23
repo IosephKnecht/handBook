@@ -9,7 +9,7 @@ class HierarchyInfoVM : AbstractViewModel(), HierarchyScreenContract.ViewModel {
     override var pageList: List<Page> = listOf()
         set(value) {
             field = value
-            notifyPropertyChanged(BR.viewModel)
+            notifyPropertyChanged(BR.page)
         }
 
     override var marked: Boolean = false

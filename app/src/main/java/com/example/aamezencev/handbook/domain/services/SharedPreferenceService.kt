@@ -91,6 +91,13 @@ class SharedPreferenceService(applicationContext: Context,
 
     fun getDatabaseName() = commonSharedPref.getString(DATABASE_NAME, null)
 
+    fun existBookmarkInDatabase(dataId: Long, pageNumber: Long) =
+        getBookmarkList().find {
+            it.dataHierarchyId == dataId &&
+                it.pageNumber == pageNumber &&
+                it.databaseName == getDatabaseName()
+        } != null
+
 
     private fun uniqueValue(sharedPrefFile: SharedPreferences, value: String) =
         sharedPrefFile.all.filter { it.value == value }.isEmpty()
