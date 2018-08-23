@@ -171,6 +171,7 @@ public class PointerDataDbDao extends AbstractDao<PointerDataDb, Long> {
             if (dataHierarchyDb_PointerListQuery == null) {
                 QueryBuilder<PointerDataDb> queryBuilder = queryBuilder();
                 queryBuilder.where(Properties.DataHierarchyId.eq(null));
+                queryBuilder.orderRaw("T.'START_INDEX' ASC");
                 dataHierarchyDb_PointerListQuery = queryBuilder.build();
             }
         }

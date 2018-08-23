@@ -1,10 +1,7 @@
 package com.example.aamezencev.handbook.data.db;
 
 import org.greenrobot.greendao.DaoException;
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.ToMany;
+import org.greenrobot.greendao.annotation.*;
 
 import java.util.List;
 
@@ -15,20 +12,17 @@ public class DataHierarchyDb {
     private String description;
 
     @ToMany(referencedJoinProperty = "dataHierarchyId")
+    @OrderBy("startIndex ASC")
     private List<PointerDataDb> pointerList;
 
     public boolean isEmpty() {
         return description == null && pointerList == null;
     }
 
-    /**
-     * Used to resolve relations
-     */
+    /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    /**
-     * Used for active entity operations.
-     */
+    /** Used for active entity operations. */
     @Generated(hash = 2075737267)
     private transient DataHierarchyDbDao myDao;
 
@@ -81,9 +75,7 @@ public class DataHierarchyDb {
         return pointerList;
     }
 
-    /**
-     * Resets a to-many relationship, making the next get call to query for a fresh result.
-     */
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     @Generated(hash = 933011918)
     public synchronized void resetPointerList() {
         pointerList = null;
@@ -125,9 +117,7 @@ public class DataHierarchyDb {
         myDao.update(this);
     }
 
-    /**
-     * called by internal mechanisms, do not call yourself.
-     */
+    /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 181828319)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
