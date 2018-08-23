@@ -61,6 +61,11 @@ class BookmarkLayout @JvmOverloads constructor(context: Context,
         initBookmarkImage()
     }
 
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        super.dispatchTouchEvent(ev)
+        return swipeListener.gestureDetector.onTouchEvent(ev)
+    }
+
     private fun initAloneChilds(view: View) {
         if (view.top < bookmarkHeight) {
             view.let {
@@ -115,15 +120,11 @@ class BookmarkLayout @JvmOverloads constructor(context: Context,
                                        private val listener: SwipeTouchListener) : OnTouchListener {
 
         companion object {
-            private const val SWIPE_THRESHOLD = 150
-            private const val SWIPE_VELOCITY_THRESHOLD = 100
+            private const val SWIPE_THRESHOLD = 100
+            private const val SWIPE_VELOCITY_THRESHOLD = 800
         }
 
-        private val gestureDetector: GestureDetector
-
-        init {
-            gestureDetector = GestureDetector(ctx, GestureListener())
-        }
+        val gestureDetector = GestureDetector(ctx, GestureListener())
 
         @SuppressLint("ClickableViewAccessibility")
         override fun onTouch(v: View?, event: MotionEvent?): Boolean {
