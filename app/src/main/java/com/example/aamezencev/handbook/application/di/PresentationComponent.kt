@@ -11,6 +11,10 @@ import com.example.aamezencev.handbook.presentation.hierarchy.viewer.di.ViewerCo
 import com.example.aamezencev.handbook.presentation.hierarchy.viewer.di.ViewerModule
 import com.example.aamezencev.handbook.presentation.loader.di.LoaderComponent
 import com.example.aamezencev.handbook.presentation.loader.di.LoaderModule
+import com.example.aamezencev.handbook.presentation.log.list.di.LogListComponent
+import com.example.aamezencev.handbook.presentation.log.list.di.LogListModule
+import com.example.aamezencev.handbook.presentation.log.screen.di.LogScreenComponent
+import com.example.aamezencev.handbook.presentation.log.screen.di.LogScreenModule
 import dagger.Component
 
 @Component(modules = [PresentationModule::class], dependencies = [BusinessComponent::class])
@@ -21,4 +25,6 @@ interface PresentationComponent {
     fun addViewerModule(viewerModule: ViewerModule): ViewerComponent
     fun addLoaderSubmodule(loaderModule: LoaderModule): LoaderComponent
     fun addBookmarksModule(bookmarksModule: BookmarksModule): BookmarksComponent
+    fun addLogListSubmodule(logListModule: LogListModule): LogListComponent
+    fun addLogScreenSubmodule(logScreenSubmodule: LogScreenModule): LogScreenComponent
 }

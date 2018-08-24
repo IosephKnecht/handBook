@@ -6,10 +6,7 @@ import com.example.aamezencev.handbook.data.UriTypeHierarchyAdapter
 import com.example.aamezencev.handbook.data.db.DaoSession
 import com.example.aamezencev.handbook.domain.BusinessScope
 import com.example.aamezencev.handbook.domain.common.SessionInitializer
-import com.example.aamezencev.handbook.domain.services.DataBaseService
-import com.example.aamezencev.handbook.domain.services.DatabaseLoaderService
-import com.example.aamezencev.handbook.domain.services.GreenDaoSessionInitializer
-import com.example.aamezencev.handbook.domain.services.SharedPreferenceService
+import com.example.aamezencev.handbook.domain.services.*
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -44,12 +41,18 @@ class BusinessModule {
     @BusinessScope
     fun provideGson(uriAdapter: UriTypeHierarchyAdapter): Gson {
         return Gson()
-                .newBuilder()
-                .registerTypeAdapter(Uri::class.java, uriAdapter)
-                .create()
+            .newBuilder()
+            .registerTypeAdapter(Uri::class.java, uriAdapter)
+            .create()
     }
 
     @Provides
     @BusinessScope
     fun provideUriAdapter() = UriTypeHierarchyAdapter()
+
+    @Provides
+    @BusinessScope
+    fun provideFileManagerService(applicationContext: Context): FileManagerService {
+        return FileManagerService(applicationContext)
+    }
 }
