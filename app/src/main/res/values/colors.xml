@@ -7,4 +7,14 @@
     <color name="indicator_unselected_color">#8e00b9</color>
     <color name="white_1">#ffffff</color>
     <color name="white_2">#ededed</color>
+
+    <array name="bookmark_colors">
+        <item>#d10c0c</item>
+        <item>#ff4800</item>
+        <item>#fcc100</item>
+        <item>#009b0d</item>
+        <item>#0099ff</item>
+        <item>#000dff</item>
+        <item>#a20bc7</item>
+    </array>
 </resources>

@@ -15,7 +15,14 @@ class LoaderRouter(private val inputModule: LoaderInputModule) : AbstractRouter<
 
     override fun showHierarchyFragment(androidComponent: AndroidComponent) {
         androidComponent.fragmentManagerComponent.beginTransaction()
-            .replace(R.id.hierarchyContainer, inputModule.createHierarchyFragment(-1))
+            .replace(R.id.hierarchy_container, inputModule.createHierarchyFragment(-1))
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun showBookmarksFragment(androidComponent: AndroidComponent) {
+        androidComponent.fragmentManagerComponent.beginTransaction()
+            .replace(R.id.hierarchy_container, inputModule.createBookmarkFragment())
             .addToBackStack(null)
             .commit()
     }

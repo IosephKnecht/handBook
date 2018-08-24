@@ -30,7 +30,7 @@ interface HierarchyListContract {
 
     interface InputModule {
         fun createChapter(parentId: Long): Fragment
-        fun createPage(dataId: Long): Fragment
+        fun createPage(dataId: Long, position: Long = 0): Fragment
     }
 
     interface RouterListener : MvpRouter.Listener

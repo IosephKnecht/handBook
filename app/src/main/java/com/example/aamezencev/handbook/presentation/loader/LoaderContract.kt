@@ -46,10 +46,12 @@ interface LoaderContract {
     interface Router : MvpRouter<RouterListener> {
         fun showSelectFileActivity(androidComponent: AndroidComponent)
         fun showHierarchyFragment(androidComponent: AndroidComponent)
+        fun showBookmarksFragment(androidComponent: AndroidComponent)
     }
 
     interface InputModule {
         fun createOpenFileIntent(): Intent
         fun createHierarchyFragment(parentId: Long): Fragment
+        fun createBookmarkFragment(): Fragment
     }
 }

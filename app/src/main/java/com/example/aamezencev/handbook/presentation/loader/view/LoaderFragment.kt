@@ -7,9 +7,7 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.example.aamezencev.handbook.R
 import com.example.aamezencev.handbook.application.AppDelegate
 import com.example.aamezencev.handbook.application.Constants.DATABASE_READ_REQUEST_CODE
@@ -35,7 +33,7 @@ class LoaderFragment : AbstractFragment<LoaderContract.ViewModel, LoaderContract
 
     override fun injectDi() {
         diComponent = AppDelegate.presentationComponent!!
-                .addLoaderSubmodule(LoaderModule())
+            .addLoaderSubmodule(LoaderModule())
     }
 
     override fun createPresenter(): LoaderContract.Presenter {
@@ -44,6 +42,11 @@ class LoaderFragment : AbstractFragment<LoaderContract.ViewModel, LoaderContract
 
     override fun createViewModel(): LoaderContract.ViewModel {
         return diComponent!!.getViewModel()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -88,6 +91,22 @@ class LoaderFragment : AbstractFragment<LoaderContract.ViewModel, LoaderContract
         if (requestCode == DATABASE_READ_REQUEST_CODE) {
             viewModel!!.loadableUri = data?.data
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.bookmark_item -> {
+                diComponent?.getRouter()?.showBookmarksFragment(this)
+            }
+            else -> {
+            }
+        }
+        return false
     }
 
     override fun onRemove(viewHolder: RemovableItemContract.RemovableViewHolder, direction: Int, position: Int) {

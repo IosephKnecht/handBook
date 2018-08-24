@@ -39,6 +39,10 @@ class BookmarksInteractor(private val sharedPreferenceService: SharedPreferenceS
         })
     }
 
+    override fun removeBookmark(bookmarkInfo: BookmarkInfo) {
+        sharedPreferenceService.removeBookmark(bookmarkInfo)
+    }
+
     override fun onDestroy() {
         compositeDisposable.clear()
         super.onDestroy()
