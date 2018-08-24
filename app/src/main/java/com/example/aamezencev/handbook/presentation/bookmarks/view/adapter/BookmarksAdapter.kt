@@ -7,26 +7,35 @@ import android.view.ViewGroup
 import com.example.aamezencev.handbook.R
 import com.example.aamezencev.handbook.data.presentation.BookmarkInfo
 import com.example.aamezencev.handbook.databinding.ItemBookmarkBinding
+import com.example.aamezencev.handbook.ui.removableItem.helper.RemovableItemContract
+import com.example.aamezencev.handbook.ui.removableItem.view.RemovableItem
 
-class BookmarksAdapter : RecyclerView.Adapter<BookmarksAdapter.ViewHolder>() {
+class BookmarksAdapter : RecyclerView.Adapter<BookmarksAdapter.ViewHolder>(), RemovableItemContract.RemovableItemAdapter {
 
     var bookmarkList = mutableListOf<BookmarkInfo>()
     var clickListener: ((BookmarkInfo) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val bindingItem = DataBindingUtil.inflate<ItemBookmarkBinding>(LayoutInflater.from(parent.context),
-            R.layout.item_bookmark,
-            parent,
-            false)
-        return ViewHolder(bindingItem)
+        val removableItem = RemovableItem(parent.context, R.layout.background_item, R.layout.item_bookmark)
+        return ViewHolder(removableItem)
     }
 
     override fun getItemCount() = bookmarkList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindingItem.bookmark = bookmarkList[position]
-        holder.itemView.setOnClickListener { clickListener?.invoke(bookmarkList[position]) }
+        val binding = DataBindingUtil.bind<ItemBookmarkBinding>(holder.removableItem.foregroundView!!)
+        with(bookmarkList[position]) {
+            binding?.bookmark = this
+            binding?.bookmarkPreview?.setColorFilter(color!!)
+            holder.removableItem.setOnClickListener { clickListener?.invoke(this) }
+            if (color != null) holder.removableItem.backgroundView?.setBackgroundColor(color!!)
+        }
     }
 
-    class ViewHolder(val bindingItem: ItemBookmarkBinding) : RecyclerView.ViewHolder(bindingItem.root)
+    override fun removeItem(position: Int) {
+        bookmarkList.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    class ViewHolder(override val removableItem: RemovableItem) : RecyclerView.ViewHolder(removableItem), RemovableItemContract.RemovableViewHolder
 }

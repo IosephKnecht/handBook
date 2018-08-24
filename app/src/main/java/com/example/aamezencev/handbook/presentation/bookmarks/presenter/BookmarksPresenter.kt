@@ -4,6 +4,7 @@ import com.example.aamezencev.handbook.common.presenter.AbstractPresenter
 import com.example.aamezencev.handbook.common.view.AndroidComponent
 import com.example.aamezencev.handbook.data.presentation.BookmarkInfo
 import com.example.aamezencev.handbook.data.presentation.DatabaseInfo
+import com.example.aamezencev.handbook.domain.utils.ColorUtil
 import com.example.aamezencev.handbook.presentation.bookmarks.BookmarksContract
 
 class BookmarksPresenter(private val interactor: BookmarksContract.Interactor,
@@ -20,6 +21,7 @@ class BookmarksPresenter(private val interactor: BookmarksContract.Interactor,
     }
 
     override fun removeBookmark(bookmarkInfo: BookmarkInfo) {
+        interactor.removeBookmark(bookmarkInfo)
     }
 
     override fun removeAllBookmarks() {
@@ -30,7 +32,7 @@ class BookmarksPresenter(private val interactor: BookmarksContract.Interactor,
     }
 
     override fun onObtainBookmarks(bookmarkList: List<BookmarkInfo>) {
-        viewModel!!.bookmarkList = bookmarkList
+        viewModel!!.bookmarkList = ColorUtil.instanceColor(androidComponent!!.activityComponent, bookmarkList)
     }
 
     override fun onRemoveBookmark(bookmarkInfo: BookmarkInfo) {

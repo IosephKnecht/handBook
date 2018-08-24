@@ -11,9 +11,17 @@ import com.example.aamezencev.handbook.data.presentation.DatabaseInfo
 import java.io.InputStream
 
 interface BookmarksContract {
+    enum class State {
+        IDLE,
+        INIT,
+    }
+
     interface ViewModel : MvpViewModel {
+        var state: State
         var bookmarkList: List<BookmarkInfo>
             @Bindable get
+
+        fun reset()
     }
 
     interface Presenter : MvpPresenter<ViewModel> {
@@ -33,6 +41,7 @@ interface BookmarksContract {
     interface Interactor : MvpInteractor<Listener> {
         fun getBookmarks()
         fun openDatabase(bookmarkInfo: BookmarkInfo)
+        fun removeBookmark(bookmarkInfo: BookmarkInfo)
     }
 
     interface RouterListener : MvpRouter.Listener
