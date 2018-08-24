@@ -6,7 +6,6 @@ import com.example.aamezencev.handbook.common.view.AndroidComponent
 import com.example.aamezencev.handbook.data.presentation.BookmarkInfo
 import com.example.aamezencev.handbook.presentation.bookmarks.BookmarksContract
 import com.example.aamezencev.handbook.presentation.hierarchy.list.HierarchyListContract
-import com.example.aamezencev.handbook.presentation.hierarchy.list.HierarchyListInputModule
 
 class BookmarksRouter(private val module: HierarchyListContract.InputModule) : AbstractRouter<BookmarksContract.RouterListener>(),
     BookmarksContract.Router {
@@ -16,7 +15,7 @@ class BookmarksRouter(private val module: HierarchyListContract.InputModule) : A
             .supportFragmentManager
             .beginTransaction()
             .addToBackStack(bookmarkInfo.databaseName)
-            .replace(R.id.hierarchyContainer, module.createPage(bookmarkInfo.dataHierarchyId, bookmarkInfo.pageNumber))
+            .replace(R.id.hierarchy_container, module.createPage(bookmarkInfo.dataHierarchyId, bookmarkInfo.pageNumber))
             .commit()
     }
 }

@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:text=">"
+            android:text="@string/right_arrow"
             android:textSize="20sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/titleTextView"
             app:layout_constraintEnd_toEndOf="parent" />

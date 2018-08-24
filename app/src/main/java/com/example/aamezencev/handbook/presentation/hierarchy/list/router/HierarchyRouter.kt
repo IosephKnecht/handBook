@@ -13,7 +13,7 @@ class HierarchyRouter(private var module: HierarchyListContract.InputModule) :
     override fun showChapter(androidComponent: AndroidComponent, parentId: Long) {
         androidComponent.fragmentManagerComponent
                 .beginTransaction()
-                .replace(R.id.hierarchyContainer, module.createChapter(parentId))
+                .replace(R.id.hierarchy_container, module.createChapter(parentId))
                 .addToBackStack(CHAPTER)
                 .commit()
     }
@@ -21,7 +21,7 @@ class HierarchyRouter(private var module: HierarchyListContract.InputModule) :
     override fun showPage(androidComponent: AndroidComponent, dataId: Long) {
         androidComponent.fragmentManagerComponent
                 .beginTransaction()
-                .replace(R.id.hierarchyContainer, module.createPage(dataId))
+                .replace(R.id.hierarchy_container, module.createPage(dataId))
                 .addToBackStack(PAGE)
                 .commit()
     }

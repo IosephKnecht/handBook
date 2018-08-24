@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">HandBook</string>
     <string name="bookmark_item">Go to bookmarks</string>
+    <string name="right_arrow">></string>
+    <string name="delete_text">Delete</string>
 </resources>
