@@ -12,3 +12,5 @@ Functional:
 <img src = "https://user-images.githubusercontent.com/26083647/46615198-575e7400-cb20-11e8-9d32-9cd659e8ee2a.jpg" width = 300px></img>
 <img src = "https://user-images.githubusercontent.com/26083647/46615197-56c5dd80-cb20-11e8-9e90-7d0dc4ceeb94.jpg" width = 300px></img>
 <img src = "https://user-images.githubusercontent.com/26083647/46615195-56c5dd80-cb20-11e8-85ce-e8036041bcd5.jpg" width = 300px></img>
+
+Sample database -> https://github.com/IosephKnecht/handBook/blob/master/app/src/main/res/raw/init_db
